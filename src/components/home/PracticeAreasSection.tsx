@@ -28,7 +28,7 @@ export default function PracticeAreasSection() {
             className="w-[85%] h-[85%] lg:w-[75%] lg:h-[75%] rounded-[100px] lg:rounded-[150px] overflow-hidden shadow-2xl relative"
           >
             <img
-              src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=1200&auto=format&fit=crop"
+              src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1200&auto=format&fit=crop"
               alt="Practice Areas"
               className="w-full h-full object-cover"
             />
