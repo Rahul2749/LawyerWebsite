@@ -88,8 +88,8 @@ export default function HeroSection() {
             className="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl"
           >
             <img
-              src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1200&auto=format&fit=crop"
-              alt="Modern Law Office"
+              src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=1200&auto=format&fit=crop"
+              alt="Law Library"
               className="w-full h-full object-cover"
             />
             {/* Subtle overlay */}
