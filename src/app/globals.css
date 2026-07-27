@@ -1,26 +1,424 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* =====================================================
+   DESIGN SYSTEM — Premium Legal Consultancy
+   Spec v2 Sections 3, 4, 17
+   ===================================================== */
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* --- Color Tokens (Spec Section 3) --- */
+  --color-bg-primary: #F7F4EE;
+  --color-bg-secondary: #EFEAE0;
+  --color-bg-dark: #151515;
+  --color-text-primary: #171717;
+  --color-text-secondary: #68645E;
+  --color-text-inverse: #F7F4EE;
+  --color-accent-gold: #B89B5E;
+  --color-accent-gold-hover: #C9AF75;
+  --color-accent-wine: #5A1824;
+  --color-accent-wine-hover: #7A2333;
+  --color-border-subtle: #E2DCD0;
+  --color-state-success: #4A6741;
+  --color-state-error: #8C3A3A;
+  --color-overlay-scrim: rgba(21, 21, 21, 0.55);
+
+  /* --- Font Families --- */
+  --font-serif: var(--font-cormorant), "Cormorant Garamond", "Georgia", serif;
+  --font-sans: var(--font-inter), "Inter", system-ui, sans-serif;
+
+  /* --- Breakpoints (Spec Section 18) --- */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1440px;
 }
 
-@media (prefers-color-scheme: dark) {
+/* =====================================================
+   ROOT VARIABLES & BASE STYLES
+   ===================================================== */
+
+:root {
+  /* Fluid Typography Scale (Spec Section 4) */
+  --text-hero: clamp(2.75rem, 6vw + 1rem, 6rem);
+  --text-h2: clamp(2rem, 3.5vw + 0.5rem, 3.5rem);
+  --text-h3: clamp(1.375rem, 1.5vw + 0.5rem, 1.75rem);
+  --text-eyebrow: clamp(0.75rem, 0.5vw + 0.5rem, 0.8125rem);
+  --text-body: clamp(1rem, 0.5vw + 0.75rem, 1.0625rem);
+  --text-caption: 0.8125rem;
+
+  /* Motion Tokens (Spec Section 17) */
+  --ease-reveal: cubic-bezier(0.33, 1, 0.68, 1);       /* power3.out */
+  --ease-clip: cubic-bezier(0.76, 0, 0.24, 1);          /* power4.inOut */
+  --ease-scroll: cubic-bezier(0.55, 0, 0.1, 1);         /* power2.out */
+  --ease-hover: cubic-bezier(0.55, 0, 0.1, 1);          /* power2.out */
+  --ease-page: cubic-bezier(0.33, 0, 0.67, 1);          /* power3.inOut */
+
+  --dur-text-reveal: 1s;
+  --dur-clip-reveal: 1.4s;
+  --dur-scroll-reveal: 0.75s;
+  --dur-hover: 0.35s;
+  --dur-page: 0.6s;
+
+  /* Spacing / Layout */
+  --container-max: 1536px;
+  --container-padding: clamp(1rem, 3vw, 2rem);
+  --section-gap: clamp(4.5rem, 8vw, 8rem);
+  --nav-height: 5rem;
+}
+
+/* --- Reduced Motion Override --- */
+@media (prefers-reduced-motion: reduce) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --dur-text-reveal: 0s;
+    --dur-clip-reveal: 0s;
+    --dur-scroll-reveal: 0s;
+    --dur-hover: 0s;
+    --dur-page: 0s;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
+/* =====================================================
+   BASE RESETS & DEFAULTS
+   ===================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: 1.6;
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-primary);
+}
+
+/* Selection */
+::selection {
+  background: var(--color-accent-wine);
+  color: var(--color-text-inverse);
+}
+
+/* Scrollbar — subtle styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-subtle);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-secondary);
+}
+
+/* =====================================================
+   TYPOGRAPHY UTILITIES
+   ===================================================== */
+
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+.font-sans {
+  font-family: var(--font-sans);
+}
+
+.text-hero {
+  font-family: var(--font-serif);
+  font-size: var(--text-hero);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+}
+
+.text-h2 {
+  font-family: var(--font-serif);
+  font-size: var(--text-h2);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  font-weight: 400;
+}
+
+.text-h3 {
+  font-family: var(--font-serif);
+  font-size: var(--text-h3);
+  line-height: 1.2;
+  font-weight: 500;
+}
+
+.text-eyebrow {
+  font-family: var(--font-sans);
+  font-size: var(--text-eyebrow);
+  line-height: 1.4;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.text-body {
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: 1.6;
+}
+
+.text-caption {
+  font-family: var(--font-sans);
+  font-size: var(--text-caption);
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+}
+
+/* =====================================================
+   SKIP TO CONTENT (Accessibility)
+   ===================================================== */
+
+.skip-to-content {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: 9999;
+  padding: 0.75rem 1.5rem;
+  background: var(--color-accent-wine);
+  color: var(--color-text-inverse);
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  border-radius: 0 0 0.5rem 0.5rem;
+  transition: top 0.2s ease;
+}
+
+.skip-to-content:focus {
+  top: 0;
+  outline: 2px solid var(--color-accent-gold);
+  outline-offset: 2px;
+}
+
+/* =====================================================
+   FOCUS STATES (Accessibility)
+   ===================================================== */
+
+*:focus-visible {
+  outline: 2px solid var(--color-accent-wine);
+  outline-offset: 3px;
+}
+
+/* =====================================================
+   SECTION UTILITIES
+   ===================================================== */
+
+.section {
+  padding: var(--section-gap) 0;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding-left: var(--container-padding);
+  padding-right: var(--container-padding);
+}
+
+/* =====================================================
+   BUTTON STYLES
+   ===================================================== */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all var(--dur-hover) var(--ease-hover);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary {
+  background: var(--color-accent-wine);
+  color: var(--color-text-inverse);
+}
+
+.btn-primary:hover {
+  background: var(--color-accent-wine-hover);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-accent-gold);
+}
+
+.btn-secondary:hover {
+  border-color: var(--color-accent-gold-hover);
+  background: rgba(184, 155, 94, 0.05);
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--color-text-primary);
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--color-accent-gold);
+}
+
+.btn-ghost:hover {
+  color: var(--color-accent-wine);
+  border-bottom-color: var(--color-accent-wine);
+}
+
+/* =====================================================
+   GOLD ACCENT LINE
+   ===================================================== */
+
+.gold-line {
+  display: block;
+  width: 3rem;
+  height: 1px;
+  background: var(--color-accent-gold);
+  margin: 1rem 0;
+}
+
+/* =====================================================
+   ANIMATION UTILITIES
+   ===================================================== */
+
+.reveal-up {
+  opacity: 0;
+  transform: translateY(2rem);
+  transition: opacity var(--dur-scroll-reveal) var(--ease-scroll),
+    transform var(--dur-scroll-reveal) var(--ease-scroll);
+}
+
+.reveal-up.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-fade {
+  opacity: 0;
+  transition: opacity var(--dur-scroll-reveal) var(--ease-scroll);
+}
+
+.reveal-fade.is-visible {
+  opacity: 1;
+}
+
+/* Staggered children */
+.stagger-children > * {
+  opacity: 0;
+  transform: translateY(1.5rem);
+  transition: opacity 0.6s var(--ease-scroll),
+    transform 0.6s var(--ease-scroll);
+}
+
+.stagger-children.is-visible > *:nth-child(1) { transition-delay: 0s; opacity: 1; transform: none; }
+.stagger-children.is-visible > *:nth-child(2) { transition-delay: 0.08s; opacity: 1; transform: none; }
+.stagger-children.is-visible > *:nth-child(3) { transition-delay: 0.16s; opacity: 1; transform: none; }
+.stagger-children.is-visible > *:nth-child(4) { transition-delay: 0.24s; opacity: 1; transform: none; }
+.stagger-children.is-visible > *:nth-child(5) { transition-delay: 0.32s; opacity: 1; transform: none; }
+.stagger-children.is-visible > *:nth-child(6) { transition-delay: 0.4s; opacity: 1; transform: none; }
+
+/* =====================================================
+   RICH TEXT / ARTICLE CONTENT
+   ===================================================== */
+
+.prose {
+  max-width: 42rem;
+  font-size: var(--text-body);
+  line-height: 1.75;
+  color: var(--color-text-primary);
+}
+
+.prose h2 {
+  font-family: var(--font-serif);
+  font-size: var(--text-h3);
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.prose h3 {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+}
+
+.prose p {
+  margin-bottom: 1.25rem;
+}
+
+.prose blockquote {
+  border-left: 2px solid var(--color-accent-gold);
+  padding-left: 1.5rem;
+  margin: 2rem 0;
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.prose li {
+  margin-bottom: 0.5rem;
+}
+
+.prose a {
+  color: var(--color-accent-wine);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color var(--dur-hover) var(--ease-hover);
+}
+
+.prose a:hover {
+  color: var(--color-accent-gold);
+}
+
+.prose strong {
+  font-weight: 600;
+}
+
+.prose hr {
+  border: none;
+  border-top: 1px solid var(--color-border-subtle);
+  margin: 2.5rem 0;
 }
