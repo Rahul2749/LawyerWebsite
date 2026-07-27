@@ -28,8 +28,8 @@ export default function PracticeAreasSection() {
             className="w-[85%] h-[85%] lg:w-[75%] lg:h-[75%] rounded-[100px] lg:rounded-[150px] overflow-hidden shadow-2xl relative"
           >
             <img
-              src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1200&auto=format&fit=crop"
-              alt="Practice Areas"
+              src="/lawyer_logo.png"
+              alt="Lawyer Logo"
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-accent-wine/5" />
