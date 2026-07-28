@@ -5,7 +5,7 @@ import { videos, videoCategories } from "@/data/videos";
 export const metadata: Metadata = {
   title: "Legal Talks",
   description:
-    "Watch legal commentary, client education videos, and industry analysis from Alexander Mitchell.",
+    "Watch legal commentary, client education videos, and industry analysis from Raja Agrawal.",
 };
 
 export default function VideosPage() {

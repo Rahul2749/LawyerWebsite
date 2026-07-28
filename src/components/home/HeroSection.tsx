@@ -20,7 +20,7 @@ export default function HeroSection() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-eyebrow text-accent-wine font-semibold mb-6 flex items-center justify-center lg:justify-start gap-3"
           >
-            <span className="text-xl">A</span>LEXANDER <span className="text-xl">M</span>ITCHELL <span className="text-xl">A</span>SSOCIATES
+            <span className="text-xl">R</span>AJA <span className="text-xl">A</span>GRAWAL — ADVOCATE
           </motion.p>
 
           {/* Headline */}
@@ -40,7 +40,7 @@ export default function HeroSection() {
             transition={{ duration: 0.8, delay: 0.7 }}
             className="text-body text-text-secondary max-w-xl mx-auto lg:mx-0 mb-8 lg:mb-10 text-lg lg:pr-8"
           >
-            At AMA, we believe in empowering you through dedicated, personalized legal services tailored to your unique needs.
+            I believe in empowering you through dedicated, personalized legal services tailored to your unique needs.
           </motion.p>
 
           {/* CTAs */}

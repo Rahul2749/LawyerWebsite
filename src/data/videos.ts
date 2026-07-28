@@ -26,7 +26,7 @@ export const videos: Video[] = [
     slug: "understanding-corporate-liability",
     title: "Understanding Corporate Liability: What Every Business Owner Needs to Know",
     description:
-      "In this comprehensive overview, Alexander Mitchell explains the fundamentals of corporate liability, the protections offered by various business structures, and common mistakes that can expose business owners to personal liability.",
+      "In this comprehensive overview, Raja Agrawal explains the fundamentals of corporate liability, the protections offered by various business structures, and common mistakes that can expose business owners to personal liability.",
     category: "Client Education",
     duration: "18:42",
     durationSeconds: 1122,

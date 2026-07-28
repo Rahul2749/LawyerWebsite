@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Attorney Advertising Disclaimer",
   description:
-    "Attorney Advertising and Disclaimer for Alexander Mitchell, Attorney at Law.",
+    "Attorney Advertising and Disclaimer for Raja Agrawal, Advocate & Legal Consultant.",
 };
 
 export default function DisclaimerPage() {
@@ -34,7 +34,7 @@ export default function DisclaimerPage() {
           <h2>No Attorney-Client Relationship</h2>
           <p>
             Viewing this website, using information from this website, or
-            communicating with Alexander Mitchell through this website does not
+            communicating with Raja Agrawal through this website does not
             create an attorney-client relationship. An attorney-client
             relationship is only formed through the execution of a written
             engagement agreement.
@@ -51,7 +51,7 @@ export default function DisclaimerPage() {
 
           <h2>Jurisdictional Limitations</h2>
           <p>
-            Alexander Mitchell is admitted to practice law in the State of New
+            Raja Agrawal is admitted to practice law in the State of New
             York. This website may be considered advertising in some
             jurisdictions. The hiring of a lawyer is an important decision that
             should not be based solely on advertisements.

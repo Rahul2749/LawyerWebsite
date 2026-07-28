@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Cookie Policy",
-  description: "Cookie Policy for the Alexander Mitchell website.",
+  description: "Cookie Policy for the Raja Agrawal website.",
 };
 
 export default function CookiePolicyPage() {

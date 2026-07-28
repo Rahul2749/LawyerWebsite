@@ -5,7 +5,7 @@ import { blogPosts, blogCategories } from "@/data/blogPosts";
 export const metadata: Metadata = {
   title: "Legal Insights",
   description:
-    "Legal insights and thought leadership from Alexander Mitchell. Articles on corporate law, litigation, real estate, intellectual property, and regulatory compliance.",
+    "Legal insights and thought leadership from Raja Agrawal. Articles on corporate law, litigation, real estate, intellectual property, and regulatory compliance.",
 };
 
 function getReadingTime(content: string): number {

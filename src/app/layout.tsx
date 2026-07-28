@@ -7,30 +7,31 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "Alexander Mitchell — Attorney at Law",
-    template: "%s | Alexander Mitchell",
+    default: "Raja Agrawal — Advocate & Legal Consultant",
+    template: "%s | Raja Agrawal",
   },
   description:
-    "Trusted counsel for complex legal matters. Over two decades of dedicated practice delivering strategic solutions with unwavering integrity. Corporate Law, Litigation, Real Estate, IP, Family Law, and Regulatory Compliance.",
+    "Trusted legal counsel for complex matters. Over two decades of dedicated practice delivering strategic solutions with unwavering integrity. Corporate Law, Litigation, Real Estate, IP, Family Law, and Regulatory Compliance.",
   keywords: [
-    "attorney",
+    "advocate",
     "lawyer",
-    "legal counsel",
+    "legal consultant",
     "corporate law",
     "litigation",
     "real estate law",
     "intellectual property",
     "family law",
     "regulatory compliance",
-    "New York attorney",
+    "India advocate",
+    "Raja Agrawal",
   ],
   openGraph: {
     type: "website",
-    locale: "en_US",
-    siteName: "Alexander Mitchell — Attorney at Law",
-    title: "Alexander Mitchell — Attorney at Law",
+    locale: "en_IN",
+    siteName: "Raja Agrawal — Advocate & Legal Consultant",
+    title: "Raja Agrawal — Advocate & Legal Consultant",
     description:
-      "Trusted counsel for complex legal matters. Over two decades of dedicated practice.",
+      "Trusted legal counsel for complex matters. Over two decades of dedicated practice.",
   },
   robots: {
     index: true,

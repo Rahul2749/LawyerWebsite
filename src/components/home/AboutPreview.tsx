@@ -18,8 +18,9 @@ export default function AboutPreview() {
           <div className="relative aspect-[3/4] lg:aspect-[4/5] overflow-hidden bg-bg-secondary">
             <img
               src="https://images.unsplash.com/photo-1556157382-97eda2d62296?q=80&w=1000&auto=format&fit=crop"
-              alt="Alexander Mitchell Portrait"
+              alt="Raja Agrawal"
               className="w-full h-full object-cover grayscale opacity-90"
+              loading="lazy"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-bg-dark/20 to-transparent" />
             {/* Gold accent corner */}
@@ -29,7 +30,7 @@ export default function AboutPreview() {
           {/* Content */}
           <div>
             <p className="text-eyebrow text-accent-gold mb-4">
-              About the Lawyer
+              About
             </p>
             <h2 className="text-h2 mb-6">
               A Legacy of
@@ -37,20 +38,11 @@ export default function AboutPreview() {
               <span className="italic">Trusted Counsel</span>
             </h2>
             <span className="gold-line" />
-            <p className="text-body text-text-secondary mt-6 mb-6 leading-relaxed">
-              With over two decades of experience navigating the most
-              complex legal landscapes, Alexander Mitchell has built a
-              reputation for strategic insight, meticulous preparation,
-              and unwavering dedication to client interests. His practice
-              spans corporate transactions, high-stakes litigation, and
-              regulatory compliance — always guided by a commitment to
-              integrity and excellence.
-            </p>
-            <p className="text-body text-text-secondary mb-8 leading-relaxed">
-              Recognized by peers and clients alike for his ability to
-              distill complexity into clarity, Alexander approaches every
-              matter with the rigor it demands and the personal attention
-              it deserves.
+            <p className="text-body text-text-secondary mt-6 mb-8 leading-relaxed">
+              With over two decades of experience, I have built my practice on strategic insight,
+              meticulous preparation, and unwavering dedication to each client&apos;s interests.
+              From corporate transactions to high-stakes litigation, I bring the same commitment
+              to integrity and excellence to every matter I handle.
             </p>
             <Link href="/about" className="btn btn-ghost">
               Read My Story

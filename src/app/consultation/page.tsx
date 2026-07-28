@@ -79,7 +79,7 @@ export default function ConsultationPage() {
               <p className="font-mono text-lg font-medium">{referenceNumber}</p>
             </div>
             <p className="text-body text-text-secondary mb-8">
-              We respond within <strong>one business day</strong>. Please save your
+              I respond within <strong>one business day</strong>. Please save your
               reference number for your records.
             </p>
             <p className="text-caption text-text-secondary/60 max-w-lg mx-auto">
@@ -117,7 +117,7 @@ export default function ConsultationPage() {
             confidential consultation about your legal matter.
           </p>
           <p className="text-sm text-accent-wine mt-4 font-medium mx-auto lg:mx-0">
-            We respond within one business day.
+            I respond within one business day.
           </p>
         </div>
       </section>
@@ -131,7 +131,7 @@ export default function ConsultationPage() {
               <strong className="text-text-primary">
                 Confidentiality Notice:
               </strong>{" "}
-              While we take reasonable precautions to protect information
+              While I take reasonable precautions to protect information
               submitted through this form, this channel is not a secure method
               for transmitting highly sensitive or privileged information.
               Please limit your submission to general details about your matter.

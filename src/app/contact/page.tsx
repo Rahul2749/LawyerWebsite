@@ -5,7 +5,7 @@ import { siteSettings } from "@/data/siteSettings";
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Get in touch with Alexander Mitchell. Office located in New York City. Call, email, or visit us.",
+    "Get in touch with Raja Agrawal. Office located in New York City. Call, email, or visit us.",
 };
 
 export default function ContactPage() {

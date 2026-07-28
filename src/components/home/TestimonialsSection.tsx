@@ -5,16 +5,16 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const testimonials = [
   {
-    quote: "Alexander Mitchell is a solid litigation firm for the Supreme Court and Federal Courts.",
-    attribution: "Chambers and Partners Asia-Pacific"
+    quote: "Adv. Raja Agrawal's meticulous preparation and strategic thinking delivered outstanding results for our corporate dispute.",
+    attribution: "A Satisfied Client"
   },
   {
-    quote: "Their strategic counsel in complex regulatory matters is unmatched. Truly a trusted partner.",
-    attribution: "The Legal 500"
+    quote: "His dedication to my case went far beyond expectations. A true advocate who fights for his clients with integrity.",
+    attribution: "Corporate Client"
   },
   {
-    quote: "A powerhouse of legal expertise with an unwavering commitment to excellence and integrity.",
-    attribution: "Global Law Review"
+    quote: "Exceptional legal expertise combined with a genuinely personal approach. I felt heard and supported throughout the entire process.",
+    attribution: "Private Client"
   }
 ];
 

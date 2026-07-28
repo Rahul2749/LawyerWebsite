@@ -7,10 +7,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { siteSettings } from "@/data/siteSettings";
 
 const navLinks = [
+  { href: "/", label: "Home" },
   { href: "/about", label: "About" },
   { href: "/practice-areas", label: "Expertise" },
   { href: "/insights", label: "Insights" },
-  { href: "/videos", label: "Videos" },
   { href: "/consultation", label: "Consultation" },
   { href: "/contact", label: "Contact" },
 ];
@@ -59,9 +59,14 @@ export default function Navbar() {
           {/* Logo */}
           <Link
             href="/"
-            className="relative z-[60] group"
+            className="relative z-[60] group flex items-center gap-3"
             aria-label={`${siteSettings.firmName} - Home`}
           >
+            <img
+              src="/advocate_logo.png"
+              alt="Logo"
+              className="w-10 h-10 lg:w-12 lg:h-12 rounded-full object-cover"
+            />
             <div className="flex flex-col">
               <span className="font-serif text-xl lg:text-2xl font-medium tracking-tight text-text-primary">
                 {siteSettings.firmName}
@@ -82,14 +87,14 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 className={`relative text-[13px] uppercase tracking-[0.08em] font-medium transition-colors duration-300 ${
-                  pathname === link.href || pathname.startsWith(link.href + "/")
+                  (link.href === "/" ? pathname === "/" : (pathname === link.href || pathname.startsWith(link.href + "/")))
                     ? "text-accent-wine"
                     : "text-text-secondary hover:text-text-primary"
                 }`}
               >
                 {link.label}
-                {(pathname === link.href ||
-                  pathname.startsWith(link.href + "/")) && (
+                {((link.href === "/" ? pathname === "/" : (pathname === link.href ||
+                  pathname.startsWith(link.href + "/")))) && (
                   <motion.span
                     layoutId="nav-underline"
                     className="absolute -bottom-1 left-0 right-0 h-px bg-accent-wine"
@@ -220,6 +225,18 @@ export default function Navbar() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Mobile Sticky CTA */}
+      {!isMobileMenuOpen && (
+        <div className="fixed bottom-0 left-0 right-0 z-50 lg:hidden p-4 bg-bg-primary/95 backdrop-blur-md border-t border-border-subtle">
+          <Link
+            href="/consultation"
+            className="btn btn-primary bg-accent-wine hover:bg-accent-wine-hover w-full text-center"
+          >
+            Book a Consultation
+          </Link>
+        </div>
+      )}
     </>
   );
 }

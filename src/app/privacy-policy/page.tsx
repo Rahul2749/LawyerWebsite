@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description: "Privacy Policy for Alexander Mitchell, Attorney at Law.",
+  description: "Privacy Policy for Raja Agrawal, Advocate & Legal Consultant.",
 };
 
 export default function PrivacyPolicyPage() {
@@ -22,7 +22,7 @@ export default function PrivacyPolicyPage() {
         <div className="container max-w-3xl prose">
           <h2>Introduction</h2>
           <p>
-            Alexander Mitchell, Attorney at Law (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;) respects
+            Raja Agrawal, Advocate & Legal Consultant (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;) respects
             your privacy and is committed to protecting your personal data.
             This privacy policy explains how we collect, use, disclose, and
             safeguard your information when you visit our website.

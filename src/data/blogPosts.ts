@@ -59,7 +59,7 @@ Companies that invest in regulatory readiness before initiating transactions wil
     category: "Corporate",
     tags: ["M&A", "Corporate Governance", "Regulatory"],
     author: {
-      name: "Alexander Mitchell",
+      name: "Raja Agrawal",
       credential: "J.D., Corporate Law Practice Lead",
       imageUrl: "/images/author-portrait.jpg",
     },
@@ -99,7 +99,7 @@ A comprehensive digital IP strategy should include regular portfolio audits, pro
     category: "Intellectual Property",
     tags: ["IP", "Digital", "Technology", "Trade Secrets"],
     author: {
-      name: "Alexander Mitchell",
+      name: "Raja Agrawal",
       credential: "J.D., Corporate Law Practice Lead",
       imageUrl: "/images/author-portrait.jpg",
     },
@@ -142,7 +142,7 @@ Engage experienced real estate counsel before signing any commercial lease. The 
     category: "Real Estate",
     tags: ["Real Estate", "Commercial Lease", "Negotiation"],
     author: {
-      name: "Alexander Mitchell",
+      name: "Raja Agrawal",
       credential: "J.D., Corporate Law Practice Lead",
       imageUrl: "/images/author-portrait.jpg",
     },
@@ -185,7 +185,7 @@ Regulators are increasingly aggressive in enforcement, with significant fines an
     category: "Regulatory",
     tags: ["Data Privacy", "GDPR", "CCPA", "Compliance"],
     author: {
-      name: "Alexander Mitchell",
+      name: "Raja Agrawal",
       credential: "J.D., Corporate Law Practice Lead",
       imageUrl: "/images/author-portrait.jpg",
     },
@@ -232,7 +232,7 @@ The choice between litigation, mediation, and arbitration should be made strateg
     category: "Litigation",
     tags: ["ADR", "Mediation", "Arbitration", "Dispute Resolution"],
     author: {
-      name: "Alexander Mitchell",
+      name: "Raja Agrawal",
       credential: "J.D., Corporate Law Practice Lead",
       imageUrl: "/images/author-portrait.jpg",
     },
@@ -275,7 +275,7 @@ Companies with strong governance practices consistently outperform their peers. 
     category: "Corporate",
     tags: ["Corporate Governance", "Board of Directors", "Compliance"],
     author: {
-      name: "Alexander Mitchell",
+      name: "Raja Agrawal",
       credential: "J.D., Corporate Law Practice Lead",
       imageUrl: "/images/author-portrait.jpg",
     },
@@ -322,7 +322,7 @@ The most important aspect of a prenuptial agreement is the conversation it facil
     category: "Industry Insights",
     tags: ["Family Law", "Prenuptial", "Financial Planning"],
     author: {
-      name: "Alexander Mitchell",
+      name: "Raja Agrawal",
       credential: "J.D., Corporate Law Practice Lead",
       imageUrl: "/images/author-portrait.jpg",
     },
@@ -370,7 +370,7 @@ Review any non-compete carefully before signing, understand the specific restric
     category: "Industry Insights",
     tags: ["Employment Law", "Non-Compete", "HR"],
     author: {
-      name: "Alexander Mitchell",
+      name: "Raja Agrawal",
       credential: "J.D., Corporate Law Practice Lead",
       imageUrl: "/images/author-portrait.jpg",
     },

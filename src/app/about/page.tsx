@@ -5,26 +5,26 @@ import { siteSettings } from "@/data/siteSettings";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Learn about Alexander Mitchell — over two decades of legal experience in corporate law, litigation, real estate, and more. A legacy of trusted counsel.",
+    "Learn about Raja Agrawal — over two decades of legal experience in corporate law, litigation, real estate, and more. Trusted counsel you can rely on.",
 };
 
 const milestones = [
-  { year: "1998", event: "Juris Doctor, Columbia Law School" },
-  { year: "2000", event: "Associate, Sullivan & Cromwell LLP" },
-  { year: "2005", event: "Senior Associate, Complex Litigation Group" },
-  { year: "2008", event: "Partner, Corporate & Transactions Practice" },
-  { year: "2014", event: "Founded independent practice" },
-  { year: "2020", event: "Expanded practice areas to include Regulatory & Compliance" },
+  { year: "2002", event: "Enrolled as Advocate, Bar Council of India" },
+  { year: "2004", event: "Started practice at District Courts, Delhi" },
+  { year: "2008", event: "Expanded practice to High Court of Delhi" },
+  { year: "2012", event: "Appeared before Supreme Court of India" },
+  { year: "2016", event: "Established independent full-service practice" },
+  { year: "2020", event: "Expanded to Corporate & Regulatory Advisory" },
   { year: "Present", event: "Continued dedication to client-centered legal excellence" },
 ];
 
 const credentials = [
-  "Columbia Law School, J.D., magna cum laude",
-  "New York State Bar Admission",
-  "U.S. District Court, Southern District of New York",
-  "U.S. District Court, Eastern District of New York",
-  "American Bar Association, Member",
-  "New York State Bar Association, Member",
+  "LL.B., Faculty of Law, University of Delhi",
+  "Enrolled Advocate, Bar Council of Delhi",
+  "Member, Bar Association of India",
+  "Practicing before Supreme Court of India",
+  "Practicing before High Court of Delhi",
+  "Practicing before District Courts & Tribunals",
 ];
 
 export default function AboutPage() {
@@ -37,6 +37,7 @@ export default function AboutPage() {
             src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=2000&auto=format&fit=crop"
             alt="About us background"
             className="w-full h-full object-cover opacity-10 grayscale"
+            loading="lazy"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-bg-secondary via-transparent to-transparent" />
         </div>
@@ -53,13 +54,14 @@ export default function AboutPage() {
       {/* Bio Section */}
       <section className="section">
         <div className="container">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-            {/* Portrait */}
-            <div className="relative aspect-[3/4] bg-bg-secondary overflow-hidden sticky top-32">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+            {/* Portrait — NO sticky positioning */}
+            <div className="relative aspect-[3/4] bg-bg-secondary overflow-hidden rounded-2xl">
               <img
                 src="https://images.unsplash.com/photo-1556157382-97eda2d62296?q=80&w=1000&auto=format&fit=crop"
-                alt="Alexander Mitchell"
+                alt="Raja Agrawal"
                 className="w-full h-full object-cover grayscale opacity-90"
+                loading="lazy"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-bg-dark/10 to-transparent" />
               <div className="absolute bottom-0 right-0 w-32 h-32 border-b border-r border-accent-gold/50" />
@@ -68,7 +70,7 @@ export default function AboutPage() {
             {/* Content */}
             <div>
               <span className="gold-line" />
-              <h2 className="text-h2 mt-4 mb-8">Alexander Mitchell</h2>
+              <h2 className="text-h2 mt-4 mb-8">Raja Agrawal</h2>
 
               <div className="prose">
                 <p>
@@ -82,20 +84,11 @@ export default function AboutPage() {
                   advocacy.
                 </p>
                 <p>
-                  My career began at one of New York&apos;s most
-                  prestigious law firms, where I developed the
-                  foundational skills that continue to inform my
-                  practice. The rigorous training, the exposure to
-                  high-stakes matters, and the mentorship of exceptional
-                  lawyers shaped my understanding of what true legal
-                  excellence requires.
-                </p>
-                <p>
-                  In founding my own practice, I sought to combine that
+                  I founded my independent practice to combine
                   institutional rigor with something more personal —
-                  the ability to give every client the direct attention,
+                  the ability to give every client direct attention,
                   honest counsel, and creative problem-solving that
-                  complex matters demand. I believe the attorney-client
+                  complex matters demand. I believe the advocate-client
                   relationship is built on trust, transparency, and
                   genuine commitment to the client&apos;s objectives.
                 </p>
@@ -111,7 +104,7 @@ export default function AboutPage() {
               </div>
 
               {/* Philosophy */}
-              <div className="mt-16">
+              <div className="mt-12">
                 <h3 className="text-h3 mb-4">Philosophy</h3>
                 <span className="gold-line" />
                 <p className="text-body text-text-secondary mt-4 leading-relaxed">
@@ -120,9 +113,7 @@ export default function AboutPage() {
                   lawyer who has done the work — who understands the
                   law, the facts, the stakeholders, and the
                   consequences. I bring that level of preparation to
-                  every matter I handle, whether it&apos;s a
-                  billion-dollar acquisition or a family&apos;s most
-                  personal legal concern.
+                  every matter I handle.
                 </p>
               </div>
             </div>
