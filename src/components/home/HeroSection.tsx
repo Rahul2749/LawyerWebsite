@@ -6,13 +6,13 @@ import { motion } from "framer-motion";
 export default function HeroSection() {
   return (
     <section
-      className="relative min-h-[75vh] flex items-center overflow-hidden bg-bg-primary pt-28 pb-16 lg:pt-32 lg:pb-20"
+      className="relative min-h-0 lg:min-h-[75vh] flex items-center overflow-hidden bg-bg-primary pt-24 pb-8 lg:pt-32 lg:pb-20"
       aria-label="Hero"
     >
       {/* Subtle Premium Background Pattern/Glow */}
       <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: "radial-gradient(#5A1824 1px, transparent 1px)", backgroundSize: "32px 32px" }}></div>
       <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-bg-secondary/50 to-transparent z-0 pointer-events-none" />
-      <div className="container relative z-10 flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+      <div className="container relative z-10 flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
         
         {/* Left Column: Content */}
         <div className="w-full lg:w-1/2 text-center lg:text-left order-2 lg:order-1">
@@ -99,7 +99,7 @@ export default function HeroSection() {
         </div>
         
         {/* Right Column: Visuals */}
-        <div className="w-full lg:w-1/2 order-1 lg:order-2 relative h-[50vh] lg:h-[70vh]">
+        <div className="w-full lg:w-1/2 order-1 lg:order-2 relative h-[35vh] sm:h-[40vh] lg:h-[70vh]">
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
