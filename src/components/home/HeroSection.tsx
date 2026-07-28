@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 export default function HeroSection() {
   return (
     <section
-      className="relative min-h-[90vh] flex items-center overflow-hidden bg-bg-primary pt-32 pb-20 lg:pt-40 lg:pb-32"
+      className="relative min-h-[75vh] flex items-center overflow-hidden bg-bg-primary pt-28 pb-16 lg:pt-32 lg:pb-20"
       aria-label="Hero"
     >
       {/* Subtle Premium Background Pattern/Glow */}
@@ -31,9 +31,9 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.4 }}
-            className="text-hero text-text-primary mb-6 lg:mb-8"
+            className="text-hero text-text-primary mb-5 lg:mb-6"
           >
-            With You In Every <br className="hidden lg:block" /> Challenge
+            Fierce Advocacy &<br className="hidden lg:block" /> Strategic Solutions
           </motion.h1>
 
           {/* Subtitle */}
@@ -43,7 +43,7 @@ export default function HeroSection() {
             transition={{ duration: 0.8, delay: 0.7 }}
             className="text-body text-text-secondary max-w-xl mx-auto lg:mx-0 mb-8 lg:mb-10 text-lg lg:pr-8 leading-relaxed"
           >
-            With 5 years of dedicated experience, I have built my practice on strategic insight, meticulous preparation, and unwavering dedication to each client's interests. I believe in empowering you through personalized legal services tailored to your unique challenges.
+            As an independent advocate with 5+ years of dedicated experience, I provide personalized, high-caliber legal counsel. From navigating complex corporate disputes to securing victories in litigation, I fight fiercely to protect your interests and achieve the best possible outcomes.
           </motion.p>
 
           {/* CTAs */}
