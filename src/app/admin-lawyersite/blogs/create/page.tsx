@@ -14,6 +14,17 @@ export default function CreateBlog() {
     imageUrl: ""
   });
 
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData({ ...formData, imageUrl: reader.result as string });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const newBlog = {
@@ -64,14 +75,18 @@ export default function CreateBlog() {
             />
           </div>
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">Cover Image URL</label>
+            <label className="block text-sm font-medium text-gray-700">Cover Image Upload</label>
             <input 
-              type="url"
-              value={formData.imageUrl}
-              onChange={(e) => setFormData({...formData, imageUrl: e.target.value})}
-              className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5A1824]/20 focus:border-[#5A1824] transition-all"
-              placeholder="https://..."
+              type="file"
+              accept="image/*"
+              onChange={handleImageUpload}
+              className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5A1824]/20 focus:border-[#5A1824] transition-all file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#F0EBE1] file:text-[#5A1824] hover:file:bg-[#E6E1D6] cursor-pointer"
             />
+            {formData.imageUrl && (
+              <div className="mt-2 h-20 w-32 relative rounded-md overflow-hidden border border-gray-200">
+                <img src={formData.imageUrl} alt="Preview" className="w-full h-full object-cover" />
+              </div>
+            )}
           </div>
         </div>
 
