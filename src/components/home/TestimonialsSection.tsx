@@ -55,7 +55,7 @@ export default function TestimonialsSection() {
           {/* Prev Button */}
           <button
             onClick={prevTestimonial}
-            className="absolute left-0 lg:-left-16 w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-[#B39352] hover:bg-[#9B7D42] text-white flex items-center justify-center transition-colors z-20 shadow-md"
+            className="absolute left-0 lg:-left-16 w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-[#B39352] hover:bg-[#9B7D42] text-white hidden lg:flex items-center justify-center transition-colors z-20 shadow-md"
             aria-label="Previous Testimonial"
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -64,8 +64,8 @@ export default function TestimonialsSection() {
           </button>
 
           {/* Testimonial Card */}
-          <div className="w-full px-12 lg:px-0">
-            <div className="bg-[#786D5F] rounded-3xl p-8 lg:p-16 relative shadow-2xl overflow-hidden border border-accent-gold/30">
+          <div className="w-full px-6 lg:px-0">
+            <div className="bg-[#786D5F] rounded-3xl p-6 lg:p-16 relative shadow-2xl overflow-hidden border border-accent-gold/30">
               {/* Outer Glow */}
               <div className="absolute inset-0 ring-2 ring-accent-gold/20 rounded-3xl pointer-events-none" />
               
@@ -78,18 +78,18 @@ export default function TestimonialsSection() {
                   transition={{ duration: 0.4 }}
                   className="relative z-10 flex flex-col items-center justify-center text-center"
                 >
-                  <h3 className="text-2xl lg:text-3xl font-sans font-bold text-white mb-8 tracking-wide">
+                  <h3 className="text-xl lg:text-3xl font-sans font-bold text-white mb-6 lg:mb-8 tracking-wide">
                     {testimonials[currentIndex].attribution}
                   </h3>
                   
-                  <div className="relative w-full flex justify-center items-center gap-4 lg:gap-8">
-                    <span className="text-white/60 font-serif text-6xl lg:text-8xl italic leading-none shrink-0" style={{ transform: 'translateY(10px)' }}>//</span>
+                  <div className="relative w-full flex justify-center items-center gap-2 lg:gap-8">
+                    <span className="text-white/60 font-serif text-4xl lg:text-8xl italic leading-none shrink-0" style={{ transform: 'translateY(10px)' }}>//</span>
                     
-                    <p className="text-lg lg:text-2xl text-white/90 font-light max-w-2xl leading-relaxed">
+                    <p className="text-base lg:text-2xl text-white/90 font-light max-w-2xl leading-relaxed">
                       {testimonials[currentIndex].quote}
                     </p>
                     
-                    <span className="text-white/60 font-serif text-6xl lg:text-8xl italic leading-none shrink-0" style={{ transform: 'translateY(10px)' }}>//</span>
+                    <span className="text-white/60 font-serif text-4xl lg:text-8xl italic leading-none shrink-0" style={{ transform: 'translateY(10px)' }}>//</span>
                   </div>
                 </motion.div>
               </AnimatePresence>
@@ -99,7 +99,7 @@ export default function TestimonialsSection() {
           {/* Next Button */}
           <button
             onClick={nextTestimonial}
-            className="absolute right-0 lg:-right-16 w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-[#B39352] hover:bg-[#9B7D42] text-white flex items-center justify-center transition-colors z-20 shadow-md"
+            className="absolute right-0 lg:-right-16 w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-[#B39352] hover:bg-[#9B7D42] text-white hidden lg:flex items-center justify-center transition-colors z-20 shadow-md"
             aria-label="Next Testimonial"
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

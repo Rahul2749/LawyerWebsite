@@ -37,7 +37,7 @@ export default function ConsultationCTA() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/consultation"
-                className="btn btn-primary bg-accent-wine hover:bg-accent-wine-hover"
+                className="btn btn-primary bg-accent-wine hover:bg-accent-wine-hover whitespace-nowrap text-sm lg:text-base px-6 sm:px-8"
               >
                 Schedule a Consultation
                 <svg

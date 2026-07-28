@@ -19,7 +19,7 @@ export default function PracticeAreasSection() {
       <div className="container relative z-10 flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
         
         {/* Left Column: Image with floating icons */}
-        <div className="w-full lg:w-1/2 relative h-[500px] lg:h-[700px] flex items-center justify-center">
+        <div className="w-full lg:w-1/2 relative h-[320px] sm:h-[400px] lg:h-[700px] flex items-center justify-center">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -41,10 +41,10 @@ export default function PracticeAreasSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="absolute top-[10%] left-[5%] lg:left-[10%] w-20 h-20 lg:w-24 lg:h-24 bg-white rounded-full shadow-xl flex items-center justify-center border border-border-subtle z-20"
+            className="absolute top-[10%] left-[5%] lg:left-[10%] w-14 h-14 lg:w-24 lg:h-24 bg-white rounded-full shadow-xl flex items-center justify-center border border-border-subtle z-20"
           >
-            <div className="w-10 h-10 lg:w-12 lg:h-12 bg-accent-wine/10 rounded-full flex items-center justify-center">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-accent-wine">
+            <div className="w-8 h-8 lg:w-12 lg:h-12 bg-accent-wine/10 rounded-full flex items-center justify-center">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-accent-wine lg:w-6 lg:h-6">
                 <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
               </svg>
             </div>
@@ -56,10 +56,10 @@ export default function PracticeAreasSection() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.5 }}
-            className="absolute top-[40%] -right-4 lg:-right-4 w-24 h-24 lg:w-32 lg:h-32 bg-white rounded-full shadow-2xl flex items-center justify-center border border-border-subtle z-20"
+            className="absolute top-[40%] -right-2 lg:-right-4 w-16 h-16 lg:w-32 lg:h-32 bg-white rounded-full shadow-2xl flex items-center justify-center border border-border-subtle z-20"
           >
-            <div className="w-12 h-12 lg:w-16 lg:h-16 bg-accent-gold/10 rounded-full flex items-center justify-center">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-accent-gold">
+            <div className="w-10 h-10 lg:w-16 lg:h-16 bg-accent-gold/10 rounded-full flex items-center justify-center">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-accent-gold lg:w-8 lg:h-8">
                 <circle cx="12" cy="12" r="10" />
                 <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
                 <path d="M2 12h20" />
@@ -73,10 +73,10 @@ export default function PracticeAreasSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.7 }}
-            className="absolute bottom-[10%] left-[15%] lg:left-[20%] w-16 h-16 lg:w-20 lg:h-20 bg-white rounded-full shadow-xl flex items-center justify-center border border-border-subtle z-20"
+            className="absolute bottom-[10%] left-[10%] lg:left-[20%] w-12 h-12 lg:w-20 lg:h-20 bg-white rounded-full shadow-xl flex items-center justify-center border border-border-subtle z-20"
           >
-            <div className="w-8 h-8 lg:w-10 lg:h-10 bg-[#786D5F]/10 rounded-full flex items-center justify-center">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#786D5F]">
+            <div className="w-6 h-6 lg:w-10 lg:h-10 bg-[#786D5F]/10 rounded-full flex items-center justify-center">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#786D5F] lg:w-5 lg:h-5">
                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
                 <polyline points="14 2 14 8 20 8" />
                 <line x1="16" y1="13" x2="8" y2="13" />
