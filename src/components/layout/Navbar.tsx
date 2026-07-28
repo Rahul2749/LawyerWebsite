@@ -161,12 +161,12 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
-            className="fixed inset-0 z-[55] bg-bg-primary flex flex-col justify-center items-center pt-24 pb-6 overflow-y-auto"
+            className="fixed inset-0 z-[55] bg-bg-primary flex flex-col justify-start items-end pt-32 px-10 pb-10 overflow-y-auto"
             role="dialog"
             aria-modal="true"
             aria-label="Mobile navigation"
           >
-            <nav className="flex flex-col items-center gap-8" aria-label="Mobile navigation">
+            <nav className="flex flex-col items-end gap-6 w-full" aria-label="Mobile navigation">
               {navLinks.map((link, i) => (
                 <motion.div
                   key={link.href}
@@ -177,7 +177,7 @@ export default function Navbar() {
                 >
                   <Link
                     href={link.href}
-                    className={`font-serif text-3xl font-light transition-colors ${
+                    className={`font-serif text-2xl font-light tracking-wide transition-colors text-right block w-full ${
                       pathname === link.href
                         ? "text-accent-wine"
                         : "text-text-primary hover:text-accent-wine"
@@ -192,9 +192,9 @@ export default function Navbar() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 10 }}
                 transition={{ delay: navLinks.length * 0.06, duration: 0.4 }}
-                className="mt-4"
+                className="mt-6 w-full text-right"
               >
-                <Link href="/consultation" className="btn btn-primary">
+                <Link href="/consultation" className="btn btn-primary w-full sm:w-auto text-sm">
                   Book a Consultation
                 </Link>
               </motion.div>
@@ -205,7 +205,7 @@ export default function Navbar() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5 }}
                 href={`https://wa.me/${siteSettings.phone.replace(/\D/g, "")}`}
-                className="mt-6 text-text-secondary text-sm flex items-center gap-2"
+                className="mt-6 text-text-secondary text-sm flex items-center justify-end gap-2 w-full"
               >
                 <svg
                   width="14"
