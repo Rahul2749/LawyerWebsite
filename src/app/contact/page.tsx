@@ -61,7 +61,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h3 className="text-eyebrow text-accent-gold mb-1">Phone</h3>
-                    <a href={`tel:${siteSettings.phone.replace(/\s/g, "")}`} className="text-body text-text-primary hover:text-accent-wine transition-colors">
+                    <a href={`https://wa.me/${siteSettings.phone.replace(/\D/g, "")}`} className="text-body text-text-primary hover:text-accent-wine transition-colors">
                       {siteSettings.phone}
                     </a>
                   </div>
@@ -104,20 +104,25 @@ export default function ContactPage() {
               </div>
             </div>
 
-            {/* Map Placeholder (lazy-loaded in production) */}
-            <div className="relative aspect-square lg:aspect-auto bg-bg-secondary overflow-hidden">
-              <div className="absolute inset-0 flex items-center justify-center text-text-secondary/20">
+            {/* Map Link */}
+            <a 
+              href="https://maps.app.goo.gl/Xce6eREkx64aSi4A8?g_st=aw"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="relative aspect-square lg:aspect-auto bg-bg-secondary overflow-hidden block group hover:opacity-90 transition-opacity"
+            >
+              <div className="absolute inset-0 flex items-center justify-center text-text-secondary/50 group-hover:text-accent-wine transition-colors duration-300">
                 <div className="text-center">
-                  <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.5" className="mx-auto mb-3" aria-hidden="true">
+                  <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="mx-auto mb-3" aria-hidden="true">
                     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
                     <circle cx="12" cy="10" r="3" />
                   </svg>
-                  <p className="text-xs">Google Maps Embed</p>
-                  <p className="text-[10px] mt-1">Lazy-loaded on scroll</p>
+                  <p className="text-sm font-medium">Open in Google Maps</p>
+                  <p className="text-xs mt-1 text-text-secondary/70">Click to view location</p>
                 </div>
               </div>
               <div className="absolute bottom-0 right-0 w-24 h-24 border-b border-r border-accent-gold/20" />
-            </div>
+            </a>
           </div>
         </div>
       </section>

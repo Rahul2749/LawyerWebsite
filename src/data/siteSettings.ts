@@ -3,7 +3,7 @@ export const siteSettings = {
   firmTagline: "Advocate & Legal Consultant",
   firmDescription:
     "Trusted counsel for complex legal matters. Over two decades of dedicated practice delivering strategic solutions with unwavering integrity.",
-  phone: "+91 98765 43210",
+  phone: "+91 86053 99330",
   email: "contact@rajaagrawal.in",
   address: {
     street: "Chamber No. 123, District Court Complex",

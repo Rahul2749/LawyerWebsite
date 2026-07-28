@@ -49,7 +49,7 @@ export default function Navbar() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        className={`fixed top-0 left-0 right-0 z-[60] transition-all duration-500 ${
           isScrolled
             ? "py-3 bg-bg-primary/90 backdrop-blur-md border-b border-border-subtle shadow-[0_1px_3px_rgba(0,0,0,0.04)]"
             : "py-5 bg-transparent"
@@ -112,7 +112,7 @@ export default function Navbar() {
           {/* Mobile: Phone + Hamburger */}
           <div className="flex items-center gap-4 lg:hidden">
             <a
-              href={`tel:${siteSettings.phone.replace(/\s/g, "")}`}
+              href={`https://wa.me/${siteSettings.phone.replace(/\D/g, "")}`}
               className="text-accent-wine text-sm font-medium hidden sm:flex items-center gap-1.5"
               aria-label="Call now"
             >
@@ -204,7 +204,7 @@ export default function Navbar() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5 }}
-                href={`tel:${siteSettings.phone.replace(/\s/g, "")}`}
+                href={`https://wa.me/${siteSettings.phone.replace(/\D/g, "")}`}
                 className="mt-6 text-text-secondary text-sm flex items-center gap-2"
               >
                 <svg
