@@ -7,7 +7,7 @@ import { useScrollReveal } from "@/hooks/useScrollReveal";
 export default function InsightsPreview() {
   const sectionRef = useScrollReveal<HTMLElement>();
   const featured = blogPosts.filter((p) => p.featured).slice(0, 1);
-  const rest = blogPosts.filter((p) => !p.featured).slice(0, 3);
+  const rest = blogPosts.filter((p) => !p.featured).slice(0, 2);
 
   return (
     <section
@@ -19,7 +19,7 @@ export default function InsightsPreview() {
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between mb-12">
           <div>
             <p className="text-eyebrow text-accent-gold mb-4">
-              Legal Insights
+              Blogs & Articles
             </p>
             <h2 className="text-h2">
               Thought
@@ -28,7 +28,7 @@ export default function InsightsPreview() {
             </h2>
           </div>
           <Link href="/insights" className="btn btn-ghost mt-6 lg:mt-0">
-            View All Insights
+            View All Blogs & Articles
             <svg
               width="16"
               height="16"
