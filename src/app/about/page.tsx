@@ -9,12 +9,10 @@ export const metadata: Metadata = {
 };
 
 const milestones = [
-  { year: "2002", event: "Enrolled as Advocate, Bar Council of India" },
-  { year: "2004", event: "Started practice at District Courts, Delhi" },
-  { year: "2008", event: "Expanded practice to High Court of Delhi" },
-  { year: "2012", event: "Appeared before Supreme Court of India" },
-  { year: "2016", event: "Established independent full-service practice" },
-  { year: "2020", event: "Expanded to Corporate & Regulatory Advisory" },
+  { year: "2019", event: "Enrolled as Advocate, Bar Council of India" },
+  { year: "2020", event: "Started practice at District Courts, Delhi" },
+  { year: "2021", event: "Expanded practice to High Court of Delhi" },
+  { year: "2023", event: "Established independent full-service practice" },
   { year: "Present", event: "Continued dedication to client-centered legal excellence" },
 ];
 
