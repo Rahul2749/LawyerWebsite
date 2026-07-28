@@ -36,8 +36,10 @@ export default function BlogsList() {
 
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
         {blogs.length === 0 ? (
-          <div className="p-12 text-center">
-            <div className="text-4xl mb-3">📝</div>
+          <div className="p-16 text-center flex flex-col items-center">
+            <div className="w-16 h-16 bg-[#F0EBE1] rounded-full flex items-center justify-center text-[#5A1824] mb-4">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            </div>
             <h3 className="text-lg font-medium text-gray-900 mb-1">No blogs yet</h3>
             <p className="text-gray-500 text-sm mb-4">Create your first article to get started.</p>
             <Link 

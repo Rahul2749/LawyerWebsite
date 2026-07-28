@@ -36,8 +36,10 @@ export default function VideosList() {
 
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
         {videos.length === 0 ? (
-          <div className="p-12 text-center">
-            <div className="text-4xl mb-3">🎥</div>
+          <div className="p-16 text-center flex flex-col items-center">
+            <div className="w-16 h-16 bg-[#F0EBE1] rounded-full flex items-center justify-center text-[#5A1824] mb-4">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+            </div>
             <h3 className="text-lg font-medium text-gray-900 mb-1">No videos yet</h3>
             <p className="text-gray-500 text-sm mb-4">Add your first video to get started.</p>
             <Link 
