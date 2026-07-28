@@ -9,6 +9,9 @@ export default function HeroSection() {
       className="relative min-h-[90vh] flex items-center overflow-hidden bg-bg-primary pt-32 pb-20 lg:pt-40 lg:pb-32"
       aria-label="Hero"
     >
+      {/* Subtle Premium Background Pattern/Glow */}
+      <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: "radial-gradient(#5A1824 1px, transparent 1px)", backgroundSize: "32px 32px" }}></div>
+      <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-bg-secondary/50 to-transparent z-0 pointer-events-none" />
       <div className="container relative z-10 flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
         
         {/* Left Column: Content */}
@@ -40,7 +43,7 @@ export default function HeroSection() {
             transition={{ duration: 0.8, delay: 0.7 }}
             className="text-body text-text-secondary max-w-xl mx-auto lg:mx-0 mb-8 lg:mb-10 text-lg lg:pr-8 leading-relaxed"
           >
-            With over two decades of experience, I have built my practice on strategic insight, meticulous preparation, and unwavering dedication to each client's interests. I believe in empowering you through personalized legal services tailored to your unique challenges.
+            With 5 years of dedicated experience, I have built my practice on strategic insight, meticulous preparation, and unwavering dedication to each client's interests. I believe in empowering you through personalized legal services tailored to your unique challenges.
           </motion.p>
 
           {/* CTAs */}
@@ -104,9 +107,9 @@ export default function HeroSection() {
             className="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl"
           >
             <img
-              src="https://images.unsplash.com/photo-1556157382-97eda2d62296?q=80&w=1000&auto=format&fit=crop"
+              src="/advocate_portrait.png"
               alt="Raja Agrawal Portrait"
-              className="w-full h-full object-cover grayscale opacity-90"
+              className="w-full h-full object-cover grayscale-[20%] opacity-95"
             />
             {/* Subtle overlay */}
             <div className="absolute inset-0 bg-accent-wine/5" />
@@ -119,7 +122,7 @@ export default function HeroSection() {
             transition={{ duration: 0.8, delay: 1 }}
             className="absolute -bottom-6 -left-6 lg:bottom-12 lg:-left-12 bg-bg-secondary p-4 rounded-full shadow-xl border border-border-subtle flex flex-col items-center justify-center w-32 h-32 lg:w-40 lg:h-40 z-20"
           >
-             <span className="text-3xl lg:text-4xl font-serif text-accent-wine mb-1">20+</span>
+             <span className="text-3xl lg:text-4xl font-serif text-accent-wine mb-1">5+</span>
              <span className="text-xs uppercase tracking-widest text-text-secondary text-center leading-tight">Years of<br/>Experience</span>
           </motion.div>
 

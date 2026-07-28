@@ -58,9 +58,9 @@ export default function AboutPage() {
             {/* Portrait — NO sticky positioning */}
             <div className="relative aspect-[3/4] bg-bg-secondary overflow-hidden rounded-2xl">
               <img
-                src="https://images.unsplash.com/photo-1556157382-97eda2d62296?q=80&w=1000&auto=format&fit=crop"
+                src="/advocate_portrait.png"
                 alt="Raja Agrawal"
-                className="w-full h-full object-cover grayscale opacity-90"
+                className="w-full h-full object-cover grayscale-[20%] opacity-95"
                 loading="lazy"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-bg-dark/10 to-transparent" />
@@ -74,7 +74,7 @@ export default function AboutPage() {
 
               <div className="prose">
                 <p>
-                  For over two decades, I have dedicated my practice to
+                  For over 5 years, I have dedicated my practice to
                   serving clients who face their most complex and
                   consequential legal challenges. From corporate
                   transactions that shape businesses to litigation that

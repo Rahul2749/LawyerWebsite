@@ -4,10 +4,10 @@ import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
 const stats = [
-  { value: 500, suffix: "+", label: "Cases Won" },
-  { value: 20, suffix: "+", label: "Years Experience" },
+  { value: 150, suffix: "+", label: "Cases Won" },
+  { value: 5, suffix: "+", label: "Years Experience" },
   { value: 98, suffix: "%", label: "Success Rate" },
-  { value: 1000, suffix: "+", label: "Clients Served" },
+  { value: 300, suffix: "+", label: "Clients Served" },
 ];
 
 function AnimatedNumber({ value, suffix }: { value: number; suffix: string }) {

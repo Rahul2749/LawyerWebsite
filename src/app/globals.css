@@ -261,6 +261,7 @@ body {
   text-transform: uppercase;
   text-decoration: none;
   border: none;
+  border-radius: 9999px;
   cursor: pointer;
   transition: all var(--dur-hover) var(--ease-hover);
   position: relative;
