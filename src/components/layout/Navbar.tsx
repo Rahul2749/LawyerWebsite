@@ -161,7 +161,7 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
-            className="fixed inset-0 z-[55] bg-bg-primary flex flex-col justify-center items-center"
+            className="fixed inset-0 z-[55] bg-bg-primary flex flex-col justify-center items-center pt-24 pb-6 overflow-y-auto"
             role="dialog"
             aria-modal="true"
             aria-label="Mobile navigation"
