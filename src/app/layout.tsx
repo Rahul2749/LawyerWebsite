@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
 import { inter, cormorant } from "./fonts";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
-import CookieConsent from "@/components/CookieConsent";
-import SmoothScrollProvider from "@/providers/SmoothScrollProvider";
+
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -51,22 +48,7 @@ export default function RootLayout({
       className={`${inter.variable} ${cormorant.variable} antialiased`}
     >
       <body className="min-h-screen flex flex-col bg-bg-primary text-text-primary">
-        <SmoothScrollProvider>
-          {/* Skip to content — Accessibility */}
-          <a href="#main-content" className="skip-to-content">
-            Skip to main content
-          </a>
-
-          <Navbar />
-
-          <main id="main-content" className="flex-1" role="main">
-            {children}
-          </main>
-
-          <Footer />
-
-          <CookieConsent />
-        </SmoothScrollProvider>
+        {children}
       </body>
     </html>
   );
