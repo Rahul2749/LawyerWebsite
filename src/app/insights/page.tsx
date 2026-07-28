@@ -17,7 +17,7 @@ export default function InsightsPage() {
   return (
     <>
       {/* Hero */}
-      <section className="pt-40 pb-20 lg:pt-48 lg:pb-32 bg-bg-secondary relative overflow-hidden">
+      <section className="pt-32 pb-12 lg:pt-36 lg:pb-16 bg-bg-secondary relative overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
             src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=2000&auto=format&fit=crop"

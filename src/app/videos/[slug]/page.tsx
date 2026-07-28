@@ -50,7 +50,7 @@ export default async function VideoDetailPage({
       />
 
       {/* Breadcrumb */}
-      <section className="pt-32 lg:pt-40">
+      <section className="pt-32 lg:pt-36">
         <div className="container">
           <nav aria-label="Breadcrumb" className="text-caption text-text-secondary">
             <Link href="/" className="hover:text-accent-wine transition-colors">

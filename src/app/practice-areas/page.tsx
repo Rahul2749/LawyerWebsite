@@ -12,7 +12,7 @@ export default function PracticeAreasPage() {
   return (
     <>
       {/* Hero */}
-      <section className="pt-40 pb-20 lg:pt-48 lg:pb-32 bg-bg-secondary relative overflow-hidden">
+      <section className="pt-32 pb-12 lg:pt-36 lg:pb-16 bg-bg-secondary relative overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
             src="https://images.unsplash.com/photo-1589391886645-d51941baf7fb?q=80&w=2000&auto=format&fit=crop"
