@@ -167,6 +167,18 @@ export default function Navbar() {
             aria-label="Mobile navigation"
           >
             <nav className="flex flex-col items-end gap-6 w-full" aria-label="Mobile navigation">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+                transition={{ duration: 0.4 }}
+                className="mb-2 w-full text-right border-b border-border-subtle pb-6"
+              >
+                <Link href="/consultation" className="btn btn-primary w-full sm:w-auto text-sm">
+                  Book a Consultation
+                </Link>
+              </motion.div>
+
               {navLinks.map((link, i) => (
                 <motion.div
                   key={link.href}
@@ -187,17 +199,6 @@ export default function Navbar() {
                   </Link>
                 </motion.div>
               ))}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 10 }}
-                transition={{ delay: navLinks.length * 0.06, duration: 0.4 }}
-                className="mt-6 w-full text-right"
-              >
-                <Link href="/consultation" className="btn btn-primary w-full sm:w-auto text-sm">
-                  Book a Consultation
-                </Link>
-              </motion.div>
 
               {/* Mobile phone number */}
               <motion.a
