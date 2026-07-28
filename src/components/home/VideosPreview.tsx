@@ -20,9 +20,9 @@ export default function VideosPreview() {
               Legal Talks
             </p>
             <h2 className="text-h2">
-              Video
+              Legal
               <br />
-              <span className="italic">Commentary</span>
+              <span className="italic">Insights</span>
             </h2>
           </div>
           <Link href="/videos" className="btn btn-ghost mt-6 lg:mt-0">
