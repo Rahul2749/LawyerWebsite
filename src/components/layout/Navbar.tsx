@@ -11,6 +11,7 @@ const navLinks = [
   { href: "/about", label: "About" },
   { href: "/practice-areas", label: "Expertise" },
   { href: "/insights", label: "Insights" },
+  { href: "/videos", label: "Videos" },
   { href: "/consultation", label: "Consultation" },
   { href: "/contact", label: "Contact" },
 ];
