@@ -1,10 +1,15 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 /**
- * Hook to trigger a callback when an element enters the viewport.
- * Adds 'is-visible' class for CSS-based reveal animations.
+ * Hook that uses GSAP ScrollTrigger to animate elements on scroll.
+ * Replaces the old IntersectionObserver-based approach.
+ * Still adds 'is-visible' class for any CSS-based fallback animations.
  */
 export function useScrollReveal<T extends HTMLElement>(
   options?: IntersectionObserverInit
@@ -15,19 +20,34 @@ export function useScrollReveal<T extends HTMLElement>(
     const el = ref.current;
     if (!el) return;
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          el.classList.add("is-visible");
-          observer.unobserve(el);
-        }
+    // Respect reduced motion
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      el.classList.add("is-visible");
+      return;
+    }
+
+    gsap.set(el, { opacity: 0, y: 40 });
+
+    gsap.to(el, {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: el,
+        start: `top ${options?.rootMargin ? "80%" : "88%"}`,
+        once: true,
       },
-      { threshold: 0.15, ...options }
-    );
+      onComplete: () => {
+        el.classList.add("is-visible");
+      },
+    });
 
-    observer.observe(el);
-
-    return () => observer.disconnect();
+    return () => {
+      ScrollTrigger.getAll().forEach((t) => {
+        if (t.trigger === el) t.kill();
+      });
+    };
   }, [options]);
 
   return ref;

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
+import ScrollReveal from "@/components/ui/ScrollReveal";
 
 const stats = [
   { value: 150, suffix: "+", label: "Cases Won" },
@@ -53,25 +53,27 @@ export default function StatsCounter() {
   return (
     <section className="py-12 lg:py-16 bg-bg-dark" aria-label="Statistics">
       <div className="container">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
-          {stats.map((stat, index) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="text-center"
-            >
-              <p className="text-4xl lg:text-5xl font-serif text-accent-gold mb-2">
-                <AnimatedNumber value={stat.value} suffix={stat.suffix} />
-              </p>
-              <p className="text-sm uppercase tracking-widest text-text-inverse/60">
-                {stat.label}
-              </p>
-            </motion.div>
-          ))}
-        </div>
+        <ScrollReveal
+          animation="fade-up"
+          stagger={0.1}
+          staggerSelector=".stat-item"
+        >
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+            {stats.map((stat) => (
+              <div
+                key={stat.label}
+                className="stat-item text-center"
+              >
+                <p className="text-4xl lg:text-5xl font-serif text-accent-gold mb-2">
+                  <AnimatedNumber value={stat.value} suffix={stat.suffix} />
+                </p>
+                <p className="text-sm uppercase tracking-widest text-text-inverse/60">
+                  {stat.label}
+                </p>
+              </div>
+            ))}
+          </div>
+        </ScrollReveal>
       </div>
     </section>
   );

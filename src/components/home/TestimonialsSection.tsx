@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import ScrollReveal from "@/components/ui/ScrollReveal";
 
 const testimonials = [
   {
@@ -37,24 +38,18 @@ export default function TestimonialsSection() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1600px] h-[1600px] rounded-full border-[0.5px] border-accent-gold/5 pointer-events-none" />
 
       <div className="container relative z-10 text-center">
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="font-serif text-5xl lg:text-6xl text-text-primary mb-4"
-        >
-          Testimonials
-        </motion.h2>
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-lg text-text-secondary mb-16 font-light"
-        >
-          What our clients have to say about us
-        </motion.p>
+        <ScrollReveal animation="fade-up">
+          <h2
+            className="font-serif text-5xl lg:text-6xl text-text-primary mb-4"
+          >
+            Testimonials
+          </h2>
+          <p
+            className="text-lg text-text-secondary mb-16 font-light"
+          >
+            What our clients have to say about us
+          </p>
+        </ScrollReveal>
 
         <div className="relative max-w-4xl mx-auto flex items-center justify-center">
           {/* Prev Button */}

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import ScrollReveal from "@/components/ui/ScrollReveal";
 
 const reasons = [
   {
@@ -54,49 +54,39 @@ export default function WhyChooseUs() {
   return (
     <section className="section bg-bg-secondary" aria-label="Why Choose Us">
       <div className="container">
-        <div className="text-center mb-12 lg:mb-16">
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-eyebrow text-accent-gold mb-4"
-          >
+        <ScrollReveal animation="fade-up" className="text-center mb-12 lg:mb-16">
+          <p className="text-eyebrow text-accent-gold mb-4">
             Why Choose Me
-          </motion.p>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-h2"
-          >
+          </p>
+          <h2 className="text-h2">
             Dedicated to Your <span className="italic">Success</span>
-          </motion.h2>
-        </div>
+          </h2>
+        </ScrollReveal>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-          {reasons.map((reason, index) => (
-            <motion.div
-              key={reason.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group bg-bg-primary p-6 lg:p-8 rounded-2xl border border-border-subtle hover:border-accent-gold/40 hover:shadow-xl transition-all duration-300"
-            >
-              <div className="w-14 h-14 rounded-full bg-accent-wine/10 text-accent-wine flex items-center justify-center mb-6 group-hover:bg-accent-wine group-hover:text-white transition-colors duration-300">
-                {reason.icon}
+        <ScrollReveal
+          animation="fade-up"
+          stagger={0.12}
+          staggerSelector=".reason-card"
+        >
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+            {reasons.map((reason) => (
+              <div
+                key={reason.title}
+                className="reason-card group bg-bg-primary p-6 lg:p-8 rounded-2xl border border-border-subtle hover:border-accent-gold/40 hover:shadow-xl transition-all duration-300"
+              >
+                <div className="w-14 h-14 rounded-full bg-accent-wine/10 text-accent-wine flex items-center justify-center mb-6 group-hover:bg-accent-wine group-hover:text-white transition-colors duration-300">
+                  {reason.icon}
+                </div>
+                <h3 className="font-serif text-xl font-medium mb-3 text-text-primary">
+                  {reason.title}
+                </h3>
+                <p className="text-sm text-text-secondary leading-relaxed">
+                  {reason.description}
+                </p>
               </div>
-              <h3 className="font-serif text-xl font-medium mb-3 text-text-primary">
-                {reason.title}
-              </h3>
-              <p className="text-sm text-text-secondary leading-relaxed">
-                {reason.description}
-              </p>
-            </motion.div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </ScrollReveal>
       </div>
     </section>
   );
