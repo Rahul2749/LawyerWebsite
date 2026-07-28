@@ -49,7 +49,7 @@ export default function ConsultationPage() {
   if (isSubmitted) {
     return (
       <>
-        <section className="pt-40 pb-32 lg:pt-48 min-h-screen flex items-center">
+        <section className="pt-32 pb-20 lg:pt-40 min-h-[70vh] flex items-center">
           <div className="container max-w-2xl text-center">
             <div className="w-16 h-16 border-2 border-state-success flex items-center justify-center mx-auto mb-8">
               <svg
@@ -96,7 +96,7 @@ export default function ConsultationPage() {
   return (
     <>
       {/* Hero */}
-      <section className="pt-40 pb-16 lg:pt-48 lg:pb-32 bg-bg-secondary relative overflow-hidden">
+      <section className="pt-32 pb-12 lg:pt-36 lg:pb-16 bg-bg-secondary relative overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
             src="https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=2000&auto=format&fit=crop"
@@ -123,7 +123,7 @@ export default function ConsultationPage() {
       </section>
 
       {/* Form */}
-      <section className="section">
+      <section className="pb-20 lg:pb-32 pt-8 lg:pt-12">
         <div className="container max-w-3xl">
           {/* Confidentiality Notice */}
           <div className="bg-bg-secondary border border-border-subtle p-6 mb-12">

@@ -12,7 +12,7 @@ export default function ContactPage() {
   return (
     <>
       {/* Hero */}
-      <section className="pt-40 pb-20 lg:pt-48 lg:pb-32 bg-bg-secondary relative overflow-hidden">
+      <section className="pt-32 pb-12 lg:pt-36 lg:pb-16 bg-bg-secondary relative overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
             src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2000&auto=format&fit=crop"
@@ -32,7 +32,7 @@ export default function ContactPage() {
       </section>
 
       {/* Contact Info + Map */}
-      <section className="section">
+      <section className="pb-20 lg:pb-32 pt-8 lg:pt-12">
         <div className="container">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             {/* Info */}
