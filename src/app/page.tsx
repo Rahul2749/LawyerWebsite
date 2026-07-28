@@ -1,6 +1,5 @@
 import HeroSection from "@/components/home/HeroSection";
 import StatsCounter from "@/components/home/StatsCounter";
-import AboutPreview from "@/components/home/AboutPreview";
 import WhyChooseUs from "@/components/home/WhyChooseUs";
 import PracticeAreasSection from "@/components/home/PracticeAreasSection";
 import InsightsPreview from "@/components/home/InsightsPreview";
@@ -12,7 +11,6 @@ export default function HomePage() {
     <>
       <HeroSection />
       <StatsCounter />
-      <AboutPreview />
       <WhyChooseUs />
       <PracticeAreasSection />
       <InsightsPreview />

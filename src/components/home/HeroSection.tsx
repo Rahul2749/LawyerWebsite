@@ -18,9 +18,9 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-eyebrow text-accent-wine font-semibold mb-6 flex items-center justify-center lg:justify-start gap-3"
+            className="text-eyebrow text-accent-wine font-semibold mb-6 flex items-center justify-center lg:justify-start gap-3 tracking-widest uppercase"
           >
-            <span className="text-xl">R</span>AJA <span className="text-xl">A</span>GRAWAL — ADVOCATE
+            Raja Agrawal — Advocate
           </motion.p>
 
           {/* Headline */}
@@ -38,9 +38,9 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.7 }}
-            className="text-body text-text-secondary max-w-xl mx-auto lg:mx-0 mb-8 lg:mb-10 text-lg lg:pr-8"
+            className="text-body text-text-secondary max-w-xl mx-auto lg:mx-0 mb-8 lg:mb-10 text-lg lg:pr-8 leading-relaxed"
           >
-            I believe in empowering you through dedicated, personalized legal services tailored to your unique needs.
+            With over two decades of experience, I have built my practice on strategic insight, meticulous preparation, and unwavering dedication to each client's interests. I believe in empowering you through personalized legal services tailored to your unique challenges.
           </motion.p>
 
           {/* CTAs */}
@@ -64,6 +64,7 @@ export default function HeroSection() {
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
+                className="ml-2"
                 aria-hidden="true"
               >
                 <line x1="5" y1="12" x2="19" y2="12" />
@@ -71,10 +72,25 @@ export default function HeroSection() {
               </svg>
             </Link>
             <Link
-              href="/practice-areas"
-              className="btn btn-secondary w-full sm:w-auto"
+              href="/about"
+              className="btn btn-ghost w-full sm:w-auto"
             >
-              Explore Expertise
+              Read My Story
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="ml-2"
+                aria-hidden="true"
+              >
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+              </svg>
             </Link>
           </motion.div>
         </div>
@@ -88,9 +104,9 @@ export default function HeroSection() {
             className="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl"
           >
             <img
-              src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=1200&auto=format&fit=crop"
-              alt="Law Library"
-              className="w-full h-full object-cover"
+              src="https://images.unsplash.com/photo-1556157382-97eda2d62296?q=80&w=1000&auto=format&fit=crop"
+              alt="Raja Agrawal Portrait"
+              className="w-full h-full object-cover grayscale opacity-90"
             />
             {/* Subtle overlay */}
             <div className="absolute inset-0 bg-accent-wine/5" />
@@ -103,8 +119,8 @@ export default function HeroSection() {
             transition={{ duration: 0.8, delay: 1 }}
             className="absolute -bottom-6 -left-6 lg:bottom-12 lg:-left-12 bg-bg-secondary p-4 rounded-full shadow-xl border border-border-subtle flex flex-col items-center justify-center w-32 h-32 lg:w-40 lg:h-40 z-20"
           >
-             <span className="text-3xl lg:text-4xl font-serif text-accent-wine mb-1">60+</span>
-             <span className="text-xs uppercase tracking-widest text-text-secondary text-center leading-tight">Years of<br/>Excellence</span>
+             <span className="text-3xl lg:text-4xl font-serif text-accent-wine mb-1">20+</span>
+             <span className="text-xs uppercase tracking-widest text-text-secondary text-center leading-tight">Years of<br/>Experience</span>
           </motion.div>
 
           {/* Decorative floating dots (representing icons) */}
