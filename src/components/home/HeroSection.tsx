@@ -99,50 +99,34 @@ export default function HeroSection() {
         </div>
         
         {/* Right Column: Visuals */}
-        <div className="w-full lg:w-1/2 order-1 lg:order-2 relative h-[35vh] sm:h-[40vh] lg:h-[70vh]">
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, delay: 0.3 }}
-            className="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl"
-          >
-            <img
-              src="/advocate_portrait.png"
-              alt="Raja Agrawal Portrait"
-              className="w-full h-full object-cover grayscale-[20%] opacity-95"
-            />
-            {/* Subtle overlay */}
-            <div className="absolute inset-0 bg-accent-wine/5" />
-          </motion.div>
+        <div className="w-full lg:w-1/2 order-1 lg:order-2 flex justify-center lg:justify-end">
+          <div className="relative w-full max-w-[320px] sm:max-w-sm lg:max-w-[420px]">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1, delay: 0.3 }}
+              className="relative w-full aspect-[4/5] lg:aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl"
+            >
+              <img
+                src="/advocate_portrait.png"
+                alt="Raja Agrawal Portrait"
+                className="w-full h-full object-cover grayscale-[20%] opacity-95"
+              />
+              {/* Subtle overlay */}
+              <div className="absolute inset-0 bg-accent-wine/5" />
+            </motion.div>
 
-          {/* Floating badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1 }}
-            className="absolute -bottom-6 -left-6 lg:bottom-12 lg:-left-12 bg-bg-secondary p-4 rounded-full shadow-xl border border-border-subtle flex flex-col items-center justify-center w-32 h-32 lg:w-40 lg:h-40 z-20"
-          >
-             <span className="text-3xl lg:text-4xl font-serif text-accent-wine mb-1">5+</span>
-             <span className="text-xs uppercase tracking-widest text-text-secondary text-center leading-tight">Years of<br/>Experience</span>
-          </motion.div>
-
-          {/* Decorative floating dots (representing icons) */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 1.2 }}
-            className="absolute top-12 -right-4 lg:-right-8 w-16 h-16 bg-bg-primary rounded-full shadow-lg border border-border-subtle flex items-center justify-center z-20"
-          >
-            <div className="w-8 h-8 rounded-full bg-accent-gold/20" />
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 1.4 }}
-            className="absolute top-1/2 -right-6 lg:-right-10 w-20 h-20 bg-bg-primary rounded-full shadow-lg border border-border-subtle flex items-center justify-center z-20"
-          >
-            <div className="w-10 h-10 rounded-full bg-accent-wine/20" />
-          </motion.div>
+            {/* Floating badge */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1 }}
+              className="absolute -bottom-6 -left-6 lg:bottom-12 lg:-left-16 bg-bg-secondary p-4 rounded-full shadow-xl border border-border-subtle flex flex-col items-center justify-center w-32 h-32 lg:w-40 lg:h-40 z-20"
+            >
+               <span className="text-3xl lg:text-4xl font-serif text-accent-wine mb-1">5+</span>
+               <span className="text-xs uppercase tracking-widest text-text-secondary text-center leading-tight">Years of<br/>Experience</span>
+            </motion.div>
+          </div>
         </div>
 
       </div>
