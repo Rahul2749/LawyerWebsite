@@ -17,21 +17,22 @@ export default function HeroSection() {
 
       <div className="container relative z-10">
         {/* Mobile Layout: Image first, then content stacked */}
-        <div className="flex flex-col lg:flex-row items-center lg:items-center gap-6 lg:gap-10">
+        <div className="flex flex-col items-center gap-6 lg:gap-10">
         
-          {/* Left Column: Content — wider on desktop */}
-          <div className="w-full lg:w-[58%] text-center lg:text-left order-2 lg:order-1">
-            {/* Eyebrow with decorative line */}
+          {/* Content */}
+          <div className="w-full max-w-4xl text-center flex flex-col items-center">
+            {/* Eyebrow */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="flex items-center justify-center lg:justify-start gap-3 mb-5"
+              className="flex items-center justify-center gap-3 mb-5"
             >
-              <span className="hidden lg:block w-8 h-px bg-accent-wine" />
+              <span className="w-8 h-px bg-accent-wine hidden sm:block" />
               <p className="text-eyebrow text-accent-wine font-semibold tracking-widest uppercase">
                 Raja Agrawal — Advocate
               </p>
+              <span className="w-8 h-px bg-accent-wine hidden sm:block" />
             </motion.div>
 
             {/* Headline */}
@@ -41,7 +42,7 @@ export default function HeroSection() {
               transition={{ duration: 1, delay: 0.4 }}
               className="text-hero text-text-primary mb-4 lg:mb-5 leading-[1.1]"
             >
-              Fierce Advocacy &<br className="hidden lg:block" /> Strategic Solutions
+              Fierce Advocacy & Strategic Solutions
             </motion.h1>
 
             {/* Subtitle */}
@@ -49,7 +50,7 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.7 }}
-              className="text-body text-text-secondary max-w-2xl mx-auto lg:mx-0 mb-6 lg:mb-8 leading-relaxed"
+              className="text-body text-text-secondary max-w-2xl mx-auto mb-6 lg:mb-8 leading-relaxed"
             >
               As an independent advocate with 5+ years of dedicated experience, I provide personalized, high-caliber legal counsel. From navigating complex corporate disputes to securing victories in litigation, I fight fiercely to protect your interests and achieve the best possible outcomes.
             </motion.p>
@@ -59,7 +60,7 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.9 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+              className="flex flex-col sm:flex-row gap-4 justify-center"
             >
               <Link
                 href="/consultation"
@@ -110,7 +111,7 @@ export default function HeroSection() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: 1.2 }}
-              className="hidden lg:flex items-center gap-6 mt-10 pt-8 border-t border-border-subtle"
+              className="hidden md:flex items-center justify-center gap-6 mt-12 pt-8 border-t border-border-subtle w-full max-w-2xl"
             >
               <div className="flex items-center gap-2">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-accent-gold"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" /></svg>
@@ -128,41 +129,6 @@ export default function HeroSection() {
               </div>
             </motion.div>
           </div>
-        
-          {/* Right Column: Portrait — narrower, taller */}
-          <div className="w-full lg:w-[42%] order-1 lg:order-2 flex justify-center lg:justify-end">
-            <div className="relative w-full max-w-[260px] sm:max-w-[280px] lg:max-w-[380px]">
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 1, delay: 0.3 }}
-                className="relative w-full aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl"
-              >
-                <img
-                  src="/advocate_portrait.png"
-                  alt="Raja Agrawal Portrait"
-                  className="w-full h-full object-cover"
-                />
-                {/* Premium gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-bg-dark/20 via-transparent to-transparent" />
-              </motion.div>
-
-              {/* Floating badge */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 1 }}
-                className="absolute -bottom-5 -left-5 lg:bottom-8 lg:-left-14 bg-bg-primary p-4 rounded-full shadow-xl border border-border-subtle flex flex-col items-center justify-center w-24 h-24 lg:w-36 lg:h-36 z-20"
-              >
-                 <span className="text-2xl lg:text-3xl font-serif text-accent-wine mb-0.5">5+</span>
-                 <span className="text-[9px] lg:text-[10px] uppercase tracking-widest text-text-secondary text-center leading-tight">Years of<br/>Experience</span>
-              </motion.div>
-
-              {/* Decorative corner accent */}
-              <div className="absolute -top-3 -right-3 w-24 h-24 border-t-2 border-r-2 border-accent-gold/30 rounded-tr-2xl pointer-events-none" />
-            </div>
-          </div>
-
         </div>
       </div>
     </section>
