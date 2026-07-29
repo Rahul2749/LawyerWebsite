@@ -11,6 +11,26 @@ export default function CreateVideo() {
     url: "",
     description: "",
   });
+  const [isUploading, setIsUploading] = useState(false);
+
+  const handleVideoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // Check if file is too large for localStorage (e.g., > 3MB)
+      if (file.size > 3 * 1024 * 1024) {
+        alert("File is too large for local storage mode. Please keep it under 3MB or use a YouTube link.");
+        return;
+      }
+      
+      setIsUploading(true);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData({ ...formData, url: reader.result as string });
+        setIsUploading(false);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,16 +68,51 @@ export default function CreateVideo() {
           />
         </div>
 
-        <div className="space-y-2">
-          <label className="block text-sm font-medium text-gray-700">YouTube or Vimeo URL</label>
-          <input 
-            type="url"
-            required
-            value={formData.url}
-            onChange={(e) => setFormData({...formData, url: e.target.value})}
-            className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5A1824]/20 focus:border-[#5A1824] transition-all"
-            placeholder="https://www.youtube.com/watch?v=..."
-          />
+        <div className="space-y-4">
+          <label className="block text-sm font-medium text-gray-700">Video Source</label>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 border border-gray-100 rounded-lg bg-gray-50/50">
+            {/* Option 1: URL */}
+            <div className="space-y-2">
+              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Option 1: URL</label>
+              <input 
+                type="url"
+                value={formData.url && !formData.url.startsWith('data:') ? formData.url : ""}
+                onChange={(e) => setFormData({...formData, url: e.target.value})}
+                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5A1824]/20 focus:border-[#5A1824] transition-all"
+                placeholder="https://www.youtube.com/watch?v=..."
+              />
+            </div>
+
+            {/* Option 2: Upload */}
+            <div className="space-y-2">
+              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Option 2: Direct Upload</label>
+              <input 
+                type="file"
+                accept="video/*"
+                onChange={handleVideoUpload}
+                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5A1824]/20 focus:border-[#5A1824] transition-all file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#F0EBE1] file:text-[#5A1824] hover:file:bg-[#E6E1D6] cursor-pointer"
+              />
+              <p className="text-xs text-gray-400">Max size 3MB (LocalStorage limit)</p>
+            </div>
+          </div>
+
+          {(formData.url || isUploading) && (
+            <div className="mt-4 p-4 border border-gray-100 rounded-lg">
+              <h4 className="text-sm font-medium text-gray-700 mb-2">Video Preview</h4>
+              {isUploading ? (
+                <div className="h-32 flex items-center justify-center bg-gray-100 rounded-lg text-sm text-gray-500">
+                  Processing video...
+                </div>
+              ) : formData.url.startsWith('data:') ? (
+                <video src={formData.url} controls className="w-full max-h-[300px] rounded-lg bg-black" />
+              ) : (
+                <div className="h-32 flex items-center justify-center bg-gray-100 rounded-lg text-sm text-gray-500">
+                  External video link set: {formData.url.substring(0, 50)}...
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         <div className="space-y-2">
