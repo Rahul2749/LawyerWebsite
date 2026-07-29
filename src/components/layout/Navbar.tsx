@@ -51,36 +51,81 @@ export default function Navbar() {
       <header
         className={`fixed top-0 left-0 right-0 z-[60] transition-all duration-500 ${
           isScrolled
-            ? "py-3 bg-bg-primary/90 backdrop-blur-md border-b border-border-subtle shadow-[0_1px_3px_rgba(0,0,0,0.04)]"
-            : "py-5 bg-transparent"
+            ? "py-2 bg-bg-primary/95 backdrop-blur-md border-b border-border-subtle shadow-[0_1px_3px_rgba(0,0,0,0.04)]"
+            : "py-3 bg-transparent"
         }`}
         role="banner"
       >
-        <div className="container flex items-center justify-between">
-          {/* Logo */}
-          <Link
-            href="/"
-            className="relative z-[60] group flex items-center gap-3"
-            aria-label={`${siteSettings.firmName} - Home`}
-          >
-            <img
-              src="/advocate_logo.png"
-              alt="Logo"
-              className="w-10 h-10 lg:w-12 lg:h-12 rounded-full object-cover"
-            />
-            <div className="flex flex-col">
-              <span className="font-serif text-xl lg:text-2xl font-medium tracking-tight text-text-primary">
-                {siteSettings.firmName}
-              </span>
-              <span className="text-[10px] uppercase tracking-[0.2em] text-accent-gold font-sans font-medium">
-                {siteSettings.firmTagline}
-              </span>
-            </div>
-          </Link>
+        <div className="container flex flex-col">
+          
+          {/* Top Tier */}
+          <div className="flex items-center justify-between w-full lg:border-b lg:border-border-subtle/50 lg:pb-3">
+            {/* Logo */}
+            <Link
+              href="/"
+              className="relative z-[60] group flex items-center gap-3"
+              aria-label={`${siteSettings.firmName} - Home`}
+            >
+              <img
+                src="/advocate_logo.png"
+                alt="Logo"
+                className="w-10 h-10 lg:w-12 lg:h-12 rounded-full object-cover"
+              />
+              <div className="flex flex-col">
+                <span className="font-serif text-xl lg:text-2xl font-medium tracking-tight text-text-primary">
+                  {siteSettings.firmName}
+                </span>
+                <span className="text-[10px] uppercase tracking-[0.2em] text-accent-gold font-sans font-medium">
+                  {siteSettings.firmTagline}
+                </span>
+              </div>
+            </Link>
 
-          {/* Desktop Nav */}
+            {/* Desktop Top Right: Contact & CTA */}
+            <div className="hidden lg:flex items-center gap-6">
+              <a
+                href={`https://wa.me/${siteSettings.phone.replace(/\D/g, "")}`}
+                className="flex items-center gap-2 text-sm font-medium text-text-secondary hover:text-accent-wine transition-colors"
+                aria-label="Call us"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" />
+                </svg>
+                {siteSettings.phone}
+              </a>
+              <Link href="/consultation" className="btn btn-primary bg-accent-wine hover:bg-accent-wine-hover text-xs py-2 px-5">
+                Book a Consultation
+              </Link>
+            </div>
+
+            {/* Mobile: Phone + Hamburger */}
+            <div className="flex items-center gap-4 lg:hidden">
+              <a
+                href={`https://wa.me/${siteSettings.phone.replace(/\D/g, "")}`}
+                className="text-accent-wine text-sm font-medium hidden sm:flex items-center gap-1.5"
+                aria-label="Call now"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" />
+                </svg>
+                Call Now
+              </a>
+
+              <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="relative z-[60] w-10 h-10 flex flex-col items-center justify-center gap-1.5"
+                aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+                aria-expanded={isMobileMenuOpen}
+              >
+                <span className={`block w-6 h-px bg-text-primary transition-all duration-300 ${isMobileMenuOpen ? "rotate-45 translate-y-[3.5px]" : ""}`} />
+                <span className={`block w-6 h-px bg-text-primary transition-all duration-300 ${isMobileMenuOpen ? "-rotate-45 -translate-y-[3.5px]" : ""}`} />
+              </button>
+            </div>
+          </div>
+
+          {/* Bottom Tier (Desktop only) */}
           <nav
-            className="hidden lg:flex items-center gap-8"
+            className="hidden lg:flex items-center justify-center gap-10 w-full pt-3 pb-1"
             aria-label="Main navigation"
           >
             {navLinks.map((link) => (
@@ -104,52 +149,8 @@ export default function Navbar() {
                 )}
               </Link>
             ))}
-            <Link href="/consultation" className="btn btn-primary text-xs py-2.5 px-5">
-              Book a Consultation
-            </Link>
           </nav>
 
-          {/* Mobile: Phone + Hamburger */}
-          <div className="flex items-center gap-4 lg:hidden">
-            <a
-              href={`https://wa.me/${siteSettings.phone.replace(/\D/g, "")}`}
-              className="text-accent-wine text-sm font-medium hidden sm:flex items-center gap-1.5"
-              aria-label="Call now"
-            >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-              >
-                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" />
-              </svg>
-              Call Now
-            </a>
-
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="relative z-[60] w-10 h-10 flex flex-col items-center justify-center gap-1.5"
-              aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
-              aria-expanded={isMobileMenuOpen}
-            >
-              <span
-                className={`block w-6 h-px bg-text-primary transition-all duration-300 ${
-                  isMobileMenuOpen ? "rotate-45 translate-y-[3.5px]" : ""
-                }`}
-              />
-              <span
-                className={`block w-6 h-px bg-text-primary transition-all duration-300 ${
-                  isMobileMenuOpen ? "-rotate-45 -translate-y-[3.5px]" : ""
-                }`}
-              />
-            </button>
-          </div>
         </div>
       </header>
 
