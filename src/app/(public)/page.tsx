@@ -1,8 +1,9 @@
 import HeroSection from "@/components/home/HeroSection";
 import StatsCounter from "@/components/home/StatsCounter";
 import AboutSection from "@/components/home/AboutSection";
-import WhyChooseUs from "@/components/home/WhyChooseUs";
 import PracticeAreasSection from "@/components/home/PracticeAreasSection";
+import PhotoGallerySection from "@/components/home/PhotoGallerySection";
+import WhyChooseUs from "@/components/home/WhyChooseUs";
 import InsightsPreview from "@/components/home/InsightsPreview";
 import VideosPreview from "@/components/home/VideosPreview";
 import TestimonialsSection from "@/components/home/TestimonialsSection";
@@ -15,6 +16,7 @@ export default function HomePage() {
       <StatsCounter />
       <AboutSection />
       <PracticeAreasSection />
+      <PhotoGallerySection />
       <WhyChooseUs />
       <InsightsPreview />
       <VideosPreview />

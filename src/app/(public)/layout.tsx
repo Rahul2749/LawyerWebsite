@@ -2,6 +2,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import CookieConsent from "@/components/CookieConsent";
 import SmoothScrollProvider from "@/providers/SmoothScrollProvider";
+import FloatingChat from "@/components/ui/FloatingChat";
 
 export default function PublicLayout({
   children,
@@ -24,6 +25,7 @@ export default function PublicLayout({
       <Footer />
 
       <CookieConsent />
+      <FloatingChat />
     </SmoothScrollProvider>
   );
 }
