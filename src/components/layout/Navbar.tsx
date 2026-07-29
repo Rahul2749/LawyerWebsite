@@ -125,7 +125,7 @@ export default function Navbar() {
 
           {/* Bottom Tier (Desktop only) */}
           <nav
-            className="hidden lg:flex items-center justify-center gap-10 w-full pt-3 pb-1"
+            className="hidden lg:flex items-center justify-center gap-10 w-full pt-3 pb-4"
             aria-label="Main navigation"
           >
             {navLinks.map((link) => (

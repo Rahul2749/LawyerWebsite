@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 export default function HeroSection() {
   return (
     <section
-      className="relative min-h-0 lg:min-h-[85vh] flex items-center overflow-hidden bg-bg-primary pt-24 pb-10 lg:pt-28 lg:pb-16"
+      className="relative min-h-0 lg:min-h-[85vh] flex items-center overflow-hidden bg-bg-primary pt-32 pb-10 lg:pt-40 lg:pb-16"
       aria-label="Hero"
     >
       {/* Premium Background Effects */}
@@ -63,29 +63,8 @@ export default function HeroSection() {
               className="flex flex-col sm:flex-row gap-4 justify-center"
             >
               <Link
-                href="/consultation"
+                href="/#about"
                 className="btn btn-primary bg-accent-wine hover:bg-accent-wine-hover w-full sm:w-auto"
-              >
-                Book a Consultation
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="ml-2"
-                  aria-hidden="true"
-                >
-                  <line x1="5" y1="12" x2="19" y2="12" />
-                  <polyline points="12 5 19 12 12 19" />
-                </svg>
-              </Link>
-              <Link
-                href="/about"
-                className="btn btn-ghost w-full sm:w-auto"
               >
                 Read My Story
                 <svg
