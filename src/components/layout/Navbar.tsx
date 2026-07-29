@@ -125,14 +125,14 @@ export default function Navbar() {
 
           {/* Bottom Tier (Desktop only) */}
           <nav
-            className="hidden lg:flex items-center justify-center gap-10 w-full pt-3 pb-4"
+            className="hidden lg:flex items-center justify-center gap-10 w-full pt-2 pb-2"
             aria-label="Main navigation"
           >
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`relative text-[13px] uppercase tracking-[0.08em] font-medium transition-colors duration-300 ${
+                className={`relative text-[11px] uppercase tracking-[0.08em] font-medium transition-colors duration-300 ${
                   (link.href === "/" ? pathname === "/" : (pathname === link.href || pathname.startsWith(link.href + "/")))
                     ? "text-accent-wine"
                     : "text-text-secondary hover:text-text-primary"
