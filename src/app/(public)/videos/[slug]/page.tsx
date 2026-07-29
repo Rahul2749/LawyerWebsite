@@ -70,24 +70,34 @@ export default async function VideoDetailPage({
       <section className="pt-8 pb-16">
         <div className="container max-w-4xl">
           <div className="relative aspect-video bg-bg-dark mb-8">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="text-center">
-                <div className="w-20 h-20 rounded-full border-2 border-text-inverse/30 flex items-center justify-center mx-auto mb-4 hover:border-accent-gold transition-colors cursor-pointer">
-                  <svg
-                    width="32"
-                    height="32"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    className="text-text-inverse ml-1"
-                    aria-hidden="true"
-                  >
-                    <polygon points="5 3 19 12 5 21 5 3" />
-                  </svg>
+            {video.videoUrl && video.videoUrl !== "#" ? (
+              <iframe
+                src={video.videoUrl}
+                title={video.title}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="absolute inset-0 w-full h-full border-0"
+              ></iframe>
+            ) : (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="text-center">
+                  <div className="w-20 h-20 rounded-full border-2 border-text-inverse/30 flex items-center justify-center mx-auto mb-4 hover:border-accent-gold transition-colors cursor-pointer">
+                    <svg
+                      width="32"
+                      height="32"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      className="text-text-inverse ml-1"
+                      aria-hidden="true"
+                    >
+                      <polygon points="5 3 19 12 5 21 5 3" />
+                    </svg>
+                  </div>
+                  <p className="text-xs text-text-inverse/40">Video Player Placeholder</p>
                 </div>
-                <p className="text-xs text-text-inverse/40">Video Player Placeholder</p>
               </div>
-            </div>
-            <span className="absolute bottom-4 right-4 bg-bg-dark/80 text-text-inverse text-sm px-3 py-1 font-mono">
+            )}
+            <span className="absolute bottom-4 right-4 bg-bg-dark/80 text-text-inverse text-sm px-3 py-1 font-mono pointer-events-none">
               {video.duration}
             </span>
           </div>
