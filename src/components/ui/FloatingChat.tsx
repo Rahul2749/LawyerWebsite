@@ -11,7 +11,7 @@ export default function FloatingChat() {
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       onClick={() => alert("Chat functionality will be integrated here.")}
-      className="fixed bottom-6 right-6 lg:bottom-8 lg:right-8 z-50 flex items-center gap-2 bg-[#5A1824] text-white px-4 py-3 sm:w-auto sm:px-5 sm:py-3.5 rounded-full shadow-lg shadow-[#5A1824]/30 hover:bg-[#4A141E] hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+      className="fixed bottom-24 right-6 lg:bottom-8 lg:right-8 z-50 flex items-center gap-2 bg-[#5A1824] text-white px-4 py-3 sm:w-auto sm:px-5 sm:py-3.5 rounded-full shadow-lg shadow-[#5A1824]/30 hover:bg-[#4A141E] hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
       aria-label="Chat with us"
     >
       <svg
