@@ -8,7 +8,7 @@ import { siteSettings } from "@/data/siteSettings";
 
 const navLinks = [
   { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
+  { href: "/#about", label: "About" },
   { href: "/practice-areas", label: "Expertise" },
   { href: "/insights", label: "Blogs & Articles" },
   { href: "/videos", label: "Videos" },
