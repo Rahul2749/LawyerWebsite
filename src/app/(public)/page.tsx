@@ -14,8 +14,8 @@ export default function HomePage() {
       <HeroSection />
       <StatsCounter />
       <AboutSection />
-      <WhyChooseUs />
       <PracticeAreasSection />
+      <WhyChooseUs />
       <InsightsPreview />
       <VideosPreview />
       <TestimonialsSection />
