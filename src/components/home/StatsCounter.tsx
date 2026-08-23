@@ -58,16 +58,16 @@ export default function StatsCounter() {
           stagger={0.1}
           staggerSelector=".stat-item"
         >
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8">
+          <div className="grid grid-cols-4 gap-1.5 sm:gap-6 lg:gap-8">
             {stats.map((stat) => (
               <div
                 key={stat.label}
-                className="stat-item text-center"
+                className="stat-item text-center px-0.5 sm:px-1"
               >
-                <p className="text-2xl sm:text-2xl lg:text-3xl font-serif text-accent-gold mb-1">
+                <p className="text-lg sm:text-2xl lg:text-3xl font-serif text-accent-gold mb-0.5 sm:mb-1">
                   <AnimatedNumber value={stat.value} suffix={stat.suffix} />
                 </p>
-                <p className="text-[10px] sm:text-[10px] lg:text-[11px] uppercase tracking-widest text-text-inverse/70 leading-normal">
+                <p className="text-[8px] xs:text-[9px] sm:text-[10px] lg:text-[11px] uppercase tracking-tight sm:tracking-widest text-text-inverse/70 leading-tight whitespace-nowrap">
                   {stat.label}
                 </p>
               </div>
