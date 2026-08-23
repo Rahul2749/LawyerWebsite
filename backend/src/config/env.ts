@@ -35,12 +35,12 @@ export const env = {
   // Email
   RESEND_API_KEY: optionalEnv("RESEND_API_KEY", ""),
   EMAIL_FROM_NAME: optionalEnv("EMAIL_FROM_NAME", "Raja Agrawal Legal Consultancy"),
-  EMAIL_FROM_ADDRESS: optionalEnv("EMAIL_FROM_ADDRESS", "onboarding@resend.dev"),
+  EMAIL_FROM_ADDRESS: optionalEnv("EMAIL_FROM_ADDRESS", "support@adeniumheaven.in"),
 
   // Lawyer contact
-  LAWYER_PHONE: optionalEnv("LAWYER_PHONE", "919999999999"),
-  LAWYER_EMAIL: optionalEnv("LAWYER_EMAIL", "rgnagrikar@gmail.com"),
-  LAWYER_WHATSAPP_NUMBER: optionalEnv("LAWYER_WHATSAPP_NUMBER", "919999999999"),
+  LAWYER_PHONE: optionalEnv("LAWYER_PHONE", "918605399330"),
+  LAWYER_EMAIL: optionalEnv("LAWYER_EMAIL", "rahulnagrikar123@gmail.com"),
+  LAWYER_WHATSAPP_NUMBER: optionalEnv("LAWYER_WHATSAPP_NUMBER", "918605399330"),
 
   // Razorpay
   RAZORPAY_KEY_ID: optionalEnv("RAZORPAY_KEY_ID", ""),

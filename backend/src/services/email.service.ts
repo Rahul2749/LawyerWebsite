@@ -26,8 +26,8 @@ export async function sendBookingConfirmationEmail(params: {
   try {
     await resend.emails.send({
       from: `"${env.EMAIL_FROM_NAME}" <${env.EMAIL_FROM_ADDRESS}>`,
-      to: TESTING_EMAIL, // overriding clientEmail for now
-      subject: `Appointment Confirmed — ${referenceNumber} (Originally to: ${clientEmail})`,
+      to: clientEmail,
+      subject: `Appointment Confirmed — ${referenceNumber}`,
       html: `
         <!DOCTYPE html>
         <html>
@@ -116,7 +116,7 @@ export async function sendLawyerAlertEmail(params: {
   try {
     await resend.emails.send({
       from: `"Booking System" <${env.EMAIL_FROM_ADDRESS}>`,
-      to: TESTING_EMAIL,
+      to: env.LAWYER_EMAIL,
       subject: `🔔 New Appointment — ${referenceNumber} (${serviceName})`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -155,7 +155,7 @@ export async function sendCustomReplyEmail(params: {
   try {
     await resend.emails.send({
       from: `"${env.EMAIL_FROM_NAME}" <${env.EMAIL_FROM_ADDRESS}>`,
-      to: TESTING_EMAIL, // overriding clientEmail for testing
+      to: clientEmail,
       subject: `${subject} (Ref: ${referenceNumber})`,
       html: `
         <!DOCTYPE html>
@@ -211,7 +211,7 @@ export async function sendContactAlertEmail(params: {
   try {
     await resend.emails.send({
       from: `"Contact Form" <${env.EMAIL_FROM_ADDRESS}>`,
-      to: TESTING_EMAIL,
+      to: env.LAWYER_EMAIL,
       subject: `📩 New Contact Message — ${subject || "No Subject"}`,
       html: `<p><b>From:</b> ${name} (${email})</p><p><b>Phone:</b> ${phone || "N/A"}</p><p><b>Message:</b><br/>${message}</p>`,
     });
@@ -230,7 +230,7 @@ export async function sendOTPEmail(params: {
   try {
     await resend.emails.send({
       from: `"${env.EMAIL_FROM_NAME}" <${env.EMAIL_FROM_ADDRESS}>`,
-      to: TESTING_EMAIL, // override for testing; replace with `email` once domain is verified
+      to: email,
       subject: `Your Appointment Tracking OTP — ${otp}`,
       html: `
         <!DOCTYPE html>
