@@ -70,6 +70,7 @@ export default function ScrollReveal({
         duration,
         delay,
         ease: "power2.out",
+        clearProps: "transform,opacity",
         scrollTrigger: {
           trigger: containerRef.current,
           start: triggerStart,

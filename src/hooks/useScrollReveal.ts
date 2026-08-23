@@ -8,12 +8,9 @@ gsap.registerPlugin(ScrollTrigger);
 
 /**
  * Hook that uses GSAP ScrollTrigger to animate elements on scroll.
- * Replaces the old IntersectionObserver-based approach.
- * Still adds 'is-visible' class for any CSS-based fallback animations.
+ * Uses snappy 0.35s duration and clears inline props on complete to prevent stuck offsets.
  */
-export function useScrollReveal<T extends HTMLElement>(
-  options?: IntersectionObserverInit
-) {
+export function useScrollReveal<T extends HTMLElement>() {
   const ref = useRef<T>(null);
 
   useEffect(() => {
@@ -23,32 +20,34 @@ export function useScrollReveal<T extends HTMLElement>(
     // Respect reduced motion
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       el.classList.add("is-visible");
+      gsap.set(el, { opacity: 1, y: 0 });
       return;
     }
 
-    gsap.set(el, { opacity: 0, y: 40 });
+    const ctx = gsap.context(() => {
+      gsap.set(el, { opacity: 0, y: 20 });
 
-    gsap.to(el, {
-      opacity: 1,
-      y: 0,
-      duration: 0.8,
-      ease: "power3.out",
-      scrollTrigger: {
-        trigger: el,
-        start: `top ${options?.rootMargin ? "80%" : "88%"}`,
-        once: true,
-      },
-      onComplete: () => {
-        el.classList.add("is-visible");
-      },
-    });
+      gsap.to(el, {
+        opacity: 1,
+        y: 0,
+        duration: 0.35,
+        ease: "power2.out",
+        clearProps: "transform,opacity",
+        scrollTrigger: {
+          trigger: el,
+          start: "top 95%",
+          once: true,
+        },
+        onComplete: () => {
+          el.classList.add("is-visible");
+        },
+      });
+    }, el);
 
     return () => {
-      ScrollTrigger.getAll().forEach((t) => {
-        if (t.trigger === el) t.kill();
-      });
+      ctx.revert();
     };
-  }, [options]);
+  }, []);
 
   return ref;
 }

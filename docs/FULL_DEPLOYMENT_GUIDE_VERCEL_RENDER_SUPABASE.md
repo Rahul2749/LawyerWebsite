@@ -65,12 +65,9 @@ Set these variables under **Render Web Service ➔ Environment**:
 | `RAZORPAY_KEY_ID` | **REQUIRED** | `rzp_test_TG09eOXmAcaGSI` | Razorpay Key ID |
 | `RAZORPAY_KEY_SECRET` | **REQUIRED** | `yogLGpRp4jGZFNeRmb8WQN5v` | Razorpay Secret Key |
 | `RAZORPAY_WEBHOOK_SECRET` | **REQUIRED** | `tm_abcKL1955_webhook_test_2026` | Secret string set in Razorpay Webhooks |
-| `EMAIL_HOST` | Optional | `smtp.gmail.com` | SMTP Server Host |
-| `EMAIL_PORT` | Optional | `587` | SMTP Server Port |
-| `EMAIL_USER` | Optional | `lawyer.consultation.system@gmail.com` | SMTP Email Username |
-| `EMAIL_PASS` | Optional | `your-google-app-password` | SMTP App Password |
+| `RESEND_API_KEY` | **REQUIRED** | `re_123456789` | Resend API Key for transactional emails |
 | `EMAIL_FROM_NAME` | Optional | `Raja Agrawal Legal Consultancy` | Sender Display Name |
-| `EMAIL_FROM_ADDRESS` | Optional | `noreply@rajaagrawal.in` | Sender Email Address |
+| `EMAIL_FROM_ADDRESS` | Optional | `onboarding@resend.dev` | Sender Email Address |
 | `LAWYER_PHONE` | Optional | `918605399330` | Advocate Phone Number |
 | `LAWYER_EMAIL` | Optional | `rajaagrawal.adv@gmail.com` | Advocate Notification Email |
 | `LAWYER_WHATSAPP_NUMBER` | Optional | `918605399330` | Advocate WhatsApp Number (with country code) |
@@ -137,7 +134,7 @@ Fill in the following exact settings:
 - **Runtime:** `Node`
 - **Build Command:**
   ```bash
-  npm install && npm run build
+  npm install --include=dev && npx prisma generate && npm run build
   ```
 - **Start Command:**
   ```bash
@@ -154,7 +151,11 @@ In the **Environment** tab of your Render service, add all variables from the Ba
 - `RAZORPAY_KEY_ID` = `rzp_test_TG09eOXmAcaGSI`
 - `RAZORPAY_KEY_SECRET` = `yogLGpRp4jGZFNeRmb8WQN5v`
 - `RAZORPAY_WEBHOOK_SECRET` = `tm_abcKL1955_webhook_test_2026`
+- `RESEND_API_KEY` = `re_YOUR_RESEND_KEY_HERE` *(your Resend API key)*
+- `EMAIL_FROM_NAME` = `Raja Agrawal Legal Consultancy`
+- `EMAIL_FROM_ADDRESS` = `onboarding@resend.dev` *(or your verified custom domain)*
 - `LAWYER_PHONE` = `918605399330`
+- `LAWYER_EMAIL` = `rahulnagrikar123@gmail.com`
 
 Click **Save Changes**. Render will automatically deploy your Node.js backend. Once finished, copy your service URL (e.g. `https://lawyerwebsite-backend.onrender.com`).
 

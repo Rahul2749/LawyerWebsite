@@ -36,7 +36,7 @@ The **frontend** (Next.js) calls the backend using `fetch()` API calls.
 ```
 Client Browser → Next.js Frontend → Express Backend → PostgreSQL Database
                                   ↘ Razorpay / PhonePe
-                                  ↘ Email (Nodemailer)
+                                  ↘ Email (Resend)
 ```
 
 ---
@@ -72,7 +72,7 @@ backend/
 │   │
 │   ├── services/           ← Business logic (database queries, external APIs)
 │   │   ├── appointment.service.ts  ← Appointment CRUD logic
-│   │   ├── email.service.ts        ← Send emails via Nodemailer
+│   │   ├── email.service.ts        ← Send emails via Resend
 │   │   ├── payment.service.ts      ← Razorpay & PhonePe integration
 │   │   └── whatsapp.service.ts     ← Generate WhatsApp links
 │   │
@@ -230,20 +230,19 @@ Open `.env` and fill in these values:
 | `JWT_SECRET` | `some-long-random-string` | Secret key for signing login tokens. Generate one: `node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"` |
 | `JWT_EXPIRES_IN` | `7d` | How long the admin stays logged in |
 
-### Email (Gmail SMTP)
-1. Go to your Google Account → Security → 2-Step Verification (enable it)
-2. Then go to: [myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords)
-3. Create an App Password for "Mail"
-4. Use that 16-character password as `EMAIL_PASS`
+### Email (Resend)
 
-| Variable | Example |
-|---|---|
-| `EMAIL_HOST` | `smtp.gmail.com` |
-| `EMAIL_PORT` | `587` |
-| `EMAIL_USER` | `your-email@gmail.com` |
-| `EMAIL_PASS` | `abcd efgh ijkl mnop` (Gmail App Password) |
+To send transactional emails, you need a Resend account.
+1. Sign up for free at [Resend](https://resend.com)
+2. Generate an API Key in the dashboard
+3. Use that API Key as `RESEND_API_KEY`
+
+| Env Variable | Example Value |
+| --- | --- |
+| `RESEND_API_KEY` | `re_123456789_xyz` |
 | `EMAIL_FROM_NAME` | `Raja Agrawal Legal Consultancy` |
-| `LAWYER_EMAIL` | `lawyer@rajaagrawal.in` (where alerts are sent) |
+| `EMAIL_FROM_ADDRESS` | `onboarding@resend.dev` (or your verified domain) |
+| `LAWYER_EMAIL` | `rgnagrikar@gmail.com` (where alerts are sent) |
 
 ### Razorpay
 1. Sign up at [dashboard.razorpay.com](https://dashboard.razorpay.com)

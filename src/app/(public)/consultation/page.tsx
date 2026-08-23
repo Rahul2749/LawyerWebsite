@@ -119,8 +119,8 @@ function ConsultationForm({ onSubmitSuccess }: { onSubmitSuccess: (data: { appoi
   const preSelectedSlug = searchParams.get("service") ?? "";
   const preSelected = siteSettings.services.find((s) => s.slug === preSelectedSlug);
 
-  const [selectedService, setSelectedService] = useState(
-    preSelected ?? siteSettings.services[0]
+  const [selectedService, setSelectedService] = useState<(typeof siteSettings.services)[number] | undefined>(
+    preSelected
   );
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [serverError, setServerError] = useState("");
@@ -132,7 +132,7 @@ function ConsultationForm({ onSubmitSuccess }: { onSubmitSuccess: (data: { appoi
     formState: { errors },
   } = useForm<ConsultationFormData>({
     resolver: zodResolver(consultationSchema),
-    defaultValues: { serviceId: (preSelected ?? siteSettings.services[0]).id },
+    defaultValues: { serviceId: preSelected?.id ?? "" },
   });
 
   const onSubmit = async (data: ConsultationFormData) => {
@@ -183,18 +183,19 @@ function ConsultationForm({ onSubmitSuccess }: { onSubmitSuccess: (data: { appoi
         <div className="relative">
           <select
             id="serviceSelect"
-            value={selectedService.id}
+            value={selectedService?.id ?? ""}
             onChange={(e) => {
               const service = siteSettings.services.find((s) => s.id === e.target.value);
-              if (service) {
-                setSelectedService(service);
-                setValue("serviceId", service.id);
-              }
+              setSelectedService(service);
+              setValue("serviceId", e.target.value);
             }}
             className={`w-full px-4 py-3.5 bg-bg-secondary/30 border text-text-primary focus:outline-none focus:border-accent-wine transition-colors rounded-lg appearance-none cursor-pointer text-sm font-medium ${
               errors.serviceId ? "border-state-error" : "border-border-subtle"
             }`}
           >
+            <option value="" disabled className="bg-bg-primary text-text-secondary py-2">
+              Select a service...
+            </option>
             {siteSettings.services.map((service) => (
               <option key={service.id} value={service.id} className="bg-bg-primary text-text-primary py-2">
                 {service.name}
@@ -351,10 +352,12 @@ function ConsultationForm({ onSubmitSuccess }: { onSubmitSuccess: (data: { appoi
         <div>
           <p className="text-eyebrow text-text-secondary">Consultation Fee</p>
           <p className="text-h3 text-accent-gold font-serif">
-            ₹{selectedService.price.toLocaleString("en-IN")}
-            <span className="text-sm font-sans text-text-secondary font-normal ml-1">
-              / {selectedService.duration} min
-            </span>
+            {selectedService ? `₹${selectedService.price.toLocaleString("en-IN")}` : "---"}
+            {selectedService && (
+              <span className="text-sm font-sans text-text-secondary font-normal ml-1">
+                / {selectedService.duration} min
+              </span>
+            )}
           </p>
         </div>
         <button

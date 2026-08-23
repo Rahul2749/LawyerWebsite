@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
@@ -13,8 +14,17 @@ export default function SmoothScrollProvider({
   children: React.ReactNode;
 }) {
   const lenisRef = useRef<Lenis | null>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
+    // Disable browser default scroll restoration so page refresh always starts at top
+    if (typeof window !== "undefined") {
+      if ("scrollRestoration" in window.history) {
+        window.history.scrollRestoration = "manual";
+      }
+      window.scrollTo(0, 0);
+    }
+
     // Respect reduced motion
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
@@ -26,20 +36,35 @@ export default function SmoothScrollProvider({
 
     lenisRef.current = lenis;
 
+    // Force scroll to top immediately on refresh/mount
+    lenis.scrollTo(0, { immediate: true });
+
     // Sync Lenis scroll with GSAP ScrollTrigger
     lenis.on("scroll", ScrollTrigger.update);
 
-    gsap.ticker.add((time) => {
+    const updateTicker = (time: number) => {
       lenis.raf(time * 1000);
-    });
+    };
+
+    gsap.ticker.add(updateTicker);
     gsap.ticker.lagSmoothing(0);
 
     return () => {
-      gsap.ticker.remove(lenis.raf as unknown as gsap.TickerCallback);
+      gsap.ticker.remove(updateTicker);
       lenis.destroy();
       lenisRef.current = null;
     };
   }, []);
+
+  // Reset scroll to top whenever route/pathname changes (unless there's a anchor hash)
+  useEffect(() => {
+    if (typeof window !== "undefined" && !window.location.hash) {
+      window.scrollTo(0, 0);
+      if (lenisRef.current) {
+        lenisRef.current.scrollTo(0, { immediate: true });
+      }
+    }
+  }, [pathname]);
 
   return <>{children}</>;
 }

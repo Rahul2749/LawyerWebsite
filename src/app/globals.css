@@ -322,9 +322,7 @@ body {
 
 .reveal-up {
   opacity: 0;
-  transform: translateY(2rem);
-  transition: opacity var(--dur-scroll-reveal) var(--ease-scroll),
-    transform var(--dur-scroll-reveal) var(--ease-scroll);
+  transform: translateY(1.25rem);
 }
 
 .reveal-up.is-visible {
@@ -334,7 +332,6 @@ body {
 
 .reveal-fade {
   opacity: 0;
-  transition: opacity var(--dur-scroll-reveal) var(--ease-scroll);
 }
 
 .reveal-fade.is-visible {

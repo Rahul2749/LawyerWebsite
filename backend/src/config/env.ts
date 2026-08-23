@@ -33,16 +33,13 @@ export const env = {
   FRONTEND_URL: optionalEnv("FRONTEND_URL", "http://localhost:3000"),
 
   // Email
-  EMAIL_HOST: optionalEnv("EMAIL_HOST", "smtp.gmail.com"),
-  EMAIL_PORT: parseInt(optionalEnv("EMAIL_PORT", "587"), 10),
-  EMAIL_USER: optionalEnv("EMAIL_USER", ""),
-  EMAIL_PASS: optionalEnv("EMAIL_PASS", ""),
+  RESEND_API_KEY: optionalEnv("RESEND_API_KEY", ""),
   EMAIL_FROM_NAME: optionalEnv("EMAIL_FROM_NAME", "Raja Agrawal Legal Consultancy"),
-  EMAIL_FROM_ADDRESS: optionalEnv("EMAIL_FROM_ADDRESS", "noreply@rajaagrawal.in"),
+  EMAIL_FROM_ADDRESS: optionalEnv("EMAIL_FROM_ADDRESS", "onboarding@resend.dev"),
 
   // Lawyer contact
   LAWYER_PHONE: optionalEnv("LAWYER_PHONE", "919999999999"),
-  LAWYER_EMAIL: optionalEnv("LAWYER_EMAIL", "lawyer@rajaagrawal.in"),
+  LAWYER_EMAIL: optionalEnv("LAWYER_EMAIL", "rgnagrikar@gmail.com"),
   LAWYER_WHATSAPP_NUMBER: optionalEnv("LAWYER_WHATSAPP_NUMBER", "919999999999"),
 
   // Razorpay
