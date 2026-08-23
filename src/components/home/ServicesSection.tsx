@@ -121,9 +121,9 @@ export default function ServicesSection() {
           </div>
         </div>
 
-        {/* Services Grid (Responsive 3 Columns Desktop, 2 Tablet, 1 Mobile) */}
+        {/* Services Grid (2 Columns Mobile, 2 Tablet, 3 Desktop) */}
         <div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7 lg:gap-8"
+          className="grid grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-7 lg:gap-8"
           role="list"
         >
           {siteSettings.services.map((service, index) => (
@@ -138,33 +138,33 @@ export default function ServicesSection() {
             >
               <Link
                 href={`/consultation?service=${service.slug}`}
-                className="services-card__inner group flex flex-col justify-between h-full p-6 sm:p-7 lg:p-9"
+                className="services-card__inner group flex flex-col justify-between h-full p-4 sm:p-7 lg:p-9"
                 aria-label={`Book ${service.name} consultation`}
               >
                 <div>
                   {/* Top: Solid Metallic Gold Badge Icon Container */}
-                  <div className="services-card__icon-wrap mb-5 sm:mb-6" aria-hidden="true">
+                  <div className="services-card__icon-wrap mb-3.5 sm:mb-6" aria-hidden="true">
                     <ServiceIcon
                       icon={service.icon}
-                      className="w-6 h-6 sm:w-7 sm:h-7 services-card__icon"
+                      className="w-5 h-5 sm:w-7 sm:h-7 services-card__icon"
                     />
                   </div>
 
                   {/* Title & Description */}
-                  <h3 className="services-card__title text-xl sm:text-[22px] lg:text-[23px] font-serif font-semibold text-[#F7F4EE] leading-snug mb-2.5">
+                  <h3 className="services-card__title text-sm sm:text-[22px] lg:text-[23px] font-serif font-semibold text-[#F7F4EE] leading-snug mb-2 sm:mb-2.5">
                     {service.name}
                   </h3>
-                  <p className="services-card__desc text-xs sm:text-[14px] lg:text-[15px] text-[#F7F4EE]/75 leading-relaxed mb-5 sm:mb-6">
+                  <p className="services-card__desc text-[11px] sm:text-[14px] lg:text-[15px] text-[#F7F4EE]/75 leading-relaxed mb-3.5 sm:mb-6 line-clamp-3 sm:line-clamp-none">
                     {service.description}
                   </p>
 
                   {/* Bulleted Focus List */}
                   {service.highlights && service.highlights.length > 0 && (
-                    <ul className="services-card__list space-y-2 sm:space-y-2.5 mb-6 sm:mb-8 pt-4 sm:pt-5 border-t border-white/10">
+                    <ul className="services-card__list space-y-1.5 sm:space-y-2.5 mb-4 sm:mb-8 pt-3 sm:pt-5 border-t border-white/10">
                       {service.highlights.map((item, i) => (
                         <li
                           key={i}
-                          className="group/item flex items-center gap-2.5 sm:gap-3 text-xs sm:text-[13px] lg:text-[14px] text-[#F7F4EE]/90 transition-transform duration-300 hover:translate-x-1.5 cursor-default"
+                          className="group/item flex items-center gap-1.5 sm:gap-3 text-[10px] sm:text-[13px] lg:text-[14px] text-[#F7F4EE]/90 transition-transform duration-300 hover:translate-x-1.5 cursor-default leading-tight"
                         >
                           <span className="w-1.5 h-1.5 rounded-full bg-[#FFD700] shadow-[0_0_8px_rgba(255,215,0,0.7)] flex-shrink-0 group-hover/item:scale-125 transition-transform" />
                           <span>{item}</span>
@@ -175,13 +175,13 @@ export default function ServicesSection() {
                 </div>
 
                 {/* Refined Bottom CTA */}
-                <div className="services-card__footer pt-4 border-t border-white/10 flex items-center justify-between mt-auto">
-                  <span className="text-xs font-semibold tracking-wider uppercase text-[#FFD700] group-hover:text-white transition-colors">
+                <div className="services-card__footer pt-3 sm:pt-4 border-t border-white/10 flex items-center justify-between mt-auto">
+                  <span className="text-[10px] sm:text-xs font-semibold tracking-wider uppercase text-[#FFD700] group-hover:text-white transition-colors">
                     Book Consultation
                   </span>
                   <span className="services-card__cta flex items-center" aria-hidden="true">
                     <svg
-                      className="w-4 h-4 text-[#FFD700] transition-transform duration-300 group-hover:translate-x-2"
+                      className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#FFD700] transition-transform duration-300 group-hover:translate-x-2"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
