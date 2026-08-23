@@ -288,3 +288,90 @@ export async function sendOTPEmail(params: {
     throw error; // Re-throw so controller can catch and return error to user
   }
 }
+
+// ─── Send Status Update Email to CLIENT ─────────────────────────────────────
+export async function sendAppointmentStatusUpdateEmail(params: {
+  clientName: string;
+  clientEmail: string;
+  referenceNumber: string;
+  serviceName: string;
+  newStatus: string;
+}): Promise<void> {
+  const { clientName, clientEmail, referenceNumber, serviceName, newStatus } = params;
+
+  const STATUS_LABELS: Record<string, string> = {
+    CONFIRMED: "Confirmed",
+    PENDING_PAYMENT: "Pending Payment",
+    COMPLETED: "Completed",
+    CANCELLED: "Cancelled",
+    REFUNDED: "Refunded",
+  };
+
+  const STATUS_DESCRIPTIONS: Record<string, string> = {
+    CONFIRMED: "Your consultation appointment has been <strong>confirmed</strong>. Our office will reach out to you shortly with the exact schedule.",
+    COMPLETED: "Your legal consultation has been marked as <strong>completed</strong>. Thank you for choosing Raja Agrawal Legal Consultancy.",
+    CANCELLED: "The status of your appointment has been updated to <strong>Cancelled</strong>. If you have any questions, please feel free to reach out to us.",
+    REFUNDED: "Your payment refund for this appointment has been processed.",
+    PENDING_PAYMENT: "Your appointment status is currently <strong>Pending Payment</strong>. Please complete the payment to confirm your booking.",
+  };
+
+  const statusLabel = STATUS_LABELS[newStatus] ?? newStatus;
+  const statusDesc = STATUS_DESCRIPTIONS[newStatus] ?? `Your appointment status has been updated to <strong>${statusLabel}</strong>.`;
+
+  try {
+    await resend.emails.send({
+      from: `"${env.EMAIL_FROM_NAME}" <${env.EMAIL_FROM_ADDRESS}>`,
+      to: clientEmail,
+      subject: `Appointment Status Update: ${statusLabel} — ${referenceNumber}`,
+      html: `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="UTF-8" />
+          <style>
+            body { font-family: 'Segoe UI', Arial, sans-serif; background: #f7f4ee; margin: 0; padding: 0; }
+            .container { max-width: 600px; margin: 40px auto; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,0,0,0.08); }
+            .header { background: #172B54; padding: 32px 40px; }
+            .header h1 { color: #C9A84C; margin: 0; font-size: 22px; font-weight: 600; }
+            .header p { color: rgba(255,255,255,0.7); margin: 6px 0 0; font-size: 13px; }
+            .body { padding: 36px 40px; color: #333; font-size: 15px; line-height: 1.6; }
+            .status-badge { display: inline-block; background: #f7f4ee; border: 1px solid #C9A84C; color: #172B54; font-weight: 700; font-size: 14px; padding: 8px 18px; border-radius: 20px; margin: 16px 0; }
+            .details { background: #faf8f5; border-radius: 8px; padding: 18px 22px; margin: 20px 0; border-left: 4px solid #172B54; }
+            .details p { margin: 4px 0; font-size: 14px; color: #555; }
+            .details strong { color: #172B54; }
+            .footer { background: #f7f4ee; padding: 24px 40px; text-align: center; border-top: 1px solid #e8e3db; }
+            .footer p { color: #888; font-size: 12px; margin: 4px 0; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1>Appointment Status Update</h1>
+              <p>Raja Agrawal — Advocate &amp; Legal Consultant</p>
+            </div>
+            <div class="body">
+              <p>Dear ${clientName},</p>
+              <p>${statusDesc}</p>
+
+              <div class="details">
+                <p><strong>Reference Number:</strong> ${referenceNumber}</p>
+                <p><strong>Service:</strong> ${serviceName}</p>
+                <p><strong>New Status:</strong> ${statusLabel}</p>
+              </div>
+
+              <p style="margin-top: 24px;">Warm regards,<br/><strong>Raja Agrawal</strong><br/>Advocate &amp; Legal Consultant</p>
+            </div>
+            <div class="footer">
+              <p>Chamber No. 123, District Court Complex, New Delhi — 110001</p>
+              <p>+91 86053 99330 | contact@rajaagrawal.in</p>
+            </div>
+          </div>
+        </body>
+        </html>
+      `,
+    });
+  } catch (error) {
+    console.error("Failed to send status update email:", error);
+  }
+}
+

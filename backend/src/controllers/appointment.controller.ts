@@ -82,9 +82,20 @@ export const updateAppointmentStatus = asyncHandler(async (req: Request, res: Re
   const updated = await prisma.appointment.update({
     where: { id },
     data: { status, ...(notes && { notes }) },
+    include: { service: { select: { name: true } } },
   });
 
-  sendSuccess(res, updated, "Appointment status updated");
+  // Send status update email notification to client
+  const { sendAppointmentStatusUpdateEmail } = await import("../services/email.service");
+  await sendAppointmentStatusUpdateEmail({
+    clientName: updated.clientName,
+    clientEmail: updated.clientEmail,
+    referenceNumber: updated.referenceNumber,
+    serviceName: updated.service.name,
+    newStatus: updated.status,
+  });
+
+  sendSuccess(res, updated, "Appointment status updated and email sent to client");
 });
 
 // GET /api/slots?date=YYYY-MM-DD
