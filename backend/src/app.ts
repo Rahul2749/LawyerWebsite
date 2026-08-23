@@ -15,6 +15,7 @@ import appointmentRoutes from "./routes/appointment.routes";
 import paymentRoutes from "./routes/payment.routes";
 import serviceRoutes from "./routes/service.routes";
 import contactRoutes from "./routes/contact.routes";
+import trackRoutes from "./routes/track.routes";
 
 const app = express();
 
@@ -55,6 +56,7 @@ app.use("/api/appointments", appointmentRoutes);
 app.use("/api/payments", paymentRoutes);
 app.use("/api/services", serviceRoutes);
 app.use("/api/contact", contactRoutes);
+app.use("/api/track", trackRoutes);
 
 // ─── 404 Handler ──────────────────────────────────────────────────────────
 app.use((_req, res) => {

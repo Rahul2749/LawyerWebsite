@@ -219,3 +219,72 @@ export async function sendContactAlertEmail(params: {
     console.error("Failed to send contact form alert email:", error);
   }
 }
+
+// ─── Send OTP for Appointment Tracking ──────────────────────────────────────
+export async function sendOTPEmail(params: {
+  email: string;
+  otp: string;
+}): Promise<void> {
+  const { email, otp } = params;
+
+  try {
+    await resend.emails.send({
+      from: `"${env.EMAIL_FROM_NAME}" <${env.EMAIL_FROM_ADDRESS}>`,
+      to: TESTING_EMAIL, // override for testing; replace with `email` once domain is verified
+      subject: `Your Appointment Tracking OTP — ${otp}`,
+      html: `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="UTF-8" />
+          <style>
+            body { font-family: 'Segoe UI', Arial, sans-serif; background: #f7f4ee; margin: 0; padding: 0; }
+            .container { max-width: 560px; margin: 40px auto; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,0,0,0.08); }
+            .header { background: #172B54; padding: 28px 40px; }
+            .header h1 { color: #C9A84C; margin: 0; font-size: 20px; font-weight: 600; letter-spacing: -0.3px; }
+            .header p { color: rgba(255,255,255,0.65); margin: 6px 0 0; font-size: 13px; }
+            .body { padding: 36px 40px; }
+            .body p { color: #333; font-size: 15px; line-height: 1.6; margin: 0 0 16px; }
+            .otp-box { background: #f7f4ee; border: 2px dashed #C9A84C; border-radius: 10px; padding: 24px; text-align: center; margin: 28px 0; }
+            .otp-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: #888; margin: 0 0 10px; }
+            .otp-code { font-size: 42px; font-weight: 800; color: #172B54; letter-spacing: 12px; font-family: 'Courier New', monospace; margin: 0; }
+            .expiry { background: #fff8ed; border: 1px solid #ffe4a0; border-radius: 6px; padding: 10px 16px; font-size: 13px; color: #92600a; text-align: center; margin-bottom: 24px; }
+            .footer { background: #f7f4ee; padding: 20px 40px; text-align: center; border-top: 1px solid #e8e3db; }
+            .footer p { color: #888; font-size: 11px; margin: 3px 0; }
+            .warning { color: #c0392b; font-size: 13px; margin-top: 20px; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1>Appointment Tracking</h1>
+              <p>Raja Agrawal — Advocate &amp; Legal Consultant</p>
+            </div>
+            <div class="body">
+              <p>You requested to track your appointment. Use the one-time password below to view your appointment status.</p>
+
+              <div class="otp-box">
+                <p class="otp-label">Your One-Time Password</p>
+                <p class="otp-code">${otp}</p>
+              </div>
+
+              <div class="expiry">
+                ⏱ This OTP is valid for <strong>10 minutes</strong> only.
+              </div>
+
+              <p class="warning">If you did not request this, please ignore this email. Do not share this OTP with anyone.</p>
+            </div>
+            <div class="footer">
+              <p>Chamber No. 123, District Court Complex, New Delhi — 110001</p>
+              <p>+91 86053 99330 | contact@rajaagrawal.in</p>
+            </div>
+          </div>
+        </body>
+        </html>
+      `,
+    });
+  } catch (error) {
+    console.error("Failed to send OTP email:", error);
+    throw error; // Re-throw so controller can catch and return error to user
+  }
+}

@@ -93,6 +93,10 @@ export default function Navbar() {
                 <span>{siteSettings.phone}</span>
               </a>
 
+              <Link href="/track-appointment" className="text-xs font-medium text-text-secondary hover:text-accent-gold transition-colors">
+                Track Booking
+              </Link>
+
               <Link href="/consultation" className="btn btn-primary bg-accent-wine hover:bg-accent-wine-hover text-xs py-2 px-5">
                 Book a Consultation
               </Link>
