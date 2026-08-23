@@ -213,7 +213,7 @@ export const siteSettings = {
   ],
 
   // Backend API URL — update for production
-  BACKEND_URL: process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:5000",
+  BACKEND_URL: process.env.NEXT_PUBLIC_BACKEND_URL ?? process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:5000",
 
   /**
    * Compliance flags — toggle per jurisdiction
