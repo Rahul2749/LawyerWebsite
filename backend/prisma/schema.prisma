@@ -1,0 +1,166 @@
+// This is the Prisma schema file — it defines your database structure.
+// Run `npm run prisma:migrate` to apply changes to PostgreSQL.
+// Run `npm run prisma:generate` to update the TypeScript types.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  // url is now configured in prisma.config.ts (Prisma v7 breaking change)
+}
+
+// ─── Admin User ────────────────────────────────────────────────────────────────
+// Only the lawyer/admin uses this. Clients do NOT have accounts.
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         Role     @default(ADMIN)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+enum Role {
+  ADMIN
+  SUPER_ADMIN
+}
+
+// ─── Legal Services ────────────────────────────────────────────────────────────
+// The services the lawyer offers. Shown on the homepage Services section.
+model Service {
+  id           String        @id @default(uuid())
+  name         String
+  slug         String        @unique
+  description  String
+  icon         String        // Icon name or emoji
+  price        Int           // Price in INR (paise for Razorpay, so multiply by 100 in code)
+  duration     Int           // Duration in minutes (e.g., 30 or 60)
+  isActive     Boolean       @default(true)
+  displayOrder Int           @default(0)
+  appointments Appointment[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+// ─── Available Time Slots ─────────────────────────────────────────────────────
+// The lawyer pre-creates available slots. Clients can only book available ones.
+model TimeSlot {
+  id           String       @id @default(uuid())
+  date         DateTime     @db.Date
+  startTime    String       // "10:00"
+  endTime      String       // "10:30"
+  isBooked     Boolean      @default(false)
+  appointment  Appointment?
+  createdAt    DateTime     @default(now())
+
+  @@index([date, isBooked]) // Index for fast slot lookup by date
+}
+
+// ─── Appointments ─────────────────────────────────────────────────────────────
+// Created when a client fills the booking form.
+// Payment is required before the appointment is confirmed.
+model Appointment {
+  id              String            @id @default(uuid())
+  referenceNumber String            @unique // e.g. RA-20260823-A3F2
+  
+  // Client details
+  clientName      String
+  clientEmail     String
+  clientPhone     String
+  clientMessage   String?           // Brief description of their matter
+  
+  // Booking details
+  service         Service           @relation(fields: [serviceId], references: [id])
+  serviceId       String
+  timeSlot        TimeSlot?         @relation(fields: [timeSlotId], references: [id])
+  timeSlotId      String?           @unique
+  preferredDate   DateTime?         // Fallback if no slot system
+  
+  // Status
+  status          AppointmentStatus @default(PENDING_PAYMENT)
+  notes           String?           // Internal notes by the lawyer
+  
+  // Disclaimer acceptance (legal requirement)
+  disclaimerAccepted Boolean        @default(false)
+  
+  payment         Payment?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  @@index([referenceNumber])
+  @@index([clientEmail])
+  @@index([status])
+}
+
+enum AppointmentStatus {
+  PENDING_PAYMENT   // Form submitted, payment not yet done
+  CONFIRMED         // Payment received
+  COMPLETED         // Consultation done
+  CANCELLED         // Cancelled by client or lawyer
+  REFUNDED          // Payment refunded
+}
+
+// ─── Payments ─────────────────────────────────────────────────────────────────
+// Tracks payment details for each appointment.
+// One appointment = one payment record.
+model Payment {
+  id            String        @id @default(uuid())
+  appointment   Appointment   @relation(fields: [appointmentId], references: [id])
+  appointmentId String        @unique
+  
+  gateway       PaymentGateway
+  amount        Int           // Amount in INR (paise for Razorpay)
+  currency      String        @default("INR")
+  
+  // Gateway-specific IDs
+  orderId       String?       // Razorpay order_id / PhonePe merchantTransactionId
+  paymentId     String?       // Razorpay payment_id (after success)
+  signature     String?       // Razorpay signature (for verification)
+  
+  status        PaymentStatus @default(CREATED)
+  failureReason String?
+  
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@index([orderId])
+  @@index([status])
+}
+
+enum PaymentGateway {
+  RAZORPAY
+  PHONEPE
+}
+
+enum PaymentStatus {
+  CREATED    // Order created, user hasn't paid yet
+  SUCCESS    // Payment successful
+  FAILED     // Payment failed
+  REFUNDED   // Refund processed
+}
+
+// ─── Contact Messages ─────────────────────────────────────────────────────────
+// General contact form submissions (not appointment bookings).
+model ContactMessage {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String?
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+// ─── Site Settings ─────────────────────────────────────────────────────────────
+// Key-value store for settings editable from the admin panel.
+// Use this for stats, contact info, etc. — avoids code deploys for content changes.
+model SiteSetting {
+  key       String   @id
+  value     String
+  label     String   // Human-readable label for the admin UI
+  updatedAt DateTime @updatedAt
+}

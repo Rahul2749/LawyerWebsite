@@ -28,20 +28,20 @@ interface ScrollRevealProps {
 }
 
 const animationDefaults: Record<AnimationType, gsap.TweenVars> = {
-  "fade-up": { opacity: 0, y: 40 },
+  "fade-up": { opacity: 0, y: 20 },
   "fade-in": { opacity: 0 },
-  "fade-left": { opacity: 0, x: -40 },
-  "fade-right": { opacity: 0, x: 40 },
-  "scale-in": { opacity: 0, scale: 0.92 },
+  "fade-left": { opacity: 0, x: -20 },
+  "fade-right": { opacity: 0, x: 20 },
+  "scale-in": { opacity: 0, scale: 0.96 },
 };
 
 export default function ScrollReveal({
   children,
   animation = "fade-up",
   delay = 0,
-  duration = 0.8,
+  duration = 0.35,
   distance,
-  triggerStart = "top 88%",
+  triggerStart = "top 95%",
   stagger,
   staggerSelector,
   className,
@@ -69,7 +69,7 @@ export default function ScrollReveal({
         scale: 1,
         duration,
         delay,
-        ease: "power3.out",
+        ease: "power2.out",
         scrollTrigger: {
           trigger: containerRef.current,
           start: triggerStart,

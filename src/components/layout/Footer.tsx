@@ -109,7 +109,7 @@ export default function Footer() {
               <p>{siteSettings.address.full}</p>
               <p>
                 <a
-                  href={`https://wa.me/${siteSettings.phone.replace(/\D/g, "")}`}
+                  href={`tel:${siteSettings.phone.replace(/\s+/g, "")}`}
                   className="hover:text-accent-gold transition-colors"
                 >
                   {siteSettings.phone}

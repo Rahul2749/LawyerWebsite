@@ -9,11 +9,25 @@ export default function HeroSection() {
       className="relative min-h-0 lg:min-h-[85vh] flex items-center overflow-hidden bg-bg-primary pt-32 pb-10 lg:pt-40 lg:pb-16"
       aria-label="Hero"
     >
-      {/* Premium Background Effects */}
-      <div className="absolute inset-0 z-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: "radial-gradient(#5A1824 1px, transparent 1px)", backgroundSize: "32px 32px" }}></div>
-      <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-bg-secondary/50 to-transparent z-0 pointer-events-none" />
+      {/* High-End Law Office Background Photo with Soft Cream Vignette Overlay */}
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        <img
+          src="https://images.unsplash.com/photo-1505664194779-8beaceb93744?q=80&w=2000&auto=format&fit=crop"
+          alt="Luxury law firm library background"
+          className="w-full h-full object-cover opacity-20 filter blur-[2px] scale-105"
+        />
+        {/* Soft Vignette Overlay for perfect readability */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse at center, rgba(247, 244, 238, 0.75) 0%, rgba(247, 244, 238, 0.95) 75%, #F7F4EE 100%)",
+          }}
+        />
+      </div>
+
       {/* Subtle gold accent line */}
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent-gold/20 to-transparent z-0" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent-gold/30 to-transparent z-0" />
 
       <div className="container relative z-10">
         {/* Mobile Layout: Image first, then content stacked */}

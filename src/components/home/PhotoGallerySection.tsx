@@ -4,13 +4,13 @@ import ScrollReveal from "@/components/ui/ScrollReveal";
 
 const galleryImages = [
   {
-    src: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=1200&auto=format&fit=crop",
-    alt: "Law firm interior",
+    src: "https://images.unsplash.com/photo-1505664194779-8beaceb93744?q=80&w=1200&auto=format&fit=crop",
+    alt: "Classic Law Library with Gavel",
     className: "col-span-1 row-span-2 aspect-[2/3]",
   },
   {
-    src: "https://images.unsplash.com/photo-1505664177941-11b068284560?q=80&w=1200&auto=format&fit=crop",
-    alt: "Legal consultation",
+    src: "https://images.unsplash.com/photo-1436450412740-6b988f486c6b?q=80&w=1200&auto=format&fit=crop",
+    alt: "Supreme Court Architecture",
     className: "col-span-1 row-span-1 aspect-square",
   },
   {
@@ -19,8 +19,8 @@ const galleryImages = [
     className: "col-span-1 row-span-1 aspect-[4/3] sm:aspect-square",
   },
   {
-    src: "https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1200&auto=format&fit=crop",
-    alt: "Team meeting",
+    src: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1200&auto=format&fit=crop",
+    alt: "Corporate legal strategy session",
     className: "col-span-1 sm:col-span-2 row-span-1 aspect-video",
   },
 ];

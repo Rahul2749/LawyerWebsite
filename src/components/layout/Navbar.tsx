@@ -9,7 +9,7 @@ import { siteSettings } from "@/data/siteSettings";
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/#about", label: "About" },
-  { href: "/practice-areas", label: "Expertise" },
+  { href: "#services-menu", label: "Legal Services", isDropdown: true },
   { href: "/insights", label: "Blogs & Articles" },
   { href: "/videos", label: "Videos" },
   { href: "/consultation", label: "Consultation" },
@@ -84,33 +84,22 @@ export default function Navbar() {
             {/* Desktop Top Right: Contact & CTA */}
             <div className="hidden lg:flex items-center gap-6">
               <a
-                href={`https://wa.me/${siteSettings.phone.replace(/\D/g, "")}`}
-                className="flex items-center gap-2 text-sm font-medium text-text-secondary hover:text-accent-wine transition-colors"
-                aria-label="Call us"
+                href={`tel:${siteSettings.phone.replace(/\s+/g, "")}`}
+                className="flex items-center gap-2 text-xs font-medium text-text-secondary hover:text-accent-gold transition-colors"
               >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" />
+                <svg className="w-3.5 h-3.5 text-accent-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                 </svg>
-                {siteSettings.phone}
+                <span>{siteSettings.phone}</span>
               </a>
+
               <Link href="/consultation" className="btn btn-primary bg-accent-wine hover:bg-accent-wine-hover text-xs py-2 px-5">
                 Book a Consultation
               </Link>
             </div>
 
-            {/* Mobile: Phone + Hamburger */}
+            {/* Mobile: Hamburger */}
             <div className="flex items-center gap-4 lg:hidden">
-              <a
-                href={`https://wa.me/${siteSettings.phone.replace(/\D/g, "")}`}
-                className="text-accent-wine text-sm font-medium hidden sm:flex items-center gap-1.5"
-                aria-label="Call now"
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" />
-                </svg>
-                Call Now
-              </a>
-
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 className="relative z-[60] w-10 h-10 flex flex-col items-center justify-center gap-1.5"
@@ -128,27 +117,62 @@ export default function Navbar() {
             className="hidden lg:flex items-center justify-center gap-10 w-full pt-2 pb-2"
             aria-label="Main navigation"
           >
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`relative text-[11px] uppercase tracking-[0.08em] font-medium transition-colors duration-300 ${
-                  (link.href === "/" ? pathname === "/" : (pathname === link.href || pathname.startsWith(link.href + "/")))
-                    ? "text-accent-wine"
-                    : "text-text-secondary hover:text-text-primary"
-                }`}
-              >
-                {link.label}
-                {((link.href === "/" ? pathname === "/" : (pathname === link.href ||
-                  pathname.startsWith(link.href + "/")))) && (
-                  <motion.span
-                    layoutId="nav-underline"
-                    className="absolute -bottom-1 left-0 right-0 h-px bg-accent-wine"
-                    transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                  />
-                )}
-              </Link>
-            ))}
+            {navLinks.map((link) => {
+              if (link.isDropdown) {
+                return (
+                  <div key={link.label} className="group relative">
+                    <button className="relative text-[11px] uppercase tracking-[0.08em] font-medium transition-colors duration-300 text-text-secondary hover:text-text-primary flex items-center gap-1 py-4">
+                      {link.label}
+                      <svg className="w-3 h-3 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                    </button>
+                    
+                    {/* Mega Menu Dropdown */}
+                    <div className="absolute top-full left-1/2 -translate-x-1/2 w-[900px] max-w-[95vw] bg-bg-primary shadow-2xl border border-border-subtle rounded-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 translate-y-2 group-hover:translate-y-0 overflow-hidden z-[100]">
+                      <div className="p-6">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-3">
+                          {siteSettings.services.map((service) => (
+                            <Link 
+                              key={service.slug} 
+                              href={`/consultation?service=${service.slug}`}
+                              className="flex items-center gap-3 p-2 rounded-lg hover:bg-bg-secondary transition-colors group/item"
+                            >
+                              <div className="w-7 h-7 rounded-full bg-accent-wine/5 flex items-center justify-center flex-shrink-0 group-hover/item:bg-accent-wine/10">
+                                <svg className="w-3.5 h-3.5 text-accent-wine" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                              </div>
+                              <span className="text-sm font-medium text-text-primary group-hover/item:text-accent-wine transition-colors truncate">
+                                {service.name}
+                              </span>
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`relative text-[11px] uppercase tracking-[0.08em] font-medium transition-colors duration-300 py-4 ${
+                    (link.href === "/" ? pathname === "/" : (pathname === link.href || pathname.startsWith(link.href + "/")))
+                      ? "text-accent-wine"
+                      : "text-text-secondary hover:text-text-primary"
+                  }`}
+                >
+                  {link.label}
+                  {((link.href === "/" ? pathname === "/" : (pathname === link.href ||
+                    pathname.startsWith(link.href + "/")))) && (
+                    <motion.span
+                      layoutId="nav-underline"
+                      className="absolute bottom-3 left-0 right-0 h-px bg-accent-wine"
+                      transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                    />
+                  )}
+                </Link>
+              );
+            })}
           </nav>
 
         </div>
@@ -180,50 +204,57 @@ export default function Navbar() {
                 </Link>
               </motion.div>
 
-              {navLinks.map((link, i) => (
-                <motion.div
-                  key={link.href}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  transition={{ delay: i * 0.06, duration: 0.4 }}
-                >
-                  <Link
-                    href={link.href}
-                    className={`font-serif text-2xl font-light tracking-wide transition-colors text-right block w-full ${
-                      pathname === link.href
-                        ? "text-accent-wine"
-                        : "text-text-primary hover:text-accent-wine"
-                    }`}
-                  >
-                    {link.label}
-                  </Link>
-                </motion.div>
-              ))}
+              {navLinks.map((link, i) => {
+                if (link.isDropdown) {
+                  return (
+                    <motion.div
+                      key={link.label}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      transition={{ delay: i * 0.06, duration: 0.4 }}
+                      className="w-full flex flex-col items-end"
+                    >
+                      <span className="font-serif text-2xl font-light tracking-wide text-text-secondary mb-3 block">{link.label}</span>
+                      <div className="flex flex-col items-end gap-3 pr-4 border-r border-border-subtle/50 w-full mb-2">
+                        {siteSettings.services.map((service) => (
+                          <Link 
+                            key={service.slug}
+                            href={`/consultation?service=${service.slug}`}
+                            className="text-[15px] font-medium text-text-primary hover:text-accent-wine text-right"
+                          >
+                            {service.name}
+                          </Link>
+                        ))}
+                      </div>
+                    </motion.div>
+                  );
+                }
 
-              {/* Mobile phone number */}
-              <motion.a
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 }}
-                href={`https://wa.me/${siteSettings.phone.replace(/\D/g, "")}`}
-                className="mt-6 text-text-secondary text-sm flex items-center justify-end gap-2 w-full"
-              >
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                >
-                  <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" />
-                </svg>
-                {siteSettings.phone}
-              </motion.a>
+                return (
+                  <motion.div
+                    key={link.href}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    transition={{ delay: i * 0.06, duration: 0.4 }}
+                    className="w-full"
+                  >
+                    <Link
+                      href={link.href}
+                      className={`font-serif text-2xl font-light tracking-wide transition-colors text-right block w-full ${
+                        pathname === link.href
+                          ? "text-accent-wine"
+                          : "text-text-primary hover:text-accent-wine"
+                      }`}
+                    >
+                      {link.label}
+                    </Link>
+                  </motion.div>
+                );
+              })}
+
+
             </nav>
           </motion.div>
         )}

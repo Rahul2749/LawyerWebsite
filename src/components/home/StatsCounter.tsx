@@ -51,23 +51,23 @@ function AnimatedNumber({ value, suffix }: { value: number; suffix: string }) {
 
 export default function StatsCounter() {
   return (
-    <section className="py-12 lg:py-16 bg-bg-dark" aria-label="Statistics">
+    <section className="py-4 lg:py-6 bg-bg-dark" aria-label="Statistics">
       <div className="container">
         <ScrollReveal
           animation="fade-up"
           stagger={0.1}
           staggerSelector=".stat-item"
         >
-          <div className="grid grid-cols-4 gap-2 lg:gap-12">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8">
             {stats.map((stat) => (
               <div
                 key={stat.label}
                 className="stat-item text-center"
               >
-                <p className="text-xl sm:text-3xl lg:text-5xl font-serif text-accent-gold mb-1 lg:mb-2">
+                <p className="text-2xl sm:text-2xl lg:text-3xl font-serif text-accent-gold mb-1">
                   <AnimatedNumber value={stat.value} suffix={stat.suffix} />
                 </p>
-                <p className="text-[9px] sm:text-[10px] lg:text-sm uppercase tracking-widest text-text-inverse/60 leading-tight">
+                <p className="text-[10px] sm:text-[10px] lg:text-[11px] uppercase tracking-widest text-text-inverse/70 leading-normal">
                   {stat.label}
                 </p>
               </div>
