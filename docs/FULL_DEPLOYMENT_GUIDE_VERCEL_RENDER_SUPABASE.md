@@ -177,8 +177,8 @@ Click **Save Changes**. Render will automatically deploy your Node.js backend. O
 ### Step 3.3: Configure Vercel Environment Variables
 Under the **Environment Variables** section, add:
 
-1. `NEXT_PUBLIC_API_BASE_URL`
-   - **Value:** `https://lawyerwebsite-backend.onrender.com/api`
+1. `NEXT_PUBLIC_BACKEND_URL`
+   - **Value:** `https://lawyerwebsite-backend.onrender.com`
    - **Environments:** Production, Preview, Development
 
 2. `NEXT_PUBLIC_RAZORPAY_KEY_ID`
