@@ -82,14 +82,14 @@ export default function TestimonialsSection() {
                     {testimonials[currentIndex].attribution}
                   </h3>
                   
-                  <div className="relative w-full flex justify-center items-center gap-2 lg:gap-8">
-                    <span className="text-white/60 font-serif text-4xl lg:text-8xl italic leading-none shrink-0" style={{ transform: 'translateY(10px)' }}>//</span>
+                  <div className="relative w-full flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-6 lg:gap-8 px-2 sm:px-6">
+                    <span className="text-white/40 sm:text-white/60 font-serif text-2xl sm:text-6xl lg:text-8xl italic leading-none shrink-0" style={{ transform: 'translateY(4px)' }}>//</span>
                     
-                    <p className="text-base lg:text-2xl text-white/90 font-light max-w-2xl leading-relaxed">
+                    <p className="text-sm sm:text-base lg:text-2xl text-white/90 font-light max-w-2xl leading-relaxed text-center">
                       {testimonials[currentIndex].quote}
                     </p>
                     
-                    <span className="text-white/60 font-serif text-4xl lg:text-8xl italic leading-none shrink-0" style={{ transform: 'translateY(10px)' }}>//</span>
+                    <span className="text-white/40 sm:text-white/60 font-serif text-2xl sm:text-6xl lg:text-8xl italic leading-none shrink-0" style={{ transform: 'translateY(4px)' }}>//</span>
                   </div>
                 </motion.div>
               </AnimatePresence>

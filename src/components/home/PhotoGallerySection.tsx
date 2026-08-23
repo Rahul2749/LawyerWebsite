@@ -16,12 +16,12 @@ const galleryImages = [
   {
     src: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1200&auto=format&fit=crop",
     alt: "Legal documents and pen",
-    className: "col-span-1 row-span-1 aspect-[4/3] sm:aspect-square",
+    className: "col-span-1 row-span-1 aspect-square",
   },
   {
     src: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1200&auto=format&fit=crop",
     alt: "Corporate legal strategy session",
-    className: "col-span-1 sm:col-span-2 row-span-1 aspect-video",
+    className: "col-span-2 row-span-1 aspect-video",
   },
 ];
 
@@ -29,8 +29,8 @@ export default function PhotoGallerySection() {
   return (
     <section className="section bg-bg-primary overflow-hidden">
       <div className="container">
-        <ScrollReveal animation="fade-up" className="text-center mb-12 lg:mb-16">
-          <p className="text-eyebrow text-accent-gold mb-4">
+        <ScrollReveal animation="fade-up" className="text-center mb-8 lg:mb-16">
+          <p className="text-eyebrow text-accent-gold mb-3">
             Gallery
           </p>
           <h2 className="text-h2">
@@ -38,13 +38,13 @@ export default function PhotoGallerySection() {
           </h2>
         </ScrollReveal>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 lg:gap-6 max-w-6xl mx-auto">
+        <div className="grid grid-cols-3 gap-2 sm:gap-4 lg:gap-6 max-w-6xl mx-auto">
           {galleryImages.map((image, index) => (
             <ScrollReveal
               key={index}
               animation="fade-up"
               delay={index * 0.1}
-              className={`relative group overflow-hidden rounded-xl bg-bg-secondary ${image.className}`}
+              className={`relative group overflow-hidden rounded-lg sm:rounded-xl bg-bg-secondary ${image.className}`}
             >
               <img
                 src={image.src}

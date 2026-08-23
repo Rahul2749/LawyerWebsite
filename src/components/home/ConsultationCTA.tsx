@@ -34,10 +34,10 @@ export default function ConsultationCTA() {
               Schedule a confidential consultation to discuss your matter
               and explore how I can help protect your interests.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-3.5 sm:gap-4 justify-center items-center">
               <Link
                 href="/consultation"
-                className="btn btn-primary bg-accent-wine hover:bg-accent-wine-hover whitespace-nowrap text-sm lg:text-base px-6 sm:px-8"
+                className="btn btn-primary bg-accent-wine hover:bg-accent-wine-hover text-xs sm:text-sm lg:text-base px-5 sm:px-8 py-3.5 w-full sm:w-auto text-center"
               >
                 Schedule a Consultation
                 <svg
@@ -57,7 +57,7 @@ export default function ConsultationCTA() {
               </Link>
               <Link
                 href="/contact"
-                className="btn border border-accent-gold/40 text-text-inverse hover:border-accent-gold hover:bg-accent-gold/5"
+                className="btn border border-accent-gold/40 text-text-inverse hover:border-accent-gold hover:bg-accent-gold/5 text-xs sm:text-sm px-5 sm:px-8 py-3.5 w-full sm:w-auto text-center"
               >
                 Contact Me
               </Link>
