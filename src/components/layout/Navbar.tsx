@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { siteSettings } from "@/data/siteSettings";
@@ -66,9 +67,12 @@ export default function Navbar() {
               className="relative z-[60] group flex items-center gap-3"
               aria-label={`${siteSettings.firmName} - Home`}
             >
-              <img
+              <Image
                 src="/nyaysaathi_logo.png"
                 alt="Nyaysaathi Logo"
+                width={48}
+                height={48}
+                priority
                 className="w-11 h-11 lg:w-12 lg:h-12 rounded-full object-cover ring-1 ring-accent-gold/40 shadow-sm"
               />
               <div className="flex flex-col">

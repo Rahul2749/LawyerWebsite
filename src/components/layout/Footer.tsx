@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { siteSettings } from "@/data/siteSettings";
 import { practiceAreas } from "@/data/practiceAreas";
 
@@ -30,9 +31,11 @@ export default function Footer() {
           {/* Column 1: Brand */}
           <div className="lg:col-span-1">
             <Link href="/" className="flex items-center gap-3 mb-4 group">
-              <img
+              <Image
                 src="/nyaysaathi_logo.png"
                 alt="Nyaysaathi Logo"
+                width={44}
+                height={44}
                 className="w-11 h-11 rounded-full object-cover ring-1 ring-accent-gold/40 shadow-sm"
               />
               <div>

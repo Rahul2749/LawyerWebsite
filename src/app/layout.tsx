@@ -33,6 +33,14 @@ export const metadata: Metadata = {
     description:
       "Premier multi-disciplinary legal practice. Experienced panel of advocates delivering strategic legal solutions across Indian courts.",
   },
+  icons: {
+    icon: [
+      { url: "/icon.png", type: "image/png" },
+      { url: "/favicon.ico" },
+    ],
+    apple: "/apple-icon.png",
+    shortcut: "/icon.png",
+  },
   robots: {
     index: true,
     follow: true,
