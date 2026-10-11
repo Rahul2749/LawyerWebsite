@@ -49,7 +49,7 @@ export function LoginGate({ children }: { children: ReactNode }) {
               <span className="text-[#B39352] text-sm font-medium tracking-widest uppercase">Secure Access</span>
             </div>
             <h1 className="text-2xl font-serif text-white">Admin Login</h1>
-            <p className="text-white/50 text-sm mt-1">Raja Agrawal Legal Consultancy</p>
+            <p className="text-white/50 text-sm mt-1">Nyaysaathi Legal Consultancy</p>
           </div>
 
           {/* Form */}

@@ -32,7 +32,7 @@ export default function ConsultationCTA() {
             <p className="text-body text-text-inverse/60 mt-6 mb-10 leading-relaxed">
               Every complex legal challenge begins with a conversation.
               Schedule a confidential consultation to discuss your matter
-              and explore how I can help protect your interests.
+              and explore how our legal team can help protect your interests.
             </p>
             <div className="flex flex-col sm:flex-row gap-3.5 sm:gap-4 justify-center items-center">
               <Link
@@ -59,11 +59,11 @@ export default function ConsultationCTA() {
                 href="/contact"
                 className="btn border border-accent-gold/40 text-text-inverse hover:border-accent-gold hover:bg-accent-gold/5 text-xs sm:text-sm px-5 sm:px-8 py-3.5 w-full sm:w-auto text-center"
               >
-                Contact Me
+                Contact Our Firm
               </Link>
             </div>
             <p className="text-[11px] text-text-inverse/30 mt-8">
-              I respond within one business day. Submitting a form does
+              Our team responds within one business day. Submitting an inquiry does
               not create an attorney-client relationship.
             </p>
           </div>

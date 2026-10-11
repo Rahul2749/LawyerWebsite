@@ -1,11 +1,11 @@
 export const siteSettings = {
-  firmName: "Raja Agrawal",
-  firmTagline: "Advocate & Legal Consultant",
+  firmName: "Nyaysaathi",
+  firmTagline: "Advocates & Legal Consultants",
   firmDescription:
-    "Trusted counsel for complex legal matters. Over two decades of dedicated practice delivering strategic solutions with unwavering integrity.",
-  phone: "+91 86053 99330",
-  whatsapp: "918605399330", // Phone with country code, no + or spaces — used for wa.me links
-  email: "contact@rajaagrawal.in",
+    "A premier multi-disciplinary law firm delivering strategic legal counsel, courtroom advocacy, and dispute resolution. Our team of experienced advocates is committed to justice, integrity, and client trust.",
+  phone: "",
+  whatsapp: "",
+  email: "contact@nyaysaathi.in",
   address: {
     street: "Chamber No. 123, District Court Complex",
     city: "New Delhi",
@@ -18,8 +18,8 @@ export const siteSettings = {
     weekend: "Saturday: By Appointment Only",
   },
   social: {
-    linkedin: "https://linkedin.com/in/rajaagrawal",
-    twitter: "https://twitter.com/rajaagrawallaw",
+    linkedin: "https://linkedin.com/company/nyaysaathi",
+    twitter: "https://twitter.com/nyaysaathi",
   },
   trustStats: [
     { label: "Years of Experience", value: 20, suffix: "+" },
@@ -213,7 +213,7 @@ export const siteSettings = {
   ],
 
   // Backend API URL — update for production
-  BACKEND_URL: process.env.NEXT_PUBLIC_BACKEND_URL ?? process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:5000",
+  BACKEND_URL: process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:5000",
 
   /**
    * Compliance flags — toggle per jurisdiction

@@ -22,7 +22,7 @@ export const testimonials: Testimonial[] = [
     role: "CEO",
     company: "A Technology Company",
     quote:
-      "Alexander's strategic counsel during our acquisition was invaluable. His attention to detail and deep understanding of corporate law guided us through a complex transaction with confidence.",
+      "Nyaysaathi's strategic counsel during our corporate acquisition was invaluable. Their attention to detail and deep understanding of corporate law guided us through a complex transaction with confidence.",
     practiceAreaSlug: "corporate-law",
     jurisdictionApproved: true,
   },
@@ -31,7 +31,7 @@ export const testimonials: Testimonial[] = [
     name: "Sarah L.",
     role: "Real Estate Investor",
     quote:
-      "Working with Alexander on multiple commercial property transactions has been exceptional. His thorough approach to due diligence and negotiation consistently protects our interests.",
+      "Working with Adv. Raja Agrawal and the Nyaysaathi team on multiple commercial property transactions has been exceptional. Their thorough approach to title verification and contract negotiation consistently protects our investments.",
     practiceAreaSlug: "real-estate-law",
     jurisdictionApproved: true,
   },
@@ -41,7 +41,7 @@ export const testimonials: Testimonial[] = [
     role: "Founder",
     company: "A Healthcare Startup",
     quote:
-      "The regulatory compliance program Alexander designed for our company gave us the framework to scale with confidence. His understanding of healthcare regulations is outstanding.",
+      "The regulatory compliance program Nyaysaathi designed for our company gave us the framework to scale with confidence. Their understanding of statutory regulations is outstanding.",
     practiceAreaSlug: "regulatory-compliance",
     jurisdictionApproved: true,
   },
@@ -50,7 +50,7 @@ export const testimonials: Testimonial[] = [
     name: "Jennifer W.",
     role: "Private Client",
     quote:
-      "During a difficult family matter, Alexander provided not just legal expertise but genuine empathy and discretion. I felt supported and informed at every stage of the process.",
+      "During a difficult dispute, the Nyaysaathi advocates provided not just sharp legal expertise but genuine empathy and discretion. I felt supported and informed at every stage of the process.",
     practiceAreaSlug: "family-law",
     jurisdictionApproved: true,
   },

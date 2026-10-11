@@ -44,7 +44,7 @@ export default function HeroSection() {
             >
               <span className="w-8 h-px bg-accent-wine hidden sm:block" />
               <p className="text-eyebrow text-accent-wine font-semibold tracking-widest uppercase">
-                Raja Agrawal — Advocate
+                Nyaysaathi — Advocates &amp; Legal Consultants
               </p>
               <span className="w-8 h-px bg-accent-wine hidden sm:block" />
             </motion.div>
@@ -56,7 +56,7 @@ export default function HeroSection() {
               transition={{ duration: 1, delay: 0.4 }}
               className="text-hero text-text-primary mb-4 lg:mb-5 leading-[1.1]"
             >
-              Fierce Advocacy & Strategic Solutions
+              Fierce Advocacy &amp; Strategic Solutions
             </motion.h1>
 
             {/* Subtitle */}
@@ -66,7 +66,7 @@ export default function HeroSection() {
               transition={{ duration: 0.8, delay: 0.7 }}
               className="text-body text-text-secondary max-w-2xl mx-auto mb-6 lg:mb-8 leading-relaxed"
             >
-              As an independent advocate with 5+ years of dedicated experience, I provide personalized, high-caliber legal counsel. From navigating complex corporate disputes to securing victories in litigation, I fight fiercely to protect your interests and achieve the best possible outcomes.
+              Nyaysaathi is a premier multi-disciplinary law firm bringing together an accomplished team of experienced advocates. From complex litigation and property disputes to corporate advisory, our seasoned legal panel delivers strategic, trusted solutions tailored to safeguard your interests.
             </motion.p>
 
             {/* CTAs */}
@@ -76,11 +76,17 @@ export default function HeroSection() {
               transition={{ duration: 0.8, delay: 0.9 }}
               className="flex flex-col sm:flex-row gap-4 justify-center"
             >
+              <Link
+                href="/consultation"
+                className="btn btn-primary bg-accent-wine hover:bg-accent-wine-hover text-sm py-3 px-7 w-full sm:w-auto"
+              >
+                Book a Consultation
+              </Link>
               <a
                 href="#about"
                 className="btn btn-ghost w-full sm:w-auto"
               >
-                Read My Story
+                About Our Firm &amp; Team
                 <svg
                   width="16"
                   height="16"
@@ -108,17 +114,17 @@ export default function HeroSection() {
             >
               <div className="flex items-center gap-2">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-accent-gold"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" /></svg>
-                <span className="text-xs text-text-secondary uppercase tracking-wider">150+ Cases Won</span>
+                <span className="text-xs text-text-secondary uppercase tracking-wider">500+ Legal Matters Handled</span>
               </div>
               <div className="w-px h-4 bg-border-subtle" />
               <div className="flex items-center gap-2">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-accent-gold"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
-                <span className="text-xs text-text-secondary uppercase tracking-wider">98% Success Rate</span>
+                <span className="text-xs text-text-secondary uppercase tracking-wider">98% Client Satisfaction</span>
               </div>
               <div className="w-px h-4 bg-border-subtle" />
               <div className="flex items-center gap-2">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-accent-gold"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>
-                <span className="text-xs text-text-secondary uppercase tracking-wider">300+ Clients</span>
+                <span className="text-xs text-text-secondary uppercase tracking-wider">Experienced Legal Panel</span>
               </div>
             </motion.div>
           </div>

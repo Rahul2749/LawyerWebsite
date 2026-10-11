@@ -21,9 +21,9 @@ const reasons = [
         <circle cx="12" cy="7" r="4" />
       </svg>
     ),
-    title: "Direct Advocate Access",
+    title: "Dedicated Senior Legal Counsel",
     description:
-      "No intermediaries or junior associates. Every session is conducted directly by Advocate Raja Agrawal.",
+      "Direct consultation with experienced advocates, including Adv. Raja Agrawal and practice domain leads, ensuring tailored legal mastery.",
   },
   {
     icon: (

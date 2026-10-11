@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Terms of Use",
-  description: "Terms of Use for the Raja Agrawal website.",
+  description: "Terms of Use for the Nyaysaathi website.",
 };
 
 export default function TermsOfUsePage() {
@@ -47,8 +47,7 @@ export default function TermsOfUsePage() {
           <h2>Intellectual Property</h2>
           <p>
             All content on this website — including text, graphics, logos,
-            and images — is the property of Raja Agrawal, Attorney at
-            Law, and is protected by applicable intellectual property laws.
+            and images — is the property of Nyaysaathi (Advocates &amp; Legal Consultants), and is protected by applicable intellectual property laws.
             You may not reproduce, distribute, or use any content without
             prior written permission.
           </p>

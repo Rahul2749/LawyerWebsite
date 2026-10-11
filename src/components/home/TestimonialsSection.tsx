@@ -6,16 +6,16 @@ import ScrollReveal from "@/components/ui/ScrollReveal";
 
 const testimonials = [
   {
-    quote: "Adv. Raja Agrawal's meticulous preparation and strategic thinking delivered outstanding results for our corporate dispute.",
-    attribution: "A Satisfied Client"
+    quote: "Nyaysaathi's legal team demonstrated meticulous preparation and strategic depth in our commercial dispute. Adv. Raja Agrawal and his colleagues delivered outstanding results.",
+    attribution: "A Satisfied Corporate Client"
   },
   {
-    quote: "His dedication to my case went far beyond expectations. A true advocate who fights for his clients with integrity.",
-    attribution: "Corporate Client"
+    quote: "The firm's dedication to our matter went far beyond expectations. A formidable team of advocates who fight for their clients with relentless integrity.",
+    attribution: "Enterprise Client"
   },
   {
-    quote: "Exceptional legal expertise combined with a genuinely personal approach. I felt heard and supported throughout the entire process.",
-    attribution: "Private Client"
+    quote: "Exceptional legal acumen combined with a genuinely attentive approach. With Nyaysaathi, I felt fully protected and supported at every stage.",
+    attribution: "Private Dispute Client"
   }
 ];
 

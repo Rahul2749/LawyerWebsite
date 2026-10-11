@@ -5,31 +5,33 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "Raja Agrawal — Advocate & Legal Consultant",
-    template: "%s | Raja Agrawal",
+    default: "Nyaysaathi — Advocates & Legal Consultants",
+    template: "%s | Nyaysaathi",
   },
   description:
-    "Trusted legal counsel for complex matters. Over two decades of dedicated practice delivering strategic solutions with unwavering integrity. Corporate Law, Litigation, Real Estate, IP, Family Law, and Regulatory Compliance.",
+    "Nyaysaathi is a premier multi-disciplinary law firm. Experienced team of advocates and legal counsel providing strategic solutions with unwavering integrity in Corporate Law, Litigation, Real Estate, IP, Criminal Defence, and Family Law.",
   keywords: [
-    "advocate",
-    "lawyer",
+    "Nyaysaathi",
+    "Nyaysaathi legal",
+    "advocates firm",
+    "law firm India",
     "legal consultant",
+    "Raja Agrawal",
     "corporate law",
-    "litigation",
+    "litigation advocates",
     "real estate law",
+    "criminal defence",
     "intellectual property",
     "family law",
-    "regulatory compliance",
-    "India advocate",
-    "Raja Agrawal",
+    "Delhi High Court advocate",
   ],
   openGraph: {
     type: "website",
     locale: "en_IN",
-    siteName: "Raja Agrawal — Advocate & Legal Consultant",
-    title: "Raja Agrawal — Advocate & Legal Consultant",
+    siteName: "Nyaysaathi — Advocates & Legal Consultants",
+    title: "Nyaysaathi — Advocates & Legal Consultants",
     description:
-      "Trusted legal counsel for complex matters. Over two decades of dedicated practice.",
+      "Premier multi-disciplinary legal practice. Experienced panel of advocates delivering strategic legal solutions across Indian courts.",
   },
   robots: {
     index: true,

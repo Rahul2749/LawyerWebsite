@@ -4,8 +4,8 @@ import { practiceAreas } from "@/data/practiceAreas";
 
 const footerLinks = {
   quickLinks: [
-    { href: "/about", label: "About" },
-    { href: "/practice-areas", label: "Practice Areas" },
+    { href: "/#about", label: "About" },
+    { href: "/#services", label: "Legal Services" },
     { href: "/insights", label: "Legal Insights" },
     { href: "/videos", label: "Legal Talks" },
     { href: "/consultation", label: "Book a Consultation" },
@@ -109,17 +109,12 @@ export default function Footer() {
               <p>{siteSettings.address.full}</p>
               <p>
                 <a
-                  href={`tel:${siteSettings.phone.replace(/\s+/g, "")}`}
-                  className="hover:text-accent-gold transition-colors"
-                >
-                  {siteSettings.phone}
-                </a>
-              </p>
-              <p>
-                <a
                   href={`mailto:${siteSettings.email}`}
-                  className="hover:text-accent-gold transition-colors"
+                  className="hover:text-accent-gold transition-colors inline-flex items-center gap-2"
                 >
+                  <svg className="w-4 h-4 text-accent-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
                   {siteSettings.email}
                 </a>
               </p>
