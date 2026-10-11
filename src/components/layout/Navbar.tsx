@@ -67,9 +67,9 @@ export default function Navbar() {
               aria-label={`${siteSettings.firmName} - Home`}
             >
               <img
-                src="/advocate_logo.png"
-                alt="Logo"
-                className="w-10 h-10 lg:w-12 lg:h-12 rounded-full object-cover"
+                src="/nyaysaathi_logo.png"
+                alt="Nyaysaathi Logo"
+                className="w-11 h-11 lg:w-12 lg:h-12 rounded-full object-cover ring-1 ring-accent-gold/40 shadow-sm"
               />
               <div className="flex flex-col">
                 <span className="font-serif text-xl lg:text-2xl font-medium tracking-tight text-text-primary">

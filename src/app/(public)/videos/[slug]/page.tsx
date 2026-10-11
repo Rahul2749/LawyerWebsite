@@ -79,21 +79,24 @@ export default async function VideoDetailPage({
                 className="absolute inset-0 w-full h-full border-0"
               ></iframe>
             ) : (
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-center">
-                  <div className="w-20 h-20 rounded-full border-2 border-text-inverse/30 flex items-center justify-center mx-auto mb-4 hover:border-accent-gold transition-colors cursor-pointer">
+              <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-t from-bg-dark via-bg-dark/90 to-bg-dark/80">
+                <div className="text-center p-6">
+                  <div className="w-20 h-20 rounded-full border-2 border-accent-gold/40 bg-accent-wine/30 flex items-center justify-center mx-auto mb-4 hover:border-accent-gold transition-colors">
                     <svg
                       width="32"
                       height="32"
                       viewBox="0 0 24 24"
                       fill="currentColor"
-                      className="text-text-inverse ml-1"
+                      className="text-accent-gold ml-1"
                       aria-hidden="true"
                     >
                       <polygon points="5 3 19 12 5 21 5 3" />
                     </svg>
                   </div>
-                  <p className="text-xs text-text-inverse/40">Video Player Placeholder</p>
+                  <p className="font-serif text-lg text-text-inverse mb-1">Chamber Legal Briefing</p>
+                  <p className="text-xs text-text-inverse/60 max-w-sm mx-auto">
+                    Video presentation and briefing materials are available upon consultation request.
+                  </p>
                 </div>
               </div>
             )}

@@ -29,13 +29,20 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
           {/* Column 1: Brand */}
           <div className="lg:col-span-1">
-            <Link href="/" className="inline-block mb-4">
-              <span className="font-serif text-2xl font-medium">
-                {siteSettings.firmName}
-              </span>
-              <span className="block text-[10px] uppercase tracking-[0.2em] text-accent-gold mt-0.5">
-                {siteSettings.firmTagline}
-              </span>
+            <Link href="/" className="flex items-center gap-3 mb-4 group">
+              <img
+                src="/nyaysaathi_logo.png"
+                alt="Nyaysaathi Logo"
+                className="w-11 h-11 rounded-full object-cover ring-1 ring-accent-gold/40 shadow-sm"
+              />
+              <div>
+                <span className="font-serif text-2xl font-medium text-text-inverse group-hover:text-accent-gold transition-colors">
+                  {siteSettings.firmName}
+                </span>
+                <span className="block text-[10px] uppercase tracking-[0.2em] text-accent-gold mt-0.5">
+                  {siteSettings.firmTagline}
+                </span>
+              </div>
             </Link>
             <p className="text-sm text-text-inverse/60 leading-relaxed mt-4 max-w-xs">
               Trusted counsel for complex legal matters. Dedicated to
