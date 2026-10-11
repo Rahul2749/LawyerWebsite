@@ -6,7 +6,18 @@ import { Resend } from "resend";
 import { env } from "../config/env";
 
 // Initialize Resend
-const resend = new Resend(env.RESEND_API_KEY);
+const resend = env.RESEND_API_KEY ? new Resend(env.RESEND_API_KEY) : null;
+
+type EmailOptions = Parameters<Resend["emails"]["send"]>[0];
+
+async function sendEmail(options: EmailOptions): Promise<void> {
+  if (!resend) {
+    console.warn("RESEND_API_KEY is not configured; skipping email delivery.");
+    return;
+  }
+
+  await resend.emails.send(options);
+}
 
 // As requested, all emails will go here for now when form is submitted
 // NOTE: Resend free tier only allows sending to the account's own email until a domain is verified
@@ -24,7 +35,7 @@ export async function sendBookingConfirmationEmail(params: {
   const { clientName, clientEmail, referenceNumber, serviceName, appointmentDate, amount } = params;
 
   try {
-    await resend.emails.send({
+    await sendEmail({
       from: `"${env.EMAIL_FROM_NAME}" <${env.EMAIL_FROM_ADDRESS}>`,
       to: clientEmail,
       subject: `Appointment Confirmed — ${referenceNumber}`,
@@ -114,7 +125,7 @@ export async function sendLawyerAlertEmail(params: {
   const { clientName, clientEmail, clientPhone, referenceNumber, serviceName, message, amount } = params;
 
   try {
-    await resend.emails.send({
+    await sendEmail({
       from: `"Booking System" <${env.EMAIL_FROM_ADDRESS}>`,
       to: env.LAWYER_EMAIL,
       subject: `🔔 New Appointment — ${referenceNumber} (${serviceName})`,
@@ -153,7 +164,7 @@ export async function sendCustomReplyEmail(params: {
   const formattedMessage = message.replace(/\n/g, "<br/>");
 
   try {
-    await resend.emails.send({
+    await sendEmail({
       from: `"${env.EMAIL_FROM_NAME}" <${env.EMAIL_FROM_ADDRESS}>`,
       to: clientEmail,
       subject: `${subject} (Ref: ${referenceNumber})`,
@@ -209,7 +220,7 @@ export async function sendContactAlertEmail(params: {
   const { name, email, phone, subject, message } = params;
 
   try {
-    await resend.emails.send({
+    await sendEmail({
       from: `"Contact Form" <${env.EMAIL_FROM_ADDRESS}>`,
       to: env.LAWYER_EMAIL,
       subject: `📩 New Contact Message — ${subject || "No Subject"}`,
@@ -228,7 +239,7 @@ export async function sendOTPEmail(params: {
   const { email, otp } = params;
 
   try {
-    await resend.emails.send({
+    await sendEmail({
       from: `"${env.EMAIL_FROM_NAME}" <${env.EMAIL_FROM_ADDRESS}>`,
       to: email,
       subject: `Your Appointment Tracking OTP — ${otp}`,
@@ -319,7 +330,7 @@ export async function sendAppointmentStatusUpdateEmail(params: {
   const statusDesc = STATUS_DESCRIPTIONS[newStatus] ?? `Your appointment status has been updated to <strong>${statusLabel}</strong>.`;
 
   try {
-    await resend.emails.send({
+    await sendEmail({
       from: `"${env.EMAIL_FROM_NAME}" <${env.EMAIL_FROM_ADDRESS}>`,
       to: clientEmail,
       subject: `Appointment Status Update: ${statusLabel} — ${referenceNumber}`,

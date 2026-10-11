@@ -11,10 +11,13 @@ import { env } from "../config/env";
 
 // ─── RAZORPAY ────────────────────────────────────────────────────────────────
 
-const razorpay = new Razorpay({
-  key_id: env.RAZORPAY_KEY_ID,
-  key_secret: env.RAZORPAY_KEY_SECRET,
-});
+const razorpay =
+  env.RAZORPAY_KEY_ID && env.RAZORPAY_KEY_SECRET
+    ? new Razorpay({
+        key_id: env.RAZORPAY_KEY_ID,
+        key_secret: env.RAZORPAY_KEY_SECRET,
+      })
+    : null;
 
 export interface RazorpayOrderResult {
   orderId: string;
@@ -29,6 +32,10 @@ export async function createRazorpayOrder(
   amountInRupees: number,
   referenceNumber: string
 ): Promise<RazorpayOrderResult> {
+  if (!razorpay) {
+    throw new Error("Razorpay payments are not configured");
+  }
+
   const order = await razorpay.orders.create({
     amount: amountInRupees * 100, // Razorpay needs amount in paise (₹1 = 100 paise)
     currency: "INR",
@@ -52,6 +59,8 @@ export function verifyRazorpaySignature(
   paymentId: string,
   signature: string
 ): boolean {
+  if (!env.RAZORPAY_KEY_SECRET) return false;
+
   const expectedSignature = crypto
     .createHmac("sha256", env.RAZORPAY_KEY_SECRET)
     .update(`${orderId}|${paymentId}`)
