@@ -34,12 +34,12 @@ export function LoginGate({ children }: { children: ReactNode }) {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#F9F8F6]">
+    <div className="min-h-dvh flex items-center justify-center bg-[#F9F8F6] px-4 py-8 sm:px-6">
       <div className="w-full max-w-md">
         {/* Card */}
         <div className="bg-white rounded-2xl shadow-xl border border-[#E6E1D6] overflow-hidden">
           {/* Header strip */}
-          <div className="bg-[#5A1824] px-8 py-7">
+          <div className="bg-[#5A1824] px-5 sm:px-8 py-6 sm:py-7">
             <div className="flex items-center gap-3 mb-1">
               <div className="w-8 h-8 rounded-full bg-[#B39352]/20 border border-[#B39352]/40 flex items-center justify-center">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B39352" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -53,7 +53,7 @@ export function LoginGate({ children }: { children: ReactNode }) {
           </div>
 
           {/* Form */}
-          <div className="px-8 py-8">
+          <div className="px-5 sm:px-8 py-6 sm:py-8">
             {error && (
               <div className="mb-5 bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3 rounded-lg flex items-center gap-2">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
@@ -63,28 +63,30 @@ export function LoginGate({ children }: { children: ReactNode }) {
 
             <form onSubmit={handleLogin} className="space-y-5">
               <div>
-                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+                <label htmlFor="admin-email" className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
                   Email Address
                 </label>
                 <input
+                  id="admin-email"
                   type="email"
                   required
                   autoComplete="email"
-                  className="w-full px-4 py-3 rounded-lg border border-[#E6E1D6] bg-[#F9F8F6] text-gray-900 text-sm focus:outline-none focus:border-[#5A1824] focus:ring-2 focus:ring-[#5A1824]/10 transition"
+                  className="w-full px-4 py-3 rounded-lg border border-[#E6E1D6] bg-[#F9F8F6] text-gray-900 text-base sm:text-sm focus:outline-none focus:border-[#5A1824] focus:ring-2 focus:ring-[#5A1824]/10 transition"
                   placeholder="admin@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+                <label htmlFor="admin-password" className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
                   Password
                 </label>
                 <input
+                  id="admin-password"
                   type="password"
                   required
                   autoComplete="current-password"
-                  className="w-full px-4 py-3 rounded-lg border border-[#E6E1D6] bg-[#F9F8F6] text-gray-900 text-sm focus:outline-none focus:border-[#5A1824] focus:ring-2 focus:ring-[#5A1824]/10 transition"
+                  className="w-full px-4 py-3 rounded-lg border border-[#E6E1D6] bg-[#F9F8F6] text-gray-900 text-base sm:text-sm focus:outline-none focus:border-[#5A1824] focus:ring-2 focus:ring-[#5A1824]/10 transition"
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}

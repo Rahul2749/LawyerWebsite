@@ -43,7 +43,7 @@ It must communicate: Trust, Authority, Professionalism, Expertise, Privacy, Inte
 - Docker + docker-compose for local dev parity (Postgres, Redis, app)
 - CI/CD: GitHub Actions — lint → typecheck → test → build → deploy
 - Environments: `local`, `staging`, `production` with separate `.env` files and separate S3 buckets/DB instances
-- Infrastructure target: Vercel (frontend) + Railway/Render/Fly.io or a VPS (backend + Postgres), or a unified Docker deployment — document as a decision point, not a hard requirement
+- Infrastructure target: a unified Docker deployment on an Ubuntu VPS, with PostgreSQL, Nginx, and TLS termination on the host
 - **[NEW]** Automated nightly PostgreSQL backups with a documented restore procedure
 - **[NEW]** Health check endpoint (`/api/health`) for uptime monitoring
 

@@ -116,7 +116,6 @@ export default function Footer() {
           <div>
             <h3 className="text-eyebrow text-accent-gold mb-6">Contact</h3>
             <div className="space-y-4 text-sm text-text-inverse/70">
-              <p>{siteSettings.address.full}</p>
               <p>
                 <a
                   href={`mailto:${siteSettings.email}`}

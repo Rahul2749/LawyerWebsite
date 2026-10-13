@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState, useCallback } from "react";
+import MobileNavigationDrawer from "@/components/layout/MobileNavigationDrawer";
 import { AuthProvider, useAuth } from "./auth-context";
 import { LoginGate } from "./login-gate";
 
@@ -47,6 +49,13 @@ const navItems = [
 function AdminLayoutInner({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const { adminName, logout } = useAuth();
+  const [sidebarPath, setSidebarPath] = useState<string | null>(null);
+  const sidebarOpen = sidebarPath === pathname;
+  const closeSidebar = useCallback(() => setSidebarPath(null), []);
+
+  if (sidebarPath !== null && sidebarPath !== pathname) {
+    setSidebarPath(null);
+  }
 
   const initials = adminName
     .split(" ")
@@ -63,18 +72,39 @@ function AdminLayoutInner({ children }: { children: React.ReactNode }) {
     )?.name ?? "Admin";
 
   return (
-    <div className="min-h-screen bg-[#F4F2EF] flex font-sans text-gray-900">
+    <div className="admin-workspace min-h-dvh bg-[#F4F2EF] font-sans text-gray-900">
+      {sidebarOpen && (
+        <MobileNavigationDrawer id="admin-navigation-drawer" label="Admin navigation" subtitle="Admin workspace" onClose={closeSidebar}>
+          <nav aria-label="Admin mobile navigation" className="flex-1 px-6 py-6">
+            {navItems.map((item) => {
+              const isActive = pathname === item.href || (item.href !== "/admin-lawyersite" && pathname.startsWith(item.href + "/"));
+              return (
+                <Link key={item.href} href={item.href} onClick={closeSidebar} aria-current={isActive ? "page" : undefined} className={"flex min-h-16 items-center gap-3 py-3 text-base font-semibold transition-colors hover:text-[#5A1824] " + (isActive ? "text-[#5A1824]" : "text-gray-700")}>
+                  <span aria-hidden="true" className="shrink-0">{item.icon}</span>
+                  {item.name}
+                </Link>
+              );
+            })}
+          </nav>
+          <div className="shrink-0 space-y-2 border-t border-[#E6E1D6] p-5">
+            <Link href="/" target="_blank" rel="noopener noreferrer" className="flex min-h-11 items-center justify-center rounded-lg border border-[#B39352]/40 text-sm font-medium text-[#5A1824] hover:bg-[#F0EBE1]">View Live Site</Link>
+            <button type="button" onClick={logout} className="flex min-h-11 w-full items-center justify-center rounded-lg border border-red-200 text-sm font-medium text-red-600 hover:bg-red-50">Logout</button>
+          </div>
+        </MobileNavigationDrawer>
+      )}
+
       {/* Sidebar */}
-      <aside className="w-60 bg-white border-r border-[#E6E1D6] flex flex-col fixed inset-y-0 z-20 shadow-sm">
-        {/* Logo */}
-        <div className="h-16 flex items-center px-6 border-b border-[#E6E1D6]">
+      <aside aria-label="Admin sidebar" className="fixed inset-y-0 z-40 hidden w-60 flex-col border-r border-[#E6E1D6] bg-white shadow-sm lg:flex">
+        {/* Desktop branding */}
+        <div className="h-20 shrink-0 flex items-center justify-between px-6 border-b border-[#E6E1D6]">
           <span className="text-lg font-serif font-medium text-[#5A1824]">
             Lawyer<span className="text-[#B39352] ml-1">Admin</span>
           </span>
+
         </div>
 
         {/* Nav */}
-        <nav className="flex-1 overflow-y-auto py-6 px-3 space-y-1">
+        <nav aria-label="Admin navigation" className="min-h-0 flex-1 overflow-y-auto py-6 px-3 space-y-2">
           {navItems.map((item) => {
             const isActive =
               pathname === item.href ||
@@ -83,7 +113,8 @@ function AdminLayoutInner({ children }: { children: React.ReactNode }) {
               <Link
                 key={item.name}
                 href={item.href}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200 ${
+                aria-current={isActive ? "page" : undefined}
+                className={`flex min-h-12 items-center gap-3 px-3 py-3 rounded-lg text-sm transition-all duration-200 ${
                   isActive
                     ? "bg-[#5A1824] text-white shadow-sm"
                     : "text-gray-600 hover:bg-[#F0EBE1] hover:text-[#5A1824]"
@@ -97,7 +128,7 @@ function AdminLayoutInner({ children }: { children: React.ReactNode }) {
         </nav>
 
         {/* Footer */}
-        <div className="p-4 border-t border-[#E6E1D6] space-y-2">
+        <div className="shrink-0 p-4 border-t border-[#E6E1D6] space-y-2">
           <Link
             href="/"
             target="_blank"
@@ -116,24 +147,40 @@ function AdminLayoutInner({ children }: { children: React.ReactNode }) {
         </div>
       </aside>
 
-      {/* Main */}
-      <main className="flex-1 ml-60 min-h-screen">
+      {/* Main area — offset on desktop only */}
+      <main className="min-h-screen min-w-0 lg:ml-60">
         {/* Top Header */}
-        <header className="h-16 bg-white border-b border-[#E6E1D6] flex items-center px-8 justify-between sticky top-0 z-10 shadow-sm">
-          <h1 className="text-base font-semibold text-[#1A1A1A]">{currentPage}</h1>
-          <div className="flex items-center gap-3">
+        <header className="h-20 bg-white border-b border-[#E6E1D6] flex items-center px-4 sm:px-8 justify-between sticky top-0 z-20 shadow-sm">
+          <div className="flex min-w-0 items-center gap-3">
+            {/* Hamburger — mobile only */}
+            <button
+              type="button"
+              onClick={() => setSidebarPath(pathname)}
+              className="lg:hidden flex size-11 shrink-0 items-center justify-center -ml-1 text-[#5A1824] hover:text-[#5A1824] rounded-lg hover:bg-[#F0EBE1] transition"
+              aria-label="Open sidebar"
+              aria-expanded={sidebarOpen}
+              aria-controls="admin-navigation-drawer"
+              aria-haspopup="dialog"
+            >
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+              </svg>
+            </button>
+            <h1 className="truncate text-sm sm:text-base font-semibold text-[#1A1A1A]">{currentPage}</h1>
+          </div>
+          <div className="flex shrink-0 items-center gap-3">
             <div className="text-sm text-right hidden sm:block">
               <p className="font-medium text-gray-900 leading-tight">{adminName}</p>
               <p className="text-gray-400 text-xs">Administrator</p>
             </div>
-            <div className="w-9 h-9 rounded-full bg-[#5A1824] flex items-center justify-center text-xs font-bold text-[#B39352] border-2 border-[#B39352]/30">
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#5A1824] flex items-center justify-center text-xs font-bold text-[#B39352] border-2 border-[#B39352]/30">
               {initials}
             </div>
           </div>
         </header>
 
         {/* Content */}
-        <div className="p-8 max-w-7xl mx-auto">{children}</div>
+        <div className="min-w-0 p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">{children}</div>
       </main>
     </div>
   );

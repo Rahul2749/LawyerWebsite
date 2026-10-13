@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { siteSettings } from "@/data/siteSettings";
+import MobileNavigationDrawer from "./MobileNavigationDrawer";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -19,8 +20,14 @@ const navLinks = [
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
+  const [mobileMenuPath, setMobileMenuPath] = useState<string | null>(null);
+  const isMobileMenuOpen = mobileMenuPath === pathname;
+  const closeMobileMenu = useCallback(() => setMobileMenuPath(null), []);
+
+  if (mobileMenuPath !== null && mobileMenuPath !== pathname) {
+    setMobileMenuPath(null);
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -30,41 +37,37 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close mobile menu on route change
-  useEffect(() => {
-    setIsMobileMenuOpen(false);
-  }, [pathname]);
-
-  // Lock body scroll when mobile menu is open
-  useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isMobileMenuOpen]);
-
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-[60] transition-all duration-500 ${
+        className={`fixed top-0 left-0 right-0 z-[60] h-20 bg-white border-b border-border-subtle transition-all duration-500 lg:h-auto ${
           isScrolled
-            ? "py-2 bg-bg-primary/95 backdrop-blur-md border-b border-border-subtle shadow-[0_1px_3px_rgba(0,0,0,0.04)]"
-            : "py-3 bg-transparent"
+            ? "lg:py-2 lg:bg-bg-primary/95 backdrop-blur-md shadow-[0_1px_3px_rgba(0,0,0,0.04)]"
+            : "lg:py-3 lg:bg-transparent lg:border-transparent"
         }`}
         role="banner"
       >
-        <div className="container flex flex-col">
-          
+        <div className="container flex h-full flex-col justify-center max-lg:[--container-padding:1rem] sm:max-lg:[--container-padding:1.5rem]">
+
           {/* Top Tier */}
-          <div className="flex items-center justify-between w-full lg:border-b lg:border-border-subtle/50 lg:pb-3">
+          <div className="flex items-center gap-3 w-full lg:justify-between lg:border-b lg:border-border-subtle/50 lg:pb-3">
+            <button
+              type="button"
+              onClick={() => setMobileMenuPath(pathname)}
+              className="flex size-11 shrink-0 items-center justify-center rounded-lg text-accent-wine hover:bg-bg-secondary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-wine lg:hidden"
+              aria-label="Open menu"
+              aria-expanded={isMobileMenuOpen}
+              aria-controls="public-navigation-drawer"
+              aria-haspopup="dialog"
+            >
+              <svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round">
+                <path d="M3 6h18M3 12h18M3 18h18" />
+              </svg>
+            </button>
             {/* Logo */}
             <Link
               href="/"
-              className="relative z-[60] group flex items-center gap-3"
+              className="relative z-[60] group flex min-w-0 items-center gap-2.5 lg:gap-3"
               aria-label={`${siteSettings.firmName} - Home`}
             >
               <Image
@@ -73,13 +76,13 @@ export default function Navbar() {
                 width={48}
                 height={48}
                 priority
-                className="w-11 h-11 lg:w-12 lg:h-12 rounded-full object-cover ring-1 ring-accent-gold/40 shadow-sm"
+                className="w-10 h-10 shrink-0 lg:w-12 lg:h-12 rounded-full object-cover ring-1 ring-accent-gold/40 shadow-sm"
               />
-              <div className="flex flex-col">
-                <span className="font-serif text-xl lg:text-2xl font-medium tracking-tight text-text-primary">
+              <div className="flex min-w-0 flex-col">
+                <span className="font-serif text-2xl font-medium tracking-tight text-text-primary">
                   {siteSettings.firmName}
                 </span>
-                <span className="text-[10px] uppercase tracking-[0.2em] text-accent-gold font-sans font-medium">
+                <span className="text-[9px] lg:text-[10px] uppercase tracking-[0.1em] lg:tracking-[0.2em] text-accent-wine lg:text-accent-gold font-sans font-medium">
                   {siteSettings.firmTagline}
                 </span>
               </div>
@@ -107,18 +110,6 @@ export default function Navbar() {
               </Link>
             </div>
 
-            {/* Mobile: Hamburger */}
-            <div className="flex items-center gap-4 lg:hidden">
-              <button
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="relative z-[60] w-10 h-10 flex flex-col items-center justify-center gap-1.5"
-                aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
-                aria-expanded={isMobileMenuOpen}
-              >
-                <span className={`block w-6 h-px bg-text-primary transition-all duration-300 ${isMobileMenuOpen ? "rotate-45 translate-y-[3.5px]" : ""}`} />
-                <span className={`block w-6 h-px bg-text-primary transition-all duration-300 ${isMobileMenuOpen ? "-rotate-45 -translate-y-[3.5px]" : ""}`} />
-              </button>
-            </div>
           </div>
 
           {/* Bottom Tier (Desktop only) */}
@@ -134,14 +125,14 @@ export default function Navbar() {
                       {link.label}
                       <svg className="w-3 h-3 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
                     </button>
-                    
+
                     {/* Mega Menu Dropdown */}
                     <div className="absolute top-full left-1/2 -translate-x-1/2 w-[900px] max-w-[95vw] bg-bg-primary shadow-2xl border border-border-subtle rounded-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 translate-y-2 group-hover:translate-y-0 overflow-hidden z-[100]">
                       <div className="p-6">
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-3">
                           {siteSettings.services.map((service) => (
-                            <Link 
-                              key={service.slug} 
+                            <Link
+                              key={service.slug}
                               href={`/consultation?service=${service.slug}`}
                               className="flex items-center gap-3 p-2 rounded-lg hover:bg-bg-secondary transition-colors group/item"
                             >
@@ -187,87 +178,50 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* Mobile Menu Overlay */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
-            className="fixed inset-0 z-[55] bg-bg-primary flex flex-col justify-start items-end pt-32 px-10 pb-10 overflow-y-auto"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Mobile navigation"
-          >
-            <nav className="flex flex-col items-end gap-6 w-full" aria-label="Mobile navigation">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 10 }}
-                transition={{ duration: 0.4 }}
-                className="mb-2 w-full text-right border-b border-border-subtle pb-6"
-              >
-                <Link href="/consultation" className="btn btn-primary w-full sm:w-auto text-sm">
-                  Book a Consultation
-                </Link>
-              </motion.div>
+      {isMobileMenuOpen && (
+        <MobileNavigationDrawer id="public-navigation-drawer" label="Main navigation" onClose={closeMobileMenu}>
+          <nav aria-label="Mobile navigation" className="flex-1 px-5 py-6 sm:px-7">
+            {navLinks.map((link) => {
+              const active = link.href === "/"
+                ? pathname === "/"
+                : pathname === link.href || pathname.startsWith(link.href + "/");
+              const linkClass = "flex min-h-14 items-center py-3 text-base font-semibold transition-colors hover:text-accent-wine focus-visible:outline-2 focus-visible:outline-accent-wine";
 
-              {navLinks.map((link, i) => {
-                if (link.isDropdown) {
-                  return (
-                    <motion.div
-                      key={link.label}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 10 }}
-                      transition={{ delay: i * 0.06, duration: 0.4 }}
-                      className="w-full flex flex-col items-end"
-                    >
-                      <span className="font-serif text-2xl font-light tracking-wide text-text-secondary mb-3 block">{link.label}</span>
-                      <div className="flex flex-col items-end gap-3 pr-4 border-r border-border-subtle/50 w-full mb-2">
-                        {siteSettings.services.map((service) => (
-                          <Link 
-                            key={service.slug}
-                            href={`/consultation?service=${service.slug}`}
-                            className="text-[15px] font-medium text-text-primary hover:text-accent-wine text-right"
-                          >
-                            {service.name}
-                          </Link>
-                        ))}
-                      </div>
-                    </motion.div>
-                  );
-                }
-
+              if (link.isDropdown) {
                 return (
-                  <motion.div
-                    key={link.href}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 10 }}
-                    transition={{ delay: i * 0.06, duration: 0.4 }}
-                    className="w-full"
-                  >
-                    <Link
-                      href={link.href}
-                      className={`font-serif text-2xl font-light tracking-wide transition-colors text-right block w-full ${
-                        pathname === link.href
-                          ? "text-accent-wine"
-                          : "text-text-primary hover:text-accent-wine"
-                      }`}
-                    >
+                  <details key={link.label} className="group">
+                    <summary className={linkClass + " cursor-pointer list-none justify-between gap-2 text-text-primary [&::-webkit-details-marker]:hidden"}>
                       {link.label}
-                    </Link>
-                  </motion.div>
+                      <svg aria-hidden="true" className="size-4 shrink-0 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m6 9 6 6 6-6" /></svg>
+                    </summary>
+                    <div className="mb-3 space-y-1 border-l border-border-subtle pl-4">
+                      {siteSettings.services.map((service) => (
+                        <Link key={service.slug} href={`/consultation?service=${service.slug}`} onClick={closeMobileMenu} className="flex min-h-11 items-center py-2 text-sm leading-relaxed text-text-secondary hover:text-accent-wine">
+                          {service.name}
+                        </Link>
+                      ))}
+                    </div>
+                  </details>
                 );
-              })}
+              }
 
-
-            </nav>
-          </motion.div>
-        )}
-      </AnimatePresence>
+              return (
+                <Link key={link.href} href={link.href} onClick={closeMobileMenu} aria-current={active ? "page" : undefined} className={linkClass + (active ? " text-accent-wine" : " text-text-primary")}>
+                  {link.label}
+                </Link>
+              );
+            })}
+            <Link href="/track-appointment" onClick={closeMobileMenu} className="flex min-h-14 items-center py-3 text-base font-semibold text-text-primary hover:text-accent-wine">
+              Track Booking
+            </Link>
+          </nav>
+          <div className="shrink-0 border-t border-border-subtle px-5 py-5 sm:px-7">
+            <Link href="/consultation" onClick={closeMobileMenu} className="btn btn-primary w-full text-center text-sm">
+              Book a Consultation
+            </Link>
+          </div>
+        </MobileNavigationDrawer>
+      )}
 
       {/* Mobile Sticky CTA */}
       {!isMobileMenuOpen && (

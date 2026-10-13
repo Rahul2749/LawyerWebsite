@@ -103,6 +103,23 @@ html {
   text-rendering: optimizeLegibility;
 }
 
+@keyframes navigation-drawer-enter {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+.navigation-drawer-panel {
+  animation: navigation-drawer-enter 240ms var(--ease-reveal);
+}
+
+@media (max-width: 639px) {
+  .admin-workspace input:not([type="file"]),
+  .admin-workspace textarea,
+  .admin-workspace select {
+    font-size: 16px;
+  }
+}
+
 body {
   margin: 0;
   font-family: var(--font-sans);

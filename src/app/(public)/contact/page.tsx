@@ -5,7 +5,7 @@ import { siteSettings } from "@/data/siteSettings";
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Get in touch with Nyaysaathi Advocates & Legal Consultants. Chambers located at District Court Complex, New Delhi. Email or book an appointment online.",
+    "Get in touch with Nyaysaathi Advocates & Legal Consultants. Email or book an appointment online.",
 };
 
 export default function ContactPage() {
@@ -40,19 +40,6 @@ export default function ContactPage() {
               <h2 className="text-h3 mb-8">Contact Information</h2>
 
               <div className="space-y-8">
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 border border-accent-gold/30 flex items-center justify-center flex-shrink-0 mt-1">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-accent-gold" aria-hidden="true">
-                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                      <circle cx="12" cy="10" r="3" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-eyebrow text-accent-gold mb-1">Office Address</h3>
-                    <p className="text-body text-text-primary">{siteSettings.address.full}</p>
-                  </div>
-                </div>
-
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 border border-accent-gold/30 flex items-center justify-center flex-shrink-0 mt-1">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-accent-gold" aria-hidden="true">

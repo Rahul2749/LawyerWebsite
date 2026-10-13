@@ -166,11 +166,11 @@ export default function AdminDashboard() {
   ];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       {/* Welcome banner */}
-      <div className="bg-gradient-to-r from-[#5A1824] to-[#7a2030] rounded-2xl p-7 text-white">
+      <div className="bg-gradient-to-r from-[#5A1824] to-[#7a2030] rounded-xl sm:rounded-2xl p-5 sm:p-7 text-white">
         <p className="text-white/60 text-sm mb-1">Good day,</p>
-        <h2 className="text-2xl font-serif mb-1">Welcome to your Dashboard</h2>
+        <h2 className="text-xl sm:text-2xl font-serif mb-1">Welcome to your Dashboard</h2>
         <p className="text-white/60 text-sm">Here&apos;s an overview of your consultancy activity.</p>
       </div>
 
@@ -182,26 +182,26 @@ export default function AdminDashboard() {
       )}
 
       {/* Stat Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-5">
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5">
         {statCards.map((card) => (
           <Link
             key={card.label}
             href={`/admin-lawyersite/appointments${card.filter ? `?status=${card.filter}` : ""}`}
-            className="bg-white rounded-xl border border-[#E6E1D6] p-5 hover:shadow-md transition-all duration-200 group"
+            className="bg-white rounded-xl border border-[#E6E1D6] p-4 sm:p-5 hover:shadow-md transition-all duration-200 group"
           >
-            <div className="flex items-start justify-between mb-4">
-              <div className={`w-10 h-10 ${card.bgColor} rounded-xl flex items-center justify-center ${card.textColor}`}>
+            <div className="flex items-start justify-between mb-3 sm:mb-4">
+              <div className={`w-9 h-9 sm:w-10 sm:h-10 ${card.bgColor} rounded-xl flex items-center justify-center ${card.textColor}`}>
                 {card.icon}
               </div>
-              <svg className={`w-4 h-4 ${card.textColor} opacity-0 group-hover:opacity-100 transition-opacity`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+              <svg className={`w-4 h-4 ${card.textColor} opacity-0 group-hover:opacity-100 transition-opacity hidden sm:block`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
             </div>
             <div>
               {loading ? (
-                <div className="h-8 w-16 bg-gray-100 rounded animate-pulse mb-1" />
+                <div className="h-7 sm:h-8 w-12 sm:w-16 bg-gray-100 rounded animate-pulse mb-1" />
               ) : (
-                <p className="text-3xl font-bold text-gray-900">{card.value}</p>
+                <p className="text-2xl sm:text-3xl font-bold text-gray-900">{card.value}</p>
               )}
-              <p className="text-sm text-gray-500 mt-0.5">{card.label}</p>
+              <p className="text-xs sm:text-sm text-gray-500 mt-0.5 leading-tight">{card.label}</p>
             </div>
           </Link>
         ))}
@@ -209,11 +209,11 @@ export default function AdminDashboard() {
 
       {/* Recent Appointments */}
       <div className="bg-white rounded-xl border border-[#E6E1D6] overflow-hidden">
-        <div className="px-6 py-5 border-b border-[#E6E1D6] flex items-center justify-between">
-          <h3 className="font-semibold text-gray-900">Recent Appointments</h3>
+        <div className="px-4 sm:px-6 py-4 sm:py-5 border-b border-[#E6E1D6] flex items-center justify-between gap-3">
+          <h3 className="font-semibold text-gray-900 text-sm sm:text-base">Recent Appointments</h3>
           <Link
             href="/admin-lawyersite/appointments"
-            className="text-sm text-[#5A1824] font-medium hover:text-[#7a2030]"
+            className="shrink-0 text-xs sm:text-sm text-[#5A1824] font-medium hover:text-[#7a2030]"
           >
             View all →
           </Link>
@@ -229,36 +229,60 @@ export default function AdminDashboard() {
             <p className="text-gray-400 text-sm">No appointments yet.</p>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm text-left">
-              <thead className="bg-[#F9F8F6] text-gray-500 text-xs uppercase tracking-wider">
-                <tr>
-                  <th className="px-6 py-3 font-medium">Ref #</th>
-                  <th className="px-6 py-3 font-medium">Client</th>
-                  <th className="px-6 py-3 font-medium">Service</th>
-                  <th className="px-6 py-3 font-medium">Booked On</th>
-                  <th className="px-6 py-3 font-medium">Status</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-[#F4F2EF]">
-                {recent.map((apt) => (
-                  <tr key={apt.id} className="hover:bg-[#FAFAF9] transition-colors">
-                    <td className="px-6 py-4 font-mono text-xs text-gray-500">{apt.referenceNumber}</td>
-                    <td className="px-6 py-4 font-medium text-gray-900">{apt.clientName}</td>
-                    <td className="px-6 py-4 text-gray-600">{apt.service.name}</td>
-                    <td className="px-6 py-4 text-gray-500">
-                      {new Date(apt.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
-                    </td>
-                    <td className="px-6 py-4">
-                      <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${STATUS_COLORS[apt.status] ?? "bg-gray-100 text-gray-600"}`}>
-                        {STATUS_LABELS[apt.status] ?? apt.status}
-                      </span>
-                    </td>
+          <>
+            {/* Desktop table */}
+            <div className="hidden md:block overflow-x-auto">
+              <table className="w-full min-w-[700px] text-sm text-left">
+                <thead className="bg-[#F9F8F6] text-gray-500 text-xs uppercase tracking-wider">
+                  <tr>
+                    <th className="px-6 py-3 font-medium">Ref #</th>
+                    <th className="px-6 py-3 font-medium">Client</th>
+                    <th className="px-6 py-3 font-medium">Service</th>
+                    <th className="px-6 py-3 font-medium">Booked On</th>
+                    <th className="px-6 py-3 font-medium">Status</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody className="divide-y divide-[#F4F2EF]">
+                  {recent.map((apt) => (
+                    <tr key={apt.id} className="hover:bg-[#FAFAF9] transition-colors">
+                      <td className="px-6 py-4 font-mono text-xs text-gray-500">{apt.referenceNumber}</td>
+                      <td className="px-6 py-4 font-medium text-gray-900">{apt.clientName}</td>
+                      <td className="px-6 py-4 text-gray-600">{apt.service.name}</td>
+                      <td className="px-6 py-4 text-gray-500">
+                        {new Date(apt.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${STATUS_COLORS[apt.status] ?? "bg-gray-100 text-gray-600"}`}>
+                          {STATUS_LABELS[apt.status] ?? apt.status}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Mobile card list */}
+            <div className="md:hidden divide-y divide-[#F4F2EF]">
+              {recent.map((apt) => (
+                <div key={apt.id} className="p-4 space-y-2 wrap-anywhere">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0">
+                      <p className="font-medium text-gray-900 text-sm truncate">{apt.clientName}</p>
+                      <p className="text-xs text-gray-500 truncate">{apt.service.name}</p>
+                    </div>
+                    <span className={`px-2 py-0.5 rounded-full text-xs font-medium whitespace-nowrap ${STATUS_COLORS[apt.status] ?? "bg-gray-100 text-gray-600"}`}>
+                      {STATUS_LABELS[apt.status] ?? apt.status}
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-gray-400">
+                    <span className="font-mono">{apt.referenceNumber}</span>
+                    <span>{new Date(apt.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
         )}
       </div>
     </div>

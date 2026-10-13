@@ -6,13 +6,6 @@ export const siteSettings = {
   phone: "",
   whatsapp: "",
   email: "contact@nyaysaathi.in",
-  address: {
-    street: "Chamber No. 123, District Court Complex",
-    city: "New Delhi",
-    state: "Delhi",
-    zip: "110001",
-    full: "Chamber No. 123, District Court Complex, New Delhi — 110001",
-  },
   officeHours: {
     weekday: "Monday – Friday: 10:00 AM – 6:00 PM",
     weekend: "Saturday: By Appointment Only",
