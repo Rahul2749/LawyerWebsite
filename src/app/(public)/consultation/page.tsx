@@ -348,9 +348,9 @@ function ConsultationForm({ onSubmitSuccess }: { onSubmitSuccess: (data: { appoi
       )}
 
       {/* Submit */}
-      <div className="flex items-center justify-between gap-4 flex-wrap">
-        <div>
-          <p className="text-eyebrow text-text-secondary">Consultation Fee</p>
+      <div className="flex items-center justify-between gap-3 sm:gap-4">
+        <div className="w-24 min-w-0 shrink-0 sm:w-auto">
+          <p className="text-[11px] font-medium uppercase leading-snug tracking-[0.06em] text-text-secondary sm:text-xs sm:tracking-[0.14em]">Consultation Fee</p>
           <p className="mt-1 text-2xl font-semibold leading-tight text-accent-wine tabular-nums">
             ₹{(selectedService?.price ?? 1000).toLocaleString("en-IN")}
           </p>
@@ -358,7 +358,7 @@ function ConsultationForm({ onSubmitSuccess }: { onSubmitSuccess: (data: { appoi
         <button
           type="submit"
           disabled={isSubmitting}
-          className="btn btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+          className="btn btn-primary min-w-0 flex-1 !min-h-11 !px-3 !py-2.5 !text-xs !leading-snug !tracking-normal sm:flex-none sm:!px-6 sm:!py-3 sm:!text-[0.8125rem] sm:!tracking-[0.05em] disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isSubmitting ? (
             <>

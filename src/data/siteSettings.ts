@@ -10,10 +10,6 @@ export const siteSettings = {
     weekday: "Monday – Friday: 10:00 AM – 6:00 PM",
     weekend: "Saturday: By Appointment Only",
   },
-  social: {
-    linkedin: "https://linkedin.com/company/nyaysaathi",
-    twitter: "https://twitter.com/nyaysaathi",
-  },
   trustStats: [
     { label: "Years of Experience", value: 20, suffix: "+" },
     { label: "Cases Handled", value: 1500, suffix: "+" },
