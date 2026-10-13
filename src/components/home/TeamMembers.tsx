@@ -127,7 +127,7 @@ export default function TeamMembers() {
     <div className="mb-6 min-w-0" role="region" aria-labelledby="team-members-heading">
       <div className="mb-3 flex items-center justify-between gap-3">
         <h3 id="team-members-heading" className="min-w-0 font-serif text-xl font-semibold text-[#F7F4EE]">Our Team</h3>
-        <div className="flex shrink-0 gap-2">
+        <div className="hidden shrink-0 gap-2 md:flex">
           <button
             type="button"
             aria-label="Previous team member"
@@ -158,11 +158,11 @@ export default function TeamMembers() {
         ref={rowRef}
         id="team-members-list"
         aria-label="Firm members"
-        data-lenis-prevent
-        className="flex snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain py-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        data-lenis-prevent-horizontal
+        className="flex flex-col gap-3 py-1 md:flex-row md:snap-x md:snap-mandatory md:overflow-x-auto md:overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {teamMembers.map((member) => (
-          <li key={member.id} className="w-[calc(100%-1.5rem)] max-w-72 shrink-0 snap-start sm:w-[calc((100%-0.75rem)/2)] sm:max-w-none">
+          <li key={member.id} className="w-full shrink-0 md:w-[calc((100%-0.75rem)/2)] md:snap-start">
             <button
               type="button"
               aria-label={`View profile of ${member.name}`}

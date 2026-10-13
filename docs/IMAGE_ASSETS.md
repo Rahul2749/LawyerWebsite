@@ -29,4 +29,4 @@ Constraints: preserve the person's identity and exact facial proportions, eyes, 
 
 1. Add the portrait to `public/images/` and import it in `src/data/teamMembers.ts`.
 2. Add an entry to `teamMembers` with a unique `id`, the person's `name`, confirmed `role`, and `portrait`. An optional `caption` adds a short card preview; an optional `biography` appears in the full profile.
-3. The scrolling cards, navigation controls, and profile dialog update from this list. Extra members extend the horizontal row rather than the homepage height.
+3. The cards, navigation controls, and profile dialog update from this list. Members stack vertically on mobile; on wider screens, additional members extend the compact horizontal row.
