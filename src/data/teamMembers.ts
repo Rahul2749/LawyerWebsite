@@ -24,7 +24,7 @@ export const teamMembers: TeamMember[] = [
   },
   {
     id: "yatharth-badwaik",
-    name: "Yatharth Badwaik",
+    name: "Adv. Yatharth Badwaik",
     role: "Firm member",
     portrait: yatharthBadwaikPortrait,
     caption: "A member of Nyaysaathi’s collaborative legal team.",
