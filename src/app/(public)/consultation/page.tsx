@@ -351,9 +351,8 @@ function ConsultationForm({ onSubmitSuccess }: { onSubmitSuccess: (data: { appoi
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <div>
           <p className="text-eyebrow text-text-secondary">Consultation Fee</p>
-          <p className="text-h3 text-accent-gold font-serif">
-            {selectedService ? `₹${selectedService.price.toLocaleString("en-IN")}` : "---"}
-
+          <p className="mt-1 text-2xl font-semibold leading-tight text-accent-wine tabular-nums">
+            ₹{(selectedService?.price ?? 1000).toLocaleString("en-IN")}
           </p>
         </div>
         <button
