@@ -1,6 +1,5 @@
 // src/services/email.service.ts
 // Sends transactional emails via Resend.
-// All emails are currently hardcoded to go to rgnagrikar@gmail.com for testing purposes.
 
 import { Resend } from "resend";
 import { env } from "../config/env";
@@ -10,18 +9,16 @@ const resend = env.RESEND_API_KEY ? new Resend(env.RESEND_API_KEY) : null;
 
 type EmailOptions = Parameters<Resend["emails"]["send"]>[0];
 
-async function sendEmail(options: EmailOptions): Promise<void> {
+async function sendEmail(options: EmailOptions, requireDelivery = false): Promise<void> {
   if (!resend) {
+    if (requireDelivery) throw new Error("Email delivery is not configured.");
     console.warn("RESEND_API_KEY is not configured; skipping email delivery.");
     return;
   }
 
-  await resend.emails.send(options);
+  const { error } = await resend.emails.send(options);
+  if (error) throw new Error(error.message);
 }
-
-// As requested, all emails will go here for now when form is submitted
-// NOTE: Resend free tier only allows sending to the account's own email until a domain is verified
-const TESTING_EMAIL = "rahulnagrikar123@gmail.com";
 
 // ─── Send booking confirmation to CLIENT ────────────────────────────────────
 export async function sendBookingConfirmationEmail(params: {
@@ -293,7 +290,7 @@ export async function sendOTPEmail(params: {
         </body>
         </html>
       `,
-    });
+    }, true);
   } catch (error) {
     console.error("Failed to send OTP email:", error);
     throw error; // Re-throw so controller can catch and return error to user

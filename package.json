@@ -4,9 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:backend": "npm --prefix backend run dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:tracking": "node --test tests/appointment-tracking.test.mjs"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

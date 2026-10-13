@@ -15,7 +15,7 @@ export interface TeamMember {
 export const teamMembers: TeamMember[] = [
   {
     id: "raja-agrawal",
-    name: "Raja Agrawal",
+    name: "Adv. Raja Agrawal",
     role: "Advocate · Litigation & Dispute Resolution",
     portrait: rajaAgrawalPortrait,
     caption: "5+ years in civil, criminal, and corporate matters.",

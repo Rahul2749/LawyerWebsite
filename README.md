@@ -22,6 +22,14 @@ npm run dev
 
 The frontend runs on `http://localhost:3000`; the API runs on `http://localhost:5000`.
 
+Appointment tracking requires PostgreSQL and the backend to be running. If you use
+the existing local database container, start Docker Desktop and run
+`docker start lawyer-postgres`. You can then start the API from the project root
+with `npm run dev:backend`, alongside the frontend's `npm run dev`.
+
+Run `npm run test:tracking` to check the tracking API and OTP email/verification
+behavior without sending emails or accessing a real database.
+
 ## Production deployment
 
 Production runs on an Ubuntu VPS with Docker Compose, PostgreSQL, Nginx, and Certbot. The deployment instructions, environment-variable reference, GitHub Actions setup, backup commands, and troubleshooting notes are in [the Ubuntu Docker deployment guide](docs/DOCKER_UBUNTU_DEPLOYMENT_GUIDE.md).
