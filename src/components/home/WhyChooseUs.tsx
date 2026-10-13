@@ -12,7 +12,7 @@ const reasons = [
     ),
     title: "100% Confidential & Secure",
     description:
-      "Complete attorney-client privilege. Your personal data, legal discussions, and case documents remain strictly confidential.",
+      "Your legal discussions, personal data, and documents remain strictly confidential.",
   },
   {
     icon: (
@@ -23,7 +23,7 @@ const reasons = [
     ),
     title: "Dedicated Senior Legal Counsel",
     description:
-      "Direct consultation with experienced advocates, including Adv. Raja Agrawal and practice domain leads, ensuring tailored legal mastery.",
+      "Consult experienced advocates for legal guidance tailored to your matter.",
   },
   {
     icon: (
@@ -34,7 +34,7 @@ const reasons = [
     ),
     title: "Transparent Flat Fee (₹1,000)",
     description:
-      "Clear, upfront flat pricing with zero hidden charges or surprise hourly billing. Complete peace of mind.",
+      "₹1,000 upfront, with no hidden charges or surprise hourly billing.",
   },
   {
     icon: (
@@ -44,7 +44,7 @@ const reasons = [
     ),
     title: "Convenient Remote Access",
     description:
-      "Connect via phone or secure video call from anywhere in India or overseas without travel hassles.",
+      "Consult by phone or secure video call from India or overseas, without travel.",
   },
   {
     icon: (
@@ -58,7 +58,7 @@ const reasons = [
     ),
     title: "Thorough Document Scrutiny",
     description:
-      "Prior legal examination of contracts, court notices, deeds, or agreements before providing strategic counsel.",
+      "Contracts, notices, deeds, and agreements reviewed before strategic advice.",
   },
   {
     icon: (
@@ -69,7 +69,7 @@ const reasons = [
     ),
     title: "Actionable Legal Roadmap",
     description:
-      "Receive practical, step-by-step guidance outlining your legal standing, risk assessment, and clear next steps.",
+      "Understand your legal position, risks, and practical next steps.",
   },
 ];
 
@@ -77,7 +77,7 @@ export default function WhyChooseUs() {
   return (
     <section className="section bg-bg-secondary" aria-label="Why Choose Our Online Legal Consultation Services">
       <div className="container">
-        <ScrollReveal animation="fade-up" className="text-center mb-12 lg:mb-16">
+        <ScrollReveal animation="fade-up" className="text-center mb-8 lg:mb-10">
           <p className="text-eyebrow text-accent-gold mb-3">
             Online Consultation Benefits
           </p>
@@ -99,16 +99,16 @@ export default function WhyChooseUs() {
           stagger={0.1}
           staggerSelector=".reason-card"
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+          <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3 lg:gap-5">
             {reasons.map((reason) => (
               <div
                 key={reason.title}
-                className="reason-card group bg-bg-primary p-7 rounded-2xl border border-border-subtle hover:border-accent-gold/50 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                className="reason-card group min-w-0 rounded-xl border border-border-subtle bg-bg-primary p-3 transition-all duration-300 hover:border-accent-gold/50 hover:shadow-md sm:p-4 lg:p-5"
               >
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#FFD700]/20 to-[#C9A84C]/5 border border-[#FFD700]/40 text-[#FFD700] flex items-center justify-center mb-5 group-hover:scale-110 group-hover:border-[#FFD700] transition-all duration-300 shadow-[0_4px_15px_rgba(255,215,0,0.15)]">
+                <div aria-hidden="true" className="mb-2.5 flex size-8 items-center justify-center rounded-lg border border-[#FFD700]/40 bg-gradient-to-br from-[#FFD700]/20 to-[#C9A84C]/5 text-[#FFD700] transition-colors duration-300 group-hover:border-[#FFD700] sm:mb-3 sm:size-9 [&>svg]:size-4 sm:[&>svg]:size-5">
                   {reason.icon}
                 </div>
-                <h3 className="font-serif text-lg font-semibold mb-2.5 text-text-primary group-hover:text-accent-gold transition-colors">
+                <h3 className="mb-1.5 font-serif text-sm font-semibold leading-snug text-text-primary transition-colors group-hover:text-accent-gold sm:text-base">
                   {reason.title}
                 </h3>
                 <p className="text-xs text-text-secondary leading-relaxed">

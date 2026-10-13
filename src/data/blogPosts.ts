@@ -61,7 +61,7 @@ Companies that invest in regulatory readiness before initiating transactions wil
     author: {
       name: "Raja Agrawal",
       credential: "J.D., Corporate Law Practice Lead",
-      imageUrl: "/images/author-portrait.jpg",
+      imageUrl: "/images/raja-agrawal-portrait.webp",
     },
     publishedAt: "2024-11-15",
     imageUrl: "/images/blog/mergers-acquisitions.jpg",
@@ -101,7 +101,7 @@ A comprehensive digital IP strategy should include regular portfolio audits, pro
     author: {
       name: "Raja Agrawal",
       credential: "J.D., Corporate Law Practice Lead",
-      imageUrl: "/images/author-portrait.jpg",
+      imageUrl: "/images/raja-agrawal-portrait.webp",
     },
     publishedAt: "2024-10-28",
     imageUrl: "/images/blog/intellectual-property.jpg",
@@ -144,7 +144,7 @@ Engage experienced real estate counsel before signing any commercial lease. The 
     author: {
       name: "Raja Agrawal",
       credential: "J.D., Corporate Law Practice Lead",
-      imageUrl: "/images/author-portrait.jpg",
+      imageUrl: "/images/raja-agrawal-portrait.webp",
     },
     publishedAt: "2024-10-10",
     imageUrl: "/images/blog/commercial-lease.jpg",
@@ -187,7 +187,7 @@ Regulators are increasingly aggressive in enforcement, with significant fines an
     author: {
       name: "Raja Agrawal",
       credential: "J.D., Corporate Law Practice Lead",
-      imageUrl: "/images/author-portrait.jpg",
+      imageUrl: "/images/raja-agrawal-portrait.webp",
     },
     publishedAt: "2024-09-22",
     imageUrl: "/images/blog/data-privacy.jpg",
@@ -234,7 +234,7 @@ The choice between litigation, mediation, and arbitration should be made strateg
     author: {
       name: "Raja Agrawal",
       credential: "J.D., Corporate Law Practice Lead",
-      imageUrl: "/images/author-portrait.jpg",
+      imageUrl: "/images/raja-agrawal-portrait.webp",
     },
     publishedAt: "2024-09-05",
     imageUrl: "/images/blog/dispute-resolution.jpg",
@@ -277,7 +277,7 @@ Companies with strong governance practices consistently outperform their peers. 
     author: {
       name: "Raja Agrawal",
       credential: "J.D., Corporate Law Practice Lead",
-      imageUrl: "/images/author-portrait.jpg",
+      imageUrl: "/images/raja-agrawal-portrait.webp",
     },
     publishedAt: "2024-08-18",
     imageUrl: "/images/blog/corporate-governance.jpg",
@@ -324,7 +324,7 @@ The most important aspect of a prenuptial agreement is the conversation it facil
     author: {
       name: "Raja Agrawal",
       credential: "J.D., Corporate Law Practice Lead",
-      imageUrl: "/images/author-portrait.jpg",
+      imageUrl: "/images/raja-agrawal-portrait.webp",
     },
     publishedAt: "2024-08-01",
     imageUrl: "/images/blog/prenuptial-agreement.jpg",
@@ -372,7 +372,7 @@ Review any non-compete carefully before signing, understand the specific restric
     author: {
       name: "Raja Agrawal",
       credential: "J.D., Corporate Law Practice Lead",
-      imageUrl: "/images/author-portrait.jpg",
+      imageUrl: "/images/raja-agrawal-portrait.webp",
     },
     publishedAt: "2024-07-15",
     imageUrl: "/images/blog/non-compete.jpg",

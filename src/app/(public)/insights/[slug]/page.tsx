@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { blogPosts } from "@/data/blogPosts";
@@ -156,13 +157,14 @@ export default async function InsightDetailPage({
 
           {/* Author & Date */}
           <div className="flex items-center gap-4 mt-6">
-            <div className="w-10 h-10 rounded-full bg-bg-secondary flex items-center justify-center">
-              <span className="text-xs font-medium text-text-secondary">
-                {post.author.name
-                  .split(" ")
-                  .map((n) => n[0])
-                  .join("")}
-              </span>
+            <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full border border-border-subtle bg-bg-secondary">
+              <Image
+                src={post.author.imageUrl}
+                alt={`Portrait of ${post.author.name}`}
+                fill
+                sizes="80px"
+                className="origin-[center_20%] scale-[1.6] object-cover object-top"
+              />
             </div>
             <div>
               <p className="text-sm font-medium">{post.author.name}</p>

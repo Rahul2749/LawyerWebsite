@@ -1,6 +1,7 @@
 "use client";
 
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import TeamMembers from "@/components/home/TeamMembers";
 
 const consultancyFeatures = [
   {
@@ -46,7 +47,7 @@ export default function AboutSection() {
         <ScrollReveal animation="fade-up" className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           
           {/* Left Column: The Firm & Team Details */}
-          <div className="lg:col-span-6">
+          <div className="min-w-0 lg:col-span-6">
             <p className="text-eyebrow text-[#FFD700] mb-3">About The Firm</p>
             <h2 className="text-h2 text-[#F7F4EE] mb-6">
               Nyaysaathi — <span className="italic text-[#FFD700]">Your Partner in Justice</span>
@@ -65,26 +66,7 @@ export default function AboutSection() {
               to formulate targeted, outcome-driven legal remedies.
             </p>
 
-            {/* Member Spotlight: Advocate Raja Agrawal */}
-            <div className="p-6 bg-white/[0.05] border border-[#C9A84C]/35 rounded-2xl backdrop-blur-md relative overflow-hidden mb-6">
-              <div className="absolute top-0 right-0 px-3 py-1 bg-[#C9A84C]/20 border-b border-l border-[#C9A84C]/40 rounded-bl-lg text-[10px] font-mono uppercase tracking-wider text-[#FFD700]">
-                Key Member of Firm
-              </div>
-              <div className="flex items-center gap-4 mb-3">
-                <div className="w-12 h-12 rounded-full bg-[#C9A84C]/20 border border-[#FFD700]/40 flex items-center justify-center text-lg font-serif text-[#FFD700] font-bold">
-                  RA
-                </div>
-                <div>
-                  <h4 className="font-serif text-lg font-semibold text-[#F7F4EE]">Advocate Raja Agrawal</h4>
-                  <p className="text-xs text-[#FFD700] tracking-wide">Litigation &amp; Dispute Resolution Counsel</p>
-                </div>
-              </div>
-              <p className="text-xs text-[#F7F4EE]/80 leading-relaxed">
-                With 5+ years of dedicated practice in Indian courts, Adv. Raja Agrawal is a core member of Nyaysaathi, 
-                specializing in civil litigation, criminal defense, corporate disputes, and contract vetting. He brings 
-                meticulous preparation, sharp courtroom advocacy, and high-trust counsel to every client representation.
-              </p>
-            </div>
+            <TeamMembers />
 
             {/* Firm Trust Pillars */}
             <div className="grid grid-cols-2 gap-4">
