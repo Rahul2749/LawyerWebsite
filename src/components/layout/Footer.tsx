@@ -7,8 +7,9 @@ const footerLinks = {
   quickLinks: [
     { href: "/#about", label: "About" },
     { href: "/#services", label: "Legal Services" },
-    { href: "/insights", label: "Legal Insights" },
-    { href: "/videos", label: "Legal Talks" },
+    // Hidden per request (code kept for future restoration)
+    // { href: "/insights", label: "Legal Insights" },
+    // { href: "/videos", label: "Legal Talks" },
     { href: "/consultation", label: "Book a Consultation" },
     { href: "/contact", label: "Contact" },
   ],

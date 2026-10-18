@@ -25,8 +25,11 @@ export const teamMembers: TeamMember[] = [
   {
     id: "yatharth-badwaik",
     name: "Adv. Yatharth Badwaik",
-    role: "Firm member",
+    role: "Advocate · High Court & District Court Practice",
     portrait: yatharthBadwaikPortrait,
-    caption: "A member of Nyaysaathi’s collaborative legal team.",
+    caption:
+      "5+ years in High Court, Criminal Law, Civil Litigation & DRT matters.",
+    biography:
+      "Advocate Yatharth Badwaik is a practicing Advocate with over *5 years of professional experience in legal practice*, appearing before the Hon’ble Bombay High Court, Nagpur Bench, and the District and Sessions Courts. The practice is dedicated to providing comprehensive legal consultancy, strategic legal advice, professional representation, and effective litigation support to individuals, families, and businesses.\n\nWith a primary focus on *Criminal Law, Civil Litigation, High Court Matters, Debt Recovery Tribunal (DRT) Matters, and Family Court Proceedings*, the practice offers legal assistance tailored to the specific facts, circumstances, and legal requirements of each case.",
   },
 ];

@@ -4,8 +4,9 @@ import PracticeAreasSection from "@/components/home/PracticeAreasSection";
 import ServicesSection from "@/components/home/ServicesSection";
 import PhotoGallerySection from "@/components/home/PhotoGallerySection";
 import WhyChooseUs from "@/components/home/WhyChooseUs";
-import InsightsPreview from "@/components/home/InsightsPreview";
-import VideosPreview from "@/components/home/VideosPreview";
+// Hidden per request (code kept for future restoration)
+// import InsightsPreview from "@/components/home/InsightsPreview";
+// import VideosPreview from "@/components/home/VideosPreview";
 import TestimonialsSection from "@/components/home/TestimonialsSection";
 import ConsultationCTA from "@/components/home/ConsultationCTA";
 
@@ -18,8 +19,9 @@ export default function HomePage() {
       <PracticeAreasSection />
       <PhotoGallerySection />
       <WhyChooseUs />
-      <InsightsPreview />
-      <VideosPreview />
+      {/* Hidden per request (code kept for future restoration) */}
+      {/* <InsightsPreview /> */}
+      {/* <VideosPreview /> */}
       <TestimonialsSection />
       <ConsultationCTA />
     </>

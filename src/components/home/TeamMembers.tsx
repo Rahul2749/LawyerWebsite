@@ -5,6 +5,26 @@ import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { teamMembers, type TeamMember } from "@/data/teamMembers";
 
+function renderFormattedBio(text: string) {
+  return text.split(/\n\n+/).map((para, i) => {
+    const parts = para.split(/(\*[^*]+\*)/g);
+    return (
+      <p key={i}>
+        {parts.map((part, j) => {
+          if (part.startsWith("*") && part.endsWith("*") && part.length > 2) {
+            return (
+              <strong key={j} className="font-semibold text-text-primary">
+                {part.slice(1, -1)}
+              </strong>
+            );
+          }
+          return part;
+        })}
+      </p>
+    );
+  });
+}
+
 function MemberProfile({ member, onClose }: { member: TeamMember; onClose: () => void }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
@@ -67,7 +87,9 @@ function MemberProfile({ member, onClose }: { member: TeamMember; onClose: () =>
             <h3 id="team-member-name" className="font-serif text-3xl font-medium leading-tight">{member.name}</h3>
             <p className="mt-2 text-sm text-accent-wine">{member.role}</p>
             {(member.biography || member.caption) && (
-              <p className="mt-4 text-sm leading-relaxed text-text-secondary">{member.biography || member.caption}</p>
+              <div className="mt-4 space-y-3 text-sm leading-relaxed text-text-secondary">
+                {renderFormattedBio(member.biography || member.caption || "")}
+              </div>
             )}
             <Link href="/consultation" onClick={onClose} className="btn btn-primary mt-5 w-full text-xs sm:w-auto">
               Book a Consultation

@@ -105,7 +105,8 @@ export default function HeroSection() {
               </a>
             </motion.div>
 
-            {/* Trust indicators — adds premium feel */}
+            {/* Trust indicators removed per request */}
+            {/*
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -127,6 +128,7 @@ export default function HeroSection() {
                 <span className="text-xs text-text-secondary uppercase tracking-wider">Experienced Legal Panel</span>
               </div>
             </motion.div>
+            */}
           </div>
         </div>
       </div>

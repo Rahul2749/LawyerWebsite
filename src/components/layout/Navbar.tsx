@@ -12,8 +12,9 @@ const navLinks = [
   { href: "/", label: "Home" },
   { href: "/#about", label: "About" },
   { href: "#services-menu", label: "Legal Services", isDropdown: true },
-  { href: "/insights", label: "Blogs & Articles" },
-  { href: "/videos", label: "Videos" },
+  // Hidden per request (code kept for future restoration)
+  // { href: "/insights", label: "Blogs & Articles" },
+  // { href: "/videos", label: "Videos" },
   { href: "/consultation", label: "Consultation" },
   { href: "/contact", label: "Contact" },
 ];
