@@ -181,41 +181,37 @@ export default function TeamMembers() {
         id="team-members-list"
         aria-label="Firm members"
         data-lenis-prevent-horizontal
-        className="flex flex-col gap-3 py-1 md:flex-row md:snap-x md:snap-mandatory md:overflow-x-auto md:overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="flex flex-col gap-3 py-1 md:grid md:auto-cols-[calc((100%-0.75rem)/2)] md:grid-flow-col md:grid-rows-[repeat(4,auto)] md:gap-y-0 md:snap-x md:snap-mandatory md:overflow-x-auto md:overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {teamMembers.map((member) => (
-          <li key={member.id} className="w-full shrink-0 md:w-[calc((100%-0.75rem)/2)] md:snap-start">
+          <li key={member.id} className="w-full shrink-0 md:row-span-4 md:grid md:grid-rows-subgrid md:snap-start">
             <button
               type="button"
               aria-label={`View profile of ${member.name}`}
               aria-haspopup="dialog"
               onClick={() => setSelectedMember(member)}
-              className="group flex h-full min-h-32 w-full flex-col rounded-xl border border-[#C9A84C]/25 bg-white/[0.04] p-3 text-left transition-colors hover:border-[#C9A84C]/70 hover:bg-white/[0.07] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FFD700]"
+              className="group grid h-full min-h-32 w-full grid-cols-[4rem_minmax(0,1fr)] grid-rows-[repeat(4,auto)] gap-x-3 rounded-xl border border-[#C9A84C]/25 bg-white/[0.04] p-3 text-left transition-colors hover:border-[#C9A84C]/70 hover:bg-white/[0.07] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FFD700] md:row-span-4 md:grid-rows-subgrid"
             >
-              <div className="flex w-full flex-1 items-center gap-3">
-                <div className="relative aspect-[4/5] w-16 shrink-0 overflow-hidden rounded-lg border border-[#C9A84C]/25 bg-[#e8e8e8]">
-                  <Image
-                    src={member.portrait}
-                    alt={`Portrait of ${member.name}`}
-                    fill
-                    sizes="64px"
-                    placeholder="blur"
-                    className="object-cover object-top"
-                  />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <h4 className="font-serif text-lg font-semibold leading-tight text-[#F7F4EE]">{member.name}</h4>
-                  <p className="mt-1 line-clamp-2 text-[11px] leading-relaxed text-[#F7F4EE]/70" title={member.role}>{member.role}</p>
-                  <span className="mt-2 inline-flex items-center gap-1.5 text-[11px] font-medium text-[#FFD700]">
-                    View profile
-                    <svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M4 12h16m-6-6 6 6-6 6" />
-                    </svg>
-                  </span>
-                </div>
+              <div className="relative col-start-1 row-span-3 row-start-1 aspect-[4/5] w-16 self-start overflow-hidden rounded-lg border border-[#C9A84C]/25 bg-[#e8e8e8]">
+                <Image
+                  src={member.portrait}
+                  alt={`Portrait of ${member.name}`}
+                  fill
+                  sizes="64px"
+                  placeholder="blur"
+                  className="object-cover object-top"
+                />
               </div>
+              <h4 className="col-start-2 row-start-1 min-w-0 self-start font-serif text-lg font-semibold leading-tight text-[#F7F4EE]">{member.name}</h4>
+              <p className="col-start-2 row-start-2 mt-1 min-w-0 self-start line-clamp-2 text-[11px] leading-relaxed text-[#F7F4EE]/70" title={member.role}>{member.role}</p>
+              <span className="col-start-2 row-start-3 mt-2 inline-flex items-center gap-1.5 self-start text-[11px] font-medium text-[#FFD700]">
+                View profile
+                <svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M4 12h16m-6-6 6 6-6 6" />
+                </svg>
+              </span>
               {member.caption && (
-                <p className="mt-2 w-full line-clamp-2 text-[11px] leading-relaxed text-[#F7F4EE]/75">{member.caption}</p>
+                <p className="col-span-2 row-start-4 mt-3 w-full self-start line-clamp-2 text-[11px] leading-relaxed text-[#F7F4EE]/75">{member.caption}</p>
               )}
             </button>
           </li>
