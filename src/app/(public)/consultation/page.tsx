@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -128,7 +128,6 @@ function ConsultationForm({ onSubmitSuccess }: { onSubmitSuccess: (data: { appoi
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors },
   } = useForm<ConsultationFormData>({
     resolver: zodResolver(consultationSchema),
@@ -184,11 +183,11 @@ function ConsultationForm({ onSubmitSuccess }: { onSubmitSuccess: (data: { appoi
           <select
             id="serviceSelect"
             value={selectedService?.id ?? ""}
-            onChange={(e) => {
-              const service = siteSettings.services.find((s) => s.id === e.target.value);
-              setSelectedService(service);
-              setValue("serviceId", e.target.value);
-            }}
+            {...register("serviceId", {
+              onChange: (e) => setSelectedService(siteSettings.services.find((s) => s.id === e.target.value)),
+            })}
+            aria-invalid={!!errors.serviceId}
+            aria-describedby={errors.serviceId ? "service-error" : undefined}
             className={`w-full px-4 py-3.5 bg-bg-secondary/30 border text-text-primary focus:outline-none focus:border-accent-wine transition-colors rounded-lg appearance-none cursor-pointer text-sm font-medium ${
               errors.serviceId ? "border-state-error" : "border-border-subtle"
             }`}
@@ -214,9 +213,8 @@ function ConsultationForm({ onSubmitSuccess }: { onSubmitSuccess: (data: { appoi
             <span>{selectedService.description}</span>
           </p>
         )}
-        <input type="hidden" {...register("serviceId")} />
         {errors.serviceId && (
-          <p className="text-xs text-state-error mt-2">{errors.serviceId.message}</p>
+          <p id="service-error" className="text-xs text-state-error mt-2">{errors.serviceId.message}</p>
         )}
       </div>
 
@@ -341,8 +339,14 @@ function ConsultationForm({ onSubmitSuccess }: { onSubmitSuccess: (data: { appoi
         Your information is kept strictly confidential and is never shared with third parties.
       </div>
 
+      {Object.keys(errors).length > 0 && (
+        <p role="alert" className="bg-state-error/10 border border-state-error/30 rounded-lg p-4 mb-4 text-sm text-state-error">
+          Please complete the highlighted fields before continuing to payment.
+        </p>
+      )}
+
       {serverError && (
-        <div className="bg-state-error/10 border border-state-error/30 rounded-lg p-4 mb-4 text-sm text-state-error">
+        <div role="alert" className="bg-state-error/10 border border-state-error/30 rounded-lg p-4 mb-4 text-sm text-state-error">
           {serverError}
         </div>
       )}
@@ -504,7 +508,7 @@ function PaymentStep({
 
       {/* Gateway choice */}
       <div className="mb-8">
-        <p className="text-eyebrow text-text-primary mb-4">Choose Payment Method</p>
+        <h2 className="text-eyebrow text-text-primary mb-4">Choose Payment Method</h2>
         <div className="grid grid-cols-2 gap-4">
           <button
             type="button"
@@ -655,6 +659,7 @@ function loadScript(src: string): Promise<void> {
 // ─── Page wrapper ─────────────────────────────────────────────────────────────
 function ConsultationPageInner() {
   const [step, setStep] = useState<1 | 2 | 3>(1);
+  const stepContentRef = useRef<HTMLDivElement>(null);
   const [appointmentData, setAppointmentData] = useState<{
     appointmentId: string;
     servicePrice: number;
@@ -662,15 +667,22 @@ function ConsultationPageInner() {
     referenceNumber: string;
   } | null>(null);
 
+  useEffect(() => {
+    if (step === 1) return;
+
+    // Wait for the new step to mount, then reveal it below the fixed navigation.
+    // An instant scroll avoids competing with the site's smooth-scroll animation.
+    stepContentRef.current?.focus({ preventScroll: true });
+    stepContentRef.current?.scrollIntoView({ block: "start", behavior: "instant" });
+  }, [step]);
+
   const handleFormSuccess = (data: typeof appointmentData) => {
     setAppointmentData(data);
     setStep(2);
-    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handlePaymentSuccess = () => {
     setStep(3);
-    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
@@ -696,7 +708,13 @@ function ConsultationPageInner() {
 
       {/* Form */}
       <section className="py-14 lg:py-20">
-        <div className="container max-w-3xl">
+        <div
+          ref={stepContentRef}
+          tabIndex={-1}
+          role="region"
+          aria-label={step === 1 ? "Your details" : step === 2 ? "Payment options" : "Booking confirmation"}
+          className="container max-w-3xl scroll-mt-24 lg:scroll-mt-40 focus:outline-none"
+        >
           <StepIndicator currentStep={step} />
 
           {step === 1 && <ConsultationForm onSubmitSuccess={handleFormSuccess} />}
