@@ -3,6 +3,7 @@ import Footer from "@/components/layout/Footer";
 import CookieConsent from "@/components/CookieConsent";
 import SmoothScrollProvider from "@/providers/SmoothScrollProvider";
 import FloatingChat from "@/components/ui/FloatingChat";
+import BusinessSchema from "@/components/seo/BusinessSchema";
 
 export default function PublicLayout({
   children,
@@ -11,6 +12,7 @@ export default function PublicLayout({
 }>) {
   return (
     <SmoothScrollProvider>
+      <BusinessSchema />
       {/* Skip to content — Accessibility */}
       <a href="#main-content" className="skip-to-content">
         Skip to main content

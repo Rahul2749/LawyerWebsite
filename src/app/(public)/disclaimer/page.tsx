@@ -1,10 +1,6 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Attorney Advertising Disclaimer",
-  description:
-    "Attorney Advertising and Disclaimer for Nyaysaathi, Advocates & Legal Consultants.",
-};
+export const metadata = pageMetadata("Legal Information & Disclaimer", "Read the Nyaysaathi website disclaimer and the limits of general legal information.", "/disclaimer");
 
 export default function DisclaimerPage() {
   return (

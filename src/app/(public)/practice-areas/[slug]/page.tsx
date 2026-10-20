@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { practiceAreas } from "@/data/practiceAreas";
 import { blogPosts } from "@/data/blogPosts";
 import { videos } from "@/data/videos";
+import { absoluteUrl, pageMetadata } from "@/lib/seo";
 
 export async function generateStaticParams() {
   return practiceAreas.map((area) => ({ slug: area.slug }));
@@ -16,12 +17,9 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const area = practiceAreas.find((a) => a.slug === slug);
-  if (!area) return { title: "Practice Area Not Found" };
+  if (!area) notFound();
 
-  return {
-    title: area.title,
-    description: area.shortDescription,
-  };
+  return pageMetadata(`${area.title} Legal Advice in India`, area.shortDescription, `/practice-areas/${slug}`);
 }
 
 export default async function PracticeAreaDetailPage({
@@ -64,18 +62,19 @@ export default async function PracticeAreaDetailPage({
         "@type": "ListItem",
         position: 1,
         name: "Home",
-        item: "/",
+        item: absoluteUrl("/"),
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "Practice Areas",
-        item: "/practice-areas",
+        item: absoluteUrl("/practice-areas"),
       },
       {
         "@type": "ListItem",
         position: 3,
         name: area.title,
+        item: absoluteUrl(`/practice-areas/${slug}`),
       },
     ],
   };
@@ -85,13 +84,13 @@ export default async function PracticeAreaDetailPage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(faqSchema),
+          __html: JSON.stringify(faqSchema).replace(/</g, "\\u003c"),
         }}
       />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(breadcrumbSchema),
+          __html: JSON.stringify(breadcrumbSchema).replace(/</g, "\\u003c"),
         }}
       />
 

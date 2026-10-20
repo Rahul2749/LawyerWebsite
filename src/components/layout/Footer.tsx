@@ -7,6 +7,9 @@ const footerLinks = {
   quickLinks: [
     { href: "/#about", label: "About" },
     { href: "/#services", label: "Legal Services" },
+    { href: "/legal-services", label: "Service Guides" },
+    { href: "/legal-help", label: "Legal Help" },
+    { href: "/lawyer-fees", label: "Lawyer Fees" },
     // Hidden per request (code kept for future restoration)
     // { href: "/insights", label: "Legal Insights" },
     // { href: "/videos", label: "Legal Talks" },
@@ -104,6 +107,7 @@ export default function Footer() {
                 </a>
               </p>
               <div className="pt-2 text-xs text-text-inverse/40">
+                <p className="mb-2">Online legal consultation across India</p>
                 <p>{siteSettings.officeHours.weekday}</p>
                 <p>{siteSettings.officeHours.weekend}</p>
               </div>

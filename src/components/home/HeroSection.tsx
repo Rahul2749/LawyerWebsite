@@ -51,22 +51,22 @@ export default function HeroSection() {
 
             {/* Headline */}
             <motion.h1
-              initial={{ opacity: 0, y: 30 }}
+              initial={false}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.4 }}
               className="text-hero text-text-primary mb-4 lg:mb-5 leading-[1.1]"
             >
-              Fierce Advocacy &amp; Strategic Solutions
+              Lawyer Consultation &amp; Legal Help Across India
             </motion.h1>
 
             {/* Subtitle */}
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
+              initial={false}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.7 }}
               className="text-body text-text-secondary max-w-2xl mx-auto mb-6 lg:mb-8 leading-relaxed"
             >
-              Nyaysaathi is a premier multi-disciplinary law firm bringing together an accomplished team of experienced advocates. From complex litigation and property disputes to corporate advisory, our seasoned legal panel delivers strategic, trusted solutions tailored to safeguard your interests.
+              Speak with Nyaysaathi advocates about property disputes, criminal defence, family matters, civil litigation and business advice. Book an online legal consultation, review lawyer fees and discuss your next steps with our team.
             </motion.p>
 
             {/* CTAs */}

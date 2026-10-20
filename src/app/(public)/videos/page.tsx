@@ -1,12 +1,8 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { videos, videoCategories } from "@/data/videos";
 
-export const metadata: Metadata = {
-  title: "Legal Talks",
-  description:
-    "Watch legal commentary, client education videos, and industry analysis from Nyaysaathi advocates.",
-};
+export const metadata = pageMetadata("Legal Talks", "Legal video information from Nyaysaathi.", "/videos", false);
 
 export default function VideosPage() {
   return (

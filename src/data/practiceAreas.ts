@@ -64,11 +64,11 @@ export const practiceAreas: PracticeArea[] = [
     shortDescription:
       "Vigorous advocacy in courtroom proceedings and sophisticated alternative dispute resolution.",
     fullDescription:
-      "When disputes arise, our litigation practice delivers decisive, strategic advocacy. We handle complex commercial disputes, contractual claims, and high-stakes litigation across state and federal courts. Our approach combines thorough preparation, incisive legal analysis, and persuasive courtroom skills. Where appropriate, we pursue alternative dispute resolution methods including mediation and arbitration to achieve favorable outcomes efficiently.",
+      "When disputes arise, our litigation practice delivers decisive, strategic advocacy. We handle complex commercial disputes, contractual claims, and high-stakes litigation before the relevant courts and tribunals in India. Our approach combines thorough preparation, incisive legal analysis, and persuasive courtroom skills. Where appropriate, we pursue alternative dispute resolution methods including mediation and arbitration to achieve favorable outcomes efficiently.",
     services: [
       "Commercial Litigation",
       "Contract Disputes",
-      "Class Action Defense",
+      "Civil Disputes & Recovery Matters",
       "Appellate Advocacy",
       "Mediation & Arbitration",
       "Injunctive Relief",
@@ -80,7 +80,7 @@ export const practiceAreas: PracticeArea[] = [
       {
         question: "What is the difference between litigation and arbitration?",
         answer:
-          "Litigation takes place in public courts with formal procedures and potential jury trials. Arbitration is a private process where a neutral arbitrator renders a binding or non-binding decision, often faster and more confidential.",
+          "Litigation involves proceedings before a court. Arbitration is a separate dispute resolution process based on an arbitration agreement. The appropriate route depends on the dispute, the agreement and the applicable law.",
       },
       {
         question: "How long does a typical commercial lawsuit take?",
@@ -181,11 +181,11 @@ export const practiceAreas: PracticeArea[] = [
     shortDescription:
       "Compassionate, discreet guidance through divorce, custody, and estate planning matters.",
     fullDescription:
-      "Family law matters demand sensitivity, discretion, and deep legal expertise. Our practice handles divorce and separation, child custody and support, prenuptial and postnuptial agreements, adoption, and estate planning with the same rigor we bring to complex commercial matters. We understand the emotional weight these issues carry and provide steady, thoughtful counsel that protects your family's interests and future.",
+      "Family law matters demand sensitivity, discretion, and deep legal expertise. Our practice handles divorce and separation, child custody and support, maintenance, adoption, and succession-related concerns with the same rigor we bring to complex commercial matters. We understand the emotional weight these issues carry and provide steady, thoughtful counsel that protects your family's interests and future.",
     services: [
       "Divorce & Separation",
       "Child Custody & Support",
-      "Prenuptial & Postnuptial Agreements",
+      "Maintenance & Financial Settlements",
       "Adoption Proceedings",
       "Estate Planning & Trusts",
       "Guardianship",
@@ -200,9 +200,9 @@ export const practiceAreas: PracticeArea[] = [
           "Courts consider the best interests of the child, evaluating factors such as parental fitness, the child's wishes (depending on age), stability of home environment, and each parent's ability to foster the child's relationship with the other parent.",
       },
       {
-        question: "What is a prenuptial agreement?",
+        question: "What should I bring to a family law consultation?",
         answer:
-          "A prenuptial agreement is a contract entered into before marriage that outlines how assets, debts, and spousal support will be handled in the event of divorce. It provides clarity and protection for both parties.",
+          "Have relevant family records, any notices or existing court orders, and a short timeline ready. Explain your priorities and ask the advocate which further documents are needed for your specific circumstances.",
       },
       {
         question: "How long does the divorce process take?",
@@ -226,8 +226,8 @@ export const practiceAreas: PracticeArea[] = [
       "Government Investigations",
       "Regulatory Filings & Approvals",
       "Industry-Specific Compliance (Healthcare, Finance, Tech)",
-      "Anti-Corruption & FCPA",
-      "Data Privacy & GDPR/CCPA",
+      "Anti-Corruption Compliance Review",
+      "Data Privacy & Information Practices",
       "Environmental Compliance",
     ],
     approach:
@@ -247,7 +247,7 @@ export const practiceAreas: PracticeArea[] = [
         question:
           "How does data privacy regulation affect my business?",
         answer:
-          "Regulations like GDPR and CCPA impose obligations around data collection, processing, storage, and sharing. Non-compliance can result in significant fines. We help businesses understand their obligations and implement compliant data practices.",
+          "The rules relevant to a business depend on its activities, the information it handles and the jurisdictions involved. A consultation can help identify the policies, records and specialist review needed for its circumstances.",
       },
     ],
     imageUrl: "/images/practice-areas/regulatory-compliance.jpg",

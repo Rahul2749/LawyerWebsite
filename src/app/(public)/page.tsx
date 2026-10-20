@@ -9,6 +9,13 @@ import WhyChooseUs from "@/components/home/WhyChooseUs";
 // import VideosPreview from "@/components/home/VideosPreview";
 import TestimonialsSection from "@/components/home/TestimonialsSection";
 import ConsultationCTA from "@/components/home/ConsultationCTA";
+import { pageMetadata } from "@/lib/seo";
+
+export const metadata = pageMetadata(
+  "Online Lawyer Consultation in India & Legal Help",
+  "Nyaysaathi offers online legal consultation across India for individuals, families and businesses. Explore legal services, lawyer fees and appointment booking.",
+  "/",
+);
 
 export default function HomePage() {
   return (

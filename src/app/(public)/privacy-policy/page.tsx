@@ -1,9 +1,6 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Privacy Policy",
-  description: "Privacy Policy for Nyaysaathi, Advocates & Legal Consultants.",
-};
+export const metadata = pageMetadata("Privacy Policy", "Read how Nyaysaathi handles information shared through its website and legal consultation booking process.", "/privacy-policy");
 
 export default function PrivacyPolicyPage() {
   return (

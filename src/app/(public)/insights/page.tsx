@@ -1,12 +1,8 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { blogPosts, blogCategories } from "@/data/blogPosts";
 
-export const metadata: Metadata = {
-  title: "Legal Insights",
-  description:
-    "Legal insights and thought leadership from Nyaysaathi advocates. Articles on corporate law, litigation, real estate, intellectual property, and regulatory compliance.",
-};
+export const metadata = pageMetadata("Legal Insights", "Legal articles and commentary from Nyaysaathi.", "/insights", false);
 
 function getReadingTime(content: string): number {
   const words = content.trim().split(/\s+/).length;

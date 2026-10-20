@@ -1,12 +1,8 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { siteSettings } from "@/data/siteSettings";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Contact",
-  description:
-    "Get in touch with Nyaysaathi Advocates & Legal Consultants. Email or book an appointment online.",
-};
+export const metadata = pageMetadata("Contact Nyaysaathi for Legal Consultation", "Contact Nyaysaathi for online lawyer consultations across India. Email the legal consultation team, discuss availability or book an appointment.", "/contact");
 
 export default function ContactPage() {
   return (
@@ -79,7 +75,7 @@ export default function ContactPage() {
                     </svg>
                   </div>
                   <div>
-                    <h3 className="text-eyebrow text-accent-gold mb-1">Office Hours</h3>
+                    <h3 className="text-eyebrow text-accent-gold mb-1">Consultation Desk Hours</h3>
                     <p className="text-body text-text-primary">{siteSettings.officeHours.weekday}</p>
                     <p className="text-body text-text-secondary">{siteSettings.officeHours.weekend}</p>
                   </div>
@@ -93,25 +89,13 @@ export default function ContactPage() {
               </div>
             </div>
 
-            {/* Map Link */}
-            <a 
-              href="https://maps.app.goo.gl/Xce6eREkx64aSi4A8?g_st=aw"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="relative aspect-square lg:aspect-auto bg-bg-secondary overflow-hidden block group hover:opacity-90 transition-opacity"
-            >
-              <div className="absolute inset-0 flex items-center justify-center text-text-secondary/50 group-hover:text-accent-wine transition-colors duration-300">
-                <div className="text-center">
-                  <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="mx-auto mb-3" aria-hidden="true">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                    <circle cx="12" cy="10" r="3" />
-                  </svg>
-                  <p className="text-sm font-medium">Open in Google Maps</p>
-                  <p className="text-xs mt-1 text-text-secondary/70">Click to view location</p>
-                </div>
-              </div>
-              <div className="absolute bottom-0 right-0 w-24 h-24 border-b border-r border-accent-gold/20" />
-            </a>
+            <aside className="bg-bg-secondary p-8 lg:p-12 flex flex-col justify-center">
+              <h2 className="text-h3 mb-5">Consultation across India</h2>
+              <p className="text-text-secondary leading-relaxed mb-5">Nyaysaathi operates as a legal consultancy without a walk-in office. Start with a video consultation. Any in-person meeting or court representation is arranged separately after the team confirms availability.</p>
+              <p className="text-text-secondary leading-relaxed mb-6">Tell us the type of legal issue and any urgent date when you contact us. The team will confirm suitable assistance and appointment availability.</p>
+              <Link href="/legal-help" className="text-accent-wine underline mb-4">How to arrange legal help</Link>
+              <Link href="/lawyer-fees" className="text-accent-wine underline">Understand consultation fees</Link>
+            </aside>
           </div>
         </div>
       </section>

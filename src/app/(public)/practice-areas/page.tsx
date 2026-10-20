@@ -1,12 +1,8 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { practiceAreas } from "@/data/practiceAreas";
 
-export const metadata: Metadata = {
-  title: "Practice Areas",
-  description:
-    "Explore our areas of legal expertise: Corporate Law, Litigation, Real Estate, Intellectual Property, Family Law, and Regulatory Compliance.",
-};
+export const metadata = pageMetadata("Law Practice Areas & Legal Consultancy in India", "Explore Nyaysaathi practice areas: civil litigation, property law, corporate advice, family law, intellectual property and regulatory compliance in India.", "/practice-areas");
 
 export default function PracticeAreasPage() {
   return (
@@ -30,8 +26,7 @@ export default function PracticeAreasPage() {
           </h1>
           <p className="text-body text-text-secondary mt-6 max-w-xl mx-auto lg:mx-0">
             Comprehensive legal services across six core disciplines,
-            each backed by decades of experience and a commitment to
-            client-centered excellence.
+            with advice tailored to your circumstances and the work you need.
           </p>
         </div>
       </section>

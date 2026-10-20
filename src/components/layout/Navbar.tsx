@@ -134,7 +134,7 @@ export default function Navbar() {
                           {siteSettings.services.map((service) => (
                             <Link
                               key={service.slug}
-                              href={`/consultation?service=${service.slug}`}
+                              href={`/legal-services/${service.slug}`}
                               className="flex items-center gap-3 p-2 rounded-lg hover:bg-bg-secondary transition-colors group/item"
                             >
                               <div className="w-7 h-7 rounded-full bg-accent-wine/5 flex items-center justify-center flex-shrink-0 group-hover/item:bg-accent-wine/10">
@@ -197,7 +197,7 @@ export default function Navbar() {
                     </summary>
                     <div className="mb-3 space-y-1 border-l border-border-subtle pl-4">
                       {siteSettings.services.map((service) => (
-                        <Link key={service.slug} href={`/consultation?service=${service.slug}`} onClick={closeMobileMenu} className="flex min-h-11 items-center py-2 text-sm leading-relaxed text-text-secondary hover:text-accent-wine">
+                        <Link key={service.slug} href={`/legal-services/${service.slug}`} onClick={closeMobileMenu} className="flex min-h-11 items-center py-2 text-sm leading-relaxed text-text-secondary hover:text-accent-wine">
                           {service.name}
                         </Link>
                       ))}

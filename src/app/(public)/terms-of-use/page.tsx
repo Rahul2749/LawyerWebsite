@@ -1,9 +1,6 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Terms of Use",
-  description: "Terms of Use for the Nyaysaathi website.",
-};
+export const metadata = pageMetadata("Terms of Use", "Terms governing use of the Nyaysaathi website and its legal consultation information.", "/terms-of-use");
 
 export default function TermsOfUsePage() {
   return (

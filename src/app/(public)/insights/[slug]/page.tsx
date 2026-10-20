@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { blogPosts } from "@/data/blogPosts";
+import { absoluteUrl, pageMetadata } from "@/lib/seo";
 
 export async function generateStaticParams() {
   return blogPosts.map((post) => ({ slug: post.slug }));
@@ -15,12 +16,14 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const post = blogPosts.find((p) => p.slug === slug);
-  if (!post) return { title: "Article Not Found" };
+  if (!post) notFound();
 
+  const metadata = pageMetadata(post.title, post.excerpt, `/insights/${slug}`, false);
+  // Existing hidden sample articles need an India-specific editorial review.
   return {
-    title: post.title,
-    description: post.excerpt,
+    ...metadata,
     openGraph: {
+      ...metadata.openGraph,
       type: "article",
       title: post.title,
       description: post.excerpt,
@@ -110,6 +113,8 @@ export default async function InsightDetailPage({
     headline: post.title,
     description: post.excerpt,
     datePublished: post.publishedAt,
+    mainEntityOfPage: absoluteUrl(`/insights/${slug}`),
+    publisher: { "@id": absoluteUrl("/#organization") },
     author: {
       "@type": "Person",
       name: post.author.name,
@@ -120,7 +125,7 @@ export default async function InsightDetailPage({
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema).replace(/</g, "\\u003c") }}
       />
 
       {/* Breadcrumb */}

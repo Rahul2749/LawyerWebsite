@@ -137,9 +137,9 @@ export default function ServicesSection() {
               style={{ "--delay": `${(index % 3) * 0.12}s` } as React.CSSProperties}
             >
               <Link
-                href={`/consultation?service=${service.slug}`}
+                href={`/legal-services/${service.slug}`}
                 className="services-card__inner group flex flex-col justify-between h-full p-4 sm:p-7 lg:p-9"
-                aria-label={`Book ${service.name} consultation`}
+                aria-label={`Read about ${service.name} consultation`}
               >
                 <div>
                   {/* Top: Solid Metallic Gold Badge Icon Container */}
@@ -177,7 +177,7 @@ export default function ServicesSection() {
                 {/* Refined Bottom CTA */}
                 <div className="services-card__footer pt-3 sm:pt-4 border-t border-white/10 flex items-center justify-between mt-auto">
                   <span className="text-[10px] sm:text-xs font-semibold tracking-wider uppercase text-[#FFD700] group-hover:text-white transition-colors">
-                    Book Consultation
+                    View Service &amp; Consultation
                   </span>
                   <span className="services-card__cta flex items-center" aria-hidden="true">
                     <svg

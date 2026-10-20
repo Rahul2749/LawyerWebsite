@@ -2,7 +2,7 @@ export const siteSettings = {
   firmName: "Nyaysaathi",
   firmTagline: "Advocates & Legal Consultants",
   firmDescription:
-    "A premier multi-disciplinary law firm delivering strategic legal counsel, courtroom advocacy, and dispute resolution. Our team of experienced advocates is committed to justice, integrity, and client trust.",
+    "Legal consultancy across India for individuals, families and businesses. Speak with Nyaysaathi advocates about property, criminal, civil, family and business matters.",
   phone: "",
   whatsapp: "",
   email: "contact@nyaysaathi.in",

@@ -717,7 +717,7 @@ function ConsultationPageInner() {
         >
           <StepIndicator currentStep={step} />
 
-          {step === 1 && <ConsultationForm onSubmitSuccess={handleFormSuccess} />}
+          {step === 1 && <Suspense fallback={<p role="status" className="text-text-secondary">Loading consultation form…</p>}><ConsultationForm onSubmitSuccess={handleFormSuccess} /></Suspense>}
 
           {step === 2 && appointmentData && (
             <PaymentStep
@@ -760,9 +760,5 @@ function ConsultationPageInner() {
 }
 
 export default function ConsultationPage() {
-  return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-accent-wine" /></div>}>
-      <ConsultationPageInner />
-    </Suspense>
-  );
+  return <ConsultationPageInner />;
 }

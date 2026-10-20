@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { videos } from "@/data/videos";
+import { pageMetadata } from "@/lib/seo";
 
 export async function generateStaticParams() {
   return videos.map((v) => ({ slug: v.slug }));
@@ -14,12 +15,9 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const video = videos.find((v) => v.slug === slug);
-  if (!video) return { title: "Video Not Found" };
+  if (!video) notFound();
 
-  return {
-    title: video.title,
-    description: video.description,
-  };
+  return pageMetadata(video.title, video.description, `/videos/${slug}`, false);
 }
 
 export default async function VideoDetailPage({
@@ -33,22 +31,8 @@ export default async function VideoDetailPage({
 
   const relatedVideos = videos.filter((v) => v.id !== video.id).slice(0, 3);
 
-  const videoSchema = {
-    "@context": "https://schema.org",
-    "@type": "VideoObject",
-    name: video.title,
-    description: video.description,
-    duration: `PT${Math.floor(video.durationSeconds / 60)}M${video.durationSeconds % 60}S`,
-    uploadDate: video.publishedAt,
-  };
-
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(videoSchema) }}
-      />
-
       {/* Breadcrumb */}
       <section className="pt-32 lg:pt-36">
         <div className="container">

@@ -1,9 +1,6 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Cookie Policy",
-  description: "Cookie Policy for the Nyaysaathi website.",
-};
+export const metadata = pageMetadata("Cookie Policy", "Read about cookies, browser storage and consent choices on the Nyaysaathi website.", "/cookie-policy");
 
 export default function CookiePolicyPage() {
   return (
