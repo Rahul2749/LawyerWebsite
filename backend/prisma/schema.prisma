@@ -97,6 +97,7 @@ model Appointment {
   // Status
   status          AppointmentStatus @default(PENDING_PAYMENT)
   notes           String?           // Internal notes by the lawyer
+  pendingPaymentAlertedAt DateTime?  // Deduplicate alerts after checkout is closed unpaid
   
   // Disclaimer acceptance (legal requirement)
   disclaimerAccepted Boolean        @default(false)

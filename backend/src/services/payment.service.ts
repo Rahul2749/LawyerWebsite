@@ -68,6 +68,17 @@ export function verifyRazorpaySignature(
   return expectedSignature === signature;
 }
 
+export async function isRazorpayCheckoutUnpaid(orderId: string): Promise<boolean> {
+  if (!razorpay) throw new Error("Razorpay payments are not configured");
+  const [order, payments] = await Promise.all([
+    razorpay.orders.fetch(orderId), razorpay.orders.fetchPayments(orderId),
+  ]);
+  // Closing the popup does not prove failure: UPI/bank authorization may still be processing.
+  // Suppress unpaid alerts for paid orders or any attempt that has not definitively failed.
+  return order.status !== "paid" && Number(order.amount_paid) === 0 &&
+    payments.items.every((payment) => payment.status === "failed");
+}
+
 // ─── PHONEPE ─────────────────────────────────────────────────────────────────
 
 export interface PhonePePaymentResult {

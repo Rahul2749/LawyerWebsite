@@ -62,21 +62,41 @@ export async function createAppointment(input: CreateAppointmentInput) {
     });
   }
 
-  // Notify the lawyer as soon as the request is created, even if payment is not completed.
-  void sendLawyerAlertEmail({
-    clientName: appointment.clientName,
-    clientEmail: appointment.clientEmail,
-    clientPhone: appointment.clientPhone,
-    referenceNumber: appointment.referenceNumber,
-    serviceName: appointment.service.name,
-    message: appointment.clientMessage ?? undefined,
-    amount: appointment.service.price,
-    appointmentStatus: "PENDING_PAYMENT",
-  }).catch((error) => console.error("Failed to send pending appointment alert:", error));
-
-  void sendAdminBookingNotification(appointment.id, "PENDING_PAYMENT");
-
+  // The user is still checking out: creation alone must not trigger an unpaid alert.
   return appointment;
+}
+
+// Called only after checkout closes and its gateway state has been checked as unpaid.
+export async function notifyIncompleteCheckout(appointmentId: string, orderId: string): Promise<boolean> {
+  const claim = await prisma.appointment.updateMany({
+    where: {
+      id: appointmentId,
+      status: "PENDING_PAYMENT",
+      pendingPaymentAlertedAt: null,
+      payment: { is: { orderId, status: { not: "SUCCESS" } } },
+    },
+    data: { pendingPaymentAlertedAt: new Date() },
+  });
+  if (!claim.count) return false;
+  const appointment = await prisma.appointment.findUnique({
+    where: { id: appointmentId }, include: { service: true, payment: true },
+  });
+  if (!appointment || appointment.status !== "PENDING_PAYMENT" || appointment.payment?.status === "SUCCESS" || appointment.payment?.orderId !== orderId) return false;
+
+  await Promise.all([
+    sendLawyerAlertEmail({
+      clientName: appointment.clientName,
+      clientEmail: appointment.clientEmail,
+      clientPhone: appointment.clientPhone,
+      referenceNumber: appointment.referenceNumber,
+      serviceName: appointment.service.name,
+      message: appointment.clientMessage ?? undefined,
+      amount: appointment.service.price,
+      appointmentStatus: "PENDING_PAYMENT",
+    }).catch((error) => console.error("Failed to send pending appointment alert:", error)),
+    sendAdminBookingNotification(appointment.id, "PENDING_PAYMENT"),
+  ]);
+  return true;
 }
 
 // Confirm appointment after payment success

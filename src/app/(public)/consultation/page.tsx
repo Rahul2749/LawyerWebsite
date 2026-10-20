@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import Link from "next/link";
 import { siteSettings } from "@/data/siteSettings";
+import { checkoutOutcomeTracker } from "@/lib/checkoutOutcome";
 
 // ─── Validation schema ────────────────────────────────────────────────────────
 const consultationSchema = z.object({
@@ -397,6 +398,7 @@ function PaymentStep({
 }) {
   const [gateway, setGateway] = useState<Gateway>("razorpay");
   const [isProcessing, setIsProcessing] = useState(false);
+  const [hasSubmittedPayment, setHasSubmittedPayment] = useState(false);
   const [error, setError] = useState("");
 
   const handleRazorpay = async () => {
@@ -411,7 +413,16 @@ function PaymentStep({
       const json = await res.json();
       if (!res.ok) throw new Error(json.error?.message ?? "Failed to create order");
 
-      const { orderId, amount, keyId, clientName, clientEmail, clientPhone, description } = json.data;
+      const { orderId, amount, keyId, clientName, clientEmail, clientPhone, description, checkoutToken } = json.data;
+      const outcome = checkoutOutcomeTracker(async (reason) => {
+        const report = await fetch(`${siteSettings.BACKEND_URL}/api/payments/razorpay/checkout-outcome`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ appointmentId, orderId, checkoutToken, reason }),
+          keepalive: true,
+        });
+        if (!report.ok) throw new Error("Unable to report checkout outcome");
+      });
 
       // Load Razorpay script
       await loadScript("https://checkout.razorpay.com/v1/checkout.js");
@@ -430,31 +441,40 @@ function PaymentStep({
           razorpay_order_id: string;
           razorpay_signature: string;
         }) => {
+          outcome.onSuccess();
+          setHasSubmittedPayment(true);
           // Verify payment on backend
-          const verifyRes = await fetch(
-            `${siteSettings.BACKEND_URL}/api/payments/razorpay/verify`,
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                razorpay_order_id: response.razorpay_order_id,
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_signature: response.razorpay_signature,
-                appointmentId,
-              }),
+          try {
+            const verifyRes = await fetch(
+              `${siteSettings.BACKEND_URL}/api/payments/razorpay/verify`,
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  razorpay_order_id: response.razorpay_order_id,
+                  razorpay_payment_id: response.razorpay_payment_id,
+                  razorpay_signature: response.razorpay_signature,
+                  appointmentId,
+                }),
+              }
+            );
+            if (verifyRes.ok) {
+              onSuccess();
+            } else {
+              setError("Payment verification failed. Please contact support before paying again.");
             }
-          );
-          if (verifyRes.ok) {
-            onSuccess();
-          } else {
-            setError("Payment verification failed. Please contact support.");
+          } catch {
+            setError("Unable to verify your payment right now. Please contact support with your booking reference before retrying payment.");
+          } finally {
+            setIsProcessing(false);
           }
         },
-        modal: { ondismiss: () => setIsProcessing(false) },
+        modal: { ondismiss: () => { setIsProcessing(false); outcome.onDismiss(); } },
       };
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const rzp = new (window as any).Razorpay(options);
+      rzp.on("payment.failed", () => outcome.onFailure());
       rzp.open();
     } catch (e) {
       setError(e instanceof Error ? e.message : "Payment failed");
@@ -562,7 +582,7 @@ function PaymentStep({
 
       <button
         onClick={handlePay}
-        disabled={isProcessing}
+        disabled={isProcessing || hasSubmittedPayment}
         className="btn btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed py-4 text-sm"
       >
         {isProcessing ? (
@@ -574,7 +594,7 @@ function PaymentStep({
             Processing Payment…
           </>
         ) : (
-          `Pay ₹${servicePrice.toLocaleString("en-IN")} via Razorpay`
+          hasSubmittedPayment ? "Payment verification pending" : `Pay ₹${servicePrice.toLocaleString("en-IN")} via Razorpay`
         )}
       </button>
 

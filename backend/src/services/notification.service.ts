@@ -20,10 +20,10 @@ export async function sendAdminBookingNotification(appointmentId: string, status
         tokens,
         // Keep client names, contact details, and legal matters off lock screens.
         data: {
-          title: status === "CONFIRMED" ? "Appointment confirmed" : "New appointment — payment pending",
+          title: status === "CONFIRMED" ? "Appointment confirmed" : "Checkout closed — payment pending",
           body: status === "CONFIRMED"
             ? "Payment has been received. Open the admin panel to view the appointment."
-            : "A booking request is awaiting payment. Open the admin panel to follow up.",
+            : "A checkout was closed without completing payment. Open the admin panel to follow up.",
           url: "/admin-lawyersite/appointments",
           tag: `booking-${appointmentId}`,
           status,

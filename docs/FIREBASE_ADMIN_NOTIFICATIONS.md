@@ -2,7 +2,8 @@
 
 ## What this implementation sends
 
-- When a visitor submits the appointment form, the saved appointment is `PENDING_PAYMENT` and registered admins receive a pending-payment alert immediately, even if the visitor leaves without paying.
+- Submitting the appointment form saves an appointment as `PENDING_PAYMENT` without sending an alert while the visitor is still checking out.
+- If the visitor closes Razorpay Checkout without completing payment (including after failed attempts), the server checks the current order and Razorpay payment state, then sends the pending-payment email and admin push alert. Retries inside an open checkout do not trigger an alert. The pending alert is sent at most once per appointment.
 - When payment is verified and the appointment first changes to `CONFIRMED`, registered admins receive a confirmation alert. Repeated callbacks do not send another confirmation alert.
 - A notification opens `/admin-lawyersite/appointments`. Client names, contact details, and legal matters are not included in the push payload.
 - Existing email notifications continue using `LAWYER_EMAIL`. Push notifications go to enrolled browsers, not to an email address.
@@ -58,7 +59,7 @@ docker compose --env-file docker.env logs --tail=80 backend
 curl --fail http://127.0.0.1:5000/api/health
 ```
 
-The backend startup applies the new Prisma migration, adding `AdminPushDevice`. It does not reset the database. The frontend build bundles the Firebase service worker locally; no CDN worker scripts are required. The generated worker is ignored by Git and recreated by `npm run build` or `npm run dev`.
+The backend startup applies committed Prisma migrations, adding `AdminPushDevice` and the appointment's `pendingPaymentAlertedAt` marker. It does not reset the database. The frontend build bundles the Firebase service worker locally; no CDN worker scripts are required. The generated worker is ignored by Git and recreated by `npm run build` or `npm run dev`.
 
 If only Firebase environment values change after the feature has been deployed, recreate the backend:
 
@@ -81,12 +82,12 @@ Registrations expire with the admin login token (currently seven days). Opening 
 
 ## 5. Check the full flow
 
-1. From a different browser or a private window, submit the consultation form and leave the payment unfinished. Check that the admin panel lists `Pending Payment` and the admin device receives the pending alert.
-2. Verify the alert opens the authenticated appointments page. The form must actually be submitted; merely visiting the consultation page does not create an appointment or alert.
+1. From a different browser or a private window, submit the consultation form. Check that the admin panel lists `Pending Payment` but no pending-payment alert is sent while you are on the payment step or inside an open checkout.
+2. Open Razorpay Checkout and close it without paying. Verify the pending alert arrives and opens the authenticated appointments page. A failed attempt followed by a retry in the same popup must not alert the admin until checkout closes.
 3. Complete a payment using your intended test/live payment environment and check for the confirmation alert. Live Razorpay payments charge real money.
-4. Turn notifications off (or log out), submit another pending request, and confirm that browser does not display it.
+4. Turn notifications off (or log out), submit another booking, open and close its checkout without paying, and confirm that browser does not display the pending alert.
 
-Push delivery depends on browser permission, OS settings, connectivity, and Firebase. A provider failure does not roll back the booking or payment. The admin appointment list remains the source of truth. This feature sends an immediate pending-payment notification; it does not schedule later abandonment reminders.
+Push delivery depends on browser permission, OS settings, connectivity, and Firebase. A provider failure does not roll back the booking or payment. The admin appointment list remains the source of truth. Simply closing the browser tab without the Razorpay dismissal callback does not send an unpaid alert; no automatic abandonment timer is scheduled. The server suppresses pending alerts when Razorpay reports payment success or an attempt that is still processing, and never marks a payment failed solely from a browser callback.
 
 ## Troubleshooting
 

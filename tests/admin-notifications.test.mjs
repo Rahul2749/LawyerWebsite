@@ -193,7 +193,7 @@ test('pending-payment emails escape user input and label unpaid fees accurately'
   assert.doesNotMatch(sent[0].html, /Amount Paid/);
 });
 
-test('creation sends a pending alert and repeated payment callbacks send exactly one confirmation', async () => {
+test('creation is silent while checking out and repeated payment callbacks send exactly one confirmation', async () => {
   const events = [], emails = [];
   let changed = false;
   const fixture = {
@@ -216,10 +216,143 @@ test('creation sends a pending alert and repeated payment callbacks send exactly
   });
   const appointment = await service.createAppointment({ clientName: 'Client', clientEmail: 'client@example.invalid', clientPhone: '1234567890', serviceId: 'consultation', disclaimerAccepted: true });
   assert.equal(appointment.status, 'PENDING_PAYMENT');
-  assert.deepEqual(events, [['appointment-1', 'PENDING_PAYMENT']]);
+  assert.deepEqual(events, []);
+  assert.deepEqual(emails, []);
   await Promise.all([service.confirmAppointmentAfterPayment('appointment-1'), service.confirmAppointmentAfterPayment('appointment-1')]);
-  assert.deepEqual(events, [['appointment-1', 'PENDING_PAYMENT'], ['appointment-1', 'CONFIRMED']]);
-  assert.deepEqual(emails.map((email) => email.appointmentStatus), ['PENDING_PAYMENT', 'CONFIRMED']);
+  assert.deepEqual(events, [['appointment-1', 'CONFIRMED']]);
+  assert.deepEqual(emails.map((email) => email.appointmentStatus), ['CONFIRMED']);
+});
+
+test('checkout tracking stays silent during failed attempts and successful retries', async () => {
+  const reports = [];
+  const { checkoutOutcomeTracker } = load('src/lib/checkoutOutcome.ts');
+  const checkout = checkoutOutcomeTracker(async (reason) => { reports.push(reason); });
+  assert.deepEqual(reports, []);
+  checkout.onFailure();
+  assert.deepEqual(reports, []);
+  checkout.onSuccess();
+  checkout.onDismiss();
+  await Promise.resolve();
+  assert.deepEqual(reports, []);
+});
+
+test('closing checkout reports cancellation or final failure only once', async () => {
+  const { checkoutOutcomeTracker } = load('src/lib/checkoutOutcome.ts');
+  for (const failed of [false, true]) {
+    const reports = [];
+    const checkout = checkoutOutcomeTracker(async (reason) => { reports.push(reason); });
+    if (failed) checkout.onFailure();
+    checkout.onDismiss();
+    checkout.onDismiss();
+    await Promise.resolve();
+    assert.deepEqual(reports, [failed ? 'FAILED' : 'CANCELLED']);
+  }
+});
+
+test('checkout proofs bind one appointment and order, expire, and cannot be used as admin JWTs', () => {
+  const secret = 'test-only-checkout-proof-secret';
+  let now = Date.now();
+  const clock = class extends Date { static now() { return now; } };
+  const { createCheckoutToken, verifyCheckoutToken } = load('backend/src/utils/checkoutToken.ts', {
+    '../config/env': { env: { JWT_SECRET: secret } },
+  }, { Date: clock });
+  const proof = createCheckoutToken('appointment-1', 'order-1');
+  assert.equal(verifyCheckoutToken('appointment-1', 'order-1', proof), true);
+  assert.equal(verifyCheckoutToken('appointment-2', 'order-1', proof), false);
+  assert.equal(verifyCheckoutToken('appointment-1', 'order-2', proof), false);
+  assert.equal(verifyCheckoutToken('appointment-1', 'order-1', 'invalid'), false);
+  assert.throws(() => backendRequire('jsonwebtoken').verify(proof, secret));
+  now += 3 * 60 * 60 * 1000;
+  assert.equal(verifyCheckoutToken('appointment-1', 'order-1', proof), false);
+});
+
+test('Razorpay state checks suppress paid and processing payments before any unpaid alert', async () => {
+  let order = { status: 'created', amount_paid: 0 };
+  let items = [];
+  const { isRazorpayCheckoutUnpaid } = load('backend/src/services/payment.service.ts', {
+    '../config/env': { env: { RAZORPAY_KEY_ID: 'test-key', RAZORPAY_KEY_SECRET: 'test-secret' } },
+    razorpay: class { orders = { fetch: async () => order, fetchPayments: async () => ({ items }) }; },
+    axios: {},
+  });
+  assert.equal(await isRazorpayCheckoutUnpaid('order-1'), true);
+  items = [{ status: 'failed' }];
+  assert.equal(await isRazorpayCheckoutUnpaid('order-1'), true);
+  for (const status of ['created', 'authorized', 'captured', 'refunded']) {
+    items = [{ status }];
+    assert.equal(await isRazorpayCheckoutUnpaid('order-1'), false, status);
+  }
+  items = [];
+  order = { status: 'paid', amount_paid: 100000 };
+  assert.equal(await isRazorpayCheckoutUnpaid('order-1'), false);
+});
+
+test('repeated unpaid-checkout reports claim at most one pending email and push alert', async () => {
+  let claimed = false;
+  const events = [], emails = [];
+  const fixture = {
+    id: 'appointment-1', status: 'PENDING_PAYMENT', clientName: 'Client', clientEmail: 'client@example.invalid', clientPhone: '1234567890',
+    referenceNumber: 'TEST-001', service: { name: 'Consultation', price: 1000 }, payment: { orderId: 'order-1', status: 'CREATED' },
+  };
+  const service = load('backend/src/services/appointment.service.ts', {
+    '../config/database': { prisma: { appointment: {
+      updateMany: async (query) => {
+        assert.equal(query.where.status, 'PENDING_PAYMENT');
+        assert.equal(query.where.payment.is.orderId, 'order-1');
+        assert.equal(query.where.payment.is.status.not, 'SUCCESS');
+        assert.equal(query.where.pendingPaymentAlertedAt, null);
+        const count = claimed ? 0 : 1; claimed = true; return { count };
+      },
+      findUnique: async () => fixture,
+    } } },
+    '../utils/generateReference': {},
+    './email.service': { sendLawyerAlertEmail: async (value) => { emails.push(value.appointmentStatus); } },
+    './notification.service': { sendAdminBookingNotification: async (...args) => { events.push(args); } },
+    './whatsapp.service': {},
+  });
+  const outcomes = await Promise.all([service.notifyIncompleteCheckout('appointment-1', 'order-1'), service.notifyIncompleteCheckout('appointment-1', 'order-1')]);
+  assert.deepEqual(outcomes.sort(), [false, true]);
+  assert.deepEqual(events, [['appointment-1', 'PENDING_PAYMENT']]);
+  assert.deepEqual(emails, ['PENDING_PAYMENT']);
+});
+
+test('checkout outcome endpoint ignores invalid, obsolete, already paid, and still-processing checkouts', async () => {
+  const state = { valid: true, orderId: 'order-1', status: 'PENDING_PAYMENT', payment: 'CREATED', alerted: null, unpaid: true, providerError: false, providerReads: 0, notifications: 0 };
+  const { recordRazorpayCheckoutOutcome } = load('backend/src/controllers/payment.controller.ts', {
+    '../config/database': { prisma: { appointment: { findUnique: async () => ({
+      id: 'appointment-1', status: state.status, pendingPaymentAlertedAt: state.alerted,
+      payment: { gateway: 'RAZORPAY', orderId: state.orderId, status: state.payment },
+    }) } } },
+    '../utils/checkoutToken': { verifyCheckoutToken: () => state.valid },
+    '../services/payment.service': { isRazorpayCheckoutUnpaid: async () => {
+      state.providerReads++;
+      if (state.providerError) throw new Error('gateway unavailable');
+      return state.unpaid;
+    } },
+    '../services/appointment.service': { notifyIncompleteCheckout: async () => { state.notifications++; return true; } },
+  });
+  const invoke = () => new Promise((resolve, reject) => {
+    const res = { code: 200, status(code) { this.code = code; return this; }, json(body) { resolve({ code: this.code, body }); } };
+    recordRazorpayCheckoutOutcome({ body: { appointmentId: 'appointment-1', orderId: 'order-1', checkoutToken: 'proof', reason: 'CANCELLED' } }, res, reject);
+  });
+  state.valid = false;
+  assert.equal((await invoke()).code, 401);
+  state.valid = true; state.orderId = 'new-order';
+  assert.equal((await invoke()).code, 409);
+  state.orderId = 'order-1'; state.status = 'CONFIRMED';
+  assert.equal((await invoke()).body.data.notified, false);
+  state.status = 'PENDING_PAYMENT'; state.payment = 'SUCCESS';
+  assert.equal((await invoke()).body.data.notified, false);
+  state.payment = 'CREATED'; state.alerted = new Date();
+  assert.equal((await invoke()).body.data.notified, false);
+  assert.equal(state.providerReads, 0);
+  state.alerted = null; state.unpaid = false;
+  assert.equal((await invoke()).body.data.notified, false);
+  state.unpaid = true; state.providerError = true;
+  assert.equal((await invoke()).code, 503);
+  assert.equal(state.notifications, 0);
+  state.providerError = false;
+  assert.equal((await invoke()).body.data.notified, true);
+  assert.equal(state.notifications, 1);
 });
 
 test('retried payment callbacks preserve later appointment statuses without re-alerting', async () => {

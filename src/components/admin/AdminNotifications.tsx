@@ -70,7 +70,7 @@ export default function AdminNotifications() {
             {!supported ? "This browser does not support notifications. On iPhone or iPad, add this site to your Home Screen and open it there."
               : config && !config.configured ? "Notifications have not been set up yet."
               : enabled ? "Notifications are enabled on this device for pending and confirmed appointments."
-              : "Get alerts on this device for appointments awaiting payment and confirmed bookings."}
+              : "Get alerts when checkout closes without payment or an appointment is confirmed."}
           </p>
           <p className="mt-1 text-xs text-gray-500">Only signed-in admins can enable alerts. Logging out turns them off on this device.</p>
         </div>

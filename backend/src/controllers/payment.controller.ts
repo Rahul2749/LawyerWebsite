@@ -7,6 +7,7 @@ import { sendSuccess, sendError } from "../utils/apiResponse";
 import * as paymentService from "../services/payment.service";
 import * as appointmentService from "../services/appointment.service";
 import { prisma } from "../config/database";
+import { createCheckoutToken, verifyCheckoutToken } from "../utils/checkoutToken";
 
 // ─── RAZORPAY ──────────────────────────────────────────────────────────────
 
@@ -51,12 +52,42 @@ export const createRazorpayOrder = asyncHandler(async (req: Request, res: Respon
 
   sendSuccess(res, {
     ...orderResult,
+    checkoutToken: createCheckoutToken(appointmentId, orderResult.orderId),
     appointmentId,
     clientName: appointment.clientName,
     clientEmail: appointment.clientEmail,
     clientPhone: appointment.clientPhone,
     description: `Consultation — ${appointment.service.name}`,
   });
+});
+
+// Closing checkout is only a hint; verify the proof, current order, and gateway state first.
+export const recordRazorpayCheckoutOutcome = asyncHandler(async (req: Request, res: Response) => {
+  const { appointmentId, orderId, checkoutToken } = req.body;
+  if (!verifyCheckoutToken(appointmentId, orderId, checkoutToken)) {
+    sendError(res, "INVALID_CHECKOUT", "Invalid or expired checkout session", 401);
+    return;
+  }
+  const appointment = await prisma.appointment.findUnique({
+    where: { id: appointmentId }, include: { payment: true },
+  });
+  if (!appointment || appointment.payment?.gateway !== "RAZORPAY" || appointment.payment.orderId !== orderId) {
+    sendError(res, "INVALID_CHECKOUT", "This checkout is no longer current", 409);
+    return;
+  }
+  if (appointment.status !== "PENDING_PAYMENT" || appointment.payment.status === "SUCCESS" || appointment.pendingPaymentAlertedAt) {
+    sendSuccess(res, { notified: false });
+    return;
+  }
+  let unpaid: boolean;
+  try {
+    unpaid = await paymentService.isRazorpayCheckoutUnpaid(orderId);
+  } catch {
+    sendError(res, "CHECKOUT_STATUS_UNAVAILABLE", "Unable to check payment status right now", 503);
+    return;
+  }
+  const notified = unpaid ? await appointmentService.notifyIncompleteCheckout(appointmentId, orderId) : false;
+  sendSuccess(res, { notified });
 });
 
 // POST /api/payments/razorpay/verify
@@ -179,10 +210,11 @@ export const phonePeCallback = asyncHandler(async (req: Request, res: Response) 
     });
     await appointmentService.confirmAppointmentAfterPayment(payment.appointmentId);
   } else {
-    await prisma.payment.update({
-      where: { id: payment.id },
+    await prisma.payment.updateMany({
+      where: { id: payment.id, status: { not: "SUCCESS" } },
       data: { status: "FAILED" },
     });
+    await appointmentService.notifyIncompleteCheckout(payment.appointmentId, merchantTransactionId);
   }
 
   // PhonePe expects a 200 OK response

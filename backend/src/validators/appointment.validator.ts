@@ -37,4 +37,11 @@ export const createRazorpayOrderSchema = z.object({
   appointmentId: z.string().uuid(),
 });
 
+export const checkoutOutcomeSchema = z.object({
+  appointmentId: z.string().uuid(),
+  orderId: z.string().min(1).max(100),
+  checkoutToken: z.string().min(1).max(200),
+  reason: z.enum(["CANCELLED", "FAILED"]),
+}).strict();
+
 export type CreateAppointmentInput = z.infer<typeof createAppointmentSchema>;
