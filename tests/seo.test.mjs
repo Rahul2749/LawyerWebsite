@@ -60,7 +60,9 @@ test("sitemap contains only healthy, canonical, indexable pages with unique titl
     assert.equal(page.status, 200, path);
     assert.doesNotMatch(page.headers.get("x-robots-tag") ?? "", /noindex/, path);
     const html = await page.text();
-    assert.doesNotMatch(html, /Nagpur|Gondia|Bhandara|Tumsar|Wardha|Amravati|Maharashtra/i, `${path}: specific locations must not appear on public pages`);
+    // Preserve Yatharth's supplied court credential; exclude regional marketing copy.
+    const marketingHtml = html.replaceAll("Hon’ble Bombay High Court, Nagpur Bench", "");
+    assert.doesNotMatch(marketingHtml, /Nagpur|Gondia|Bhandara|Tumsar|Wardha|Amravati|Maharashtra/i, `${path}: regional marketing must not appear on public pages`);
     const meta = tags(html, "meta");
     const canonical = tags(html, "link").filter((tag) => tag.rel === "canonical");
     assert.deepEqual(canonical.map((tag) => new URL(tag.href).href), [new URL(url).href], path);

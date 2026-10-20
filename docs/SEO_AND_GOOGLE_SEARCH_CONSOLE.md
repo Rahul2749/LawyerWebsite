@@ -13,7 +13,7 @@ Read-only production checks on 20 October 2026 found a healthy homepage response
 - Organization and WebSite structured data, absolute breadcrumb URLs, service structured data, and safe JSON-LD serialization. The website name includes the spelling variant “Nyaysathi” in structured data; visible copy uses the official name.
 - 18 service guides at `/legal-services/[slug]`, linked from home service cards and both desktop and mobile service menus. Each has its own preparation checklist and questions, with a direct booking link.
 - A `/lawyer-fees` guide using the existing service price and duration data. The currently configured amounts are ₹1,000 for 60 minutes; the booking/payment amount remains the amount to review before paying.
-- A nationwide `/legal-help` guide explaining consultation preparation. Public copy and metadata do not name specific cities or states, as requested. The previous regional URL redirects to this guide.
+- A nationwide `/legal-help` guide explaining consultation preparation. Marketing copy and metadata do not name specific cities or states, as requested. Yatharth's supplied biography retains “Hon’ble Bombay High Court, Nagpur Bench”. The previous regional URL redirects to this guide.
 - Homepage headings and supporting content explaining the real service and coverage.
 - The consultation page heading renders in initial HTML; only the query-dependent form waits for client rendering.
 - The homepage heading and introduction are visible immediately, without waiting for an entrance animation.
