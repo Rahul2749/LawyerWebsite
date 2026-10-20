@@ -102,116 +102,46 @@ function MemberProfile({ member, onClose }: { member: TeamMember; onClose: () =>
 }
 
 export default function TeamMembers() {
-  const rowRef = useRef<HTMLUListElement>(null);
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
-  const [scrollState, setScrollState] = useState({ hasPrevious: false, hasNext: false });
   const closeProfile = useCallback(() => setSelectedMember(null), []);
 
-  const updateScrollState = useCallback(() => {
-    const row = rowRef.current;
-    if (!row) return;
-
-    const hasPrevious = row.scrollLeft > 2;
-    const hasNext = row.scrollLeft < row.scrollWidth - row.clientWidth - 2;
-    setScrollState((current) =>
-      current.hasPrevious === hasPrevious && current.hasNext === hasNext
-        ? current
-        : { hasPrevious, hasNext }
-    );
-  }, []);
-
-  useEffect(() => {
-    const row = rowRef.current;
-    if (!row) return;
-
-    const observer = new ResizeObserver(updateScrollState);
-    observer.observe(row);
-    row.addEventListener("scroll", updateScrollState, { passive: true });
-    return () => {
-      observer.disconnect();
-      row.removeEventListener("scroll", updateScrollState);
-    };
-  }, [updateScrollState]);
-
-  function browseMember(direction: -1 | 1) {
-    const row = rowRef.current;
-    const card = row?.firstElementChild;
-    if (!row || !card) return;
-
-    const gap = parseFloat(getComputedStyle(row).columnGap) || 0;
-    row.scrollBy({
-      left: direction * (card.getBoundingClientRect().width + gap),
-      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
-    });
-  }
-
   return (
-    <div className="mb-6 min-w-0" role="region" aria-labelledby="team-members-heading">
-      <div className="mb-3 flex items-center justify-between gap-3">
-        <h3 id="team-members-heading" className="min-w-0 font-serif text-xl font-semibold text-[#F7F4EE]">Our Team</h3>
-        <div className="hidden shrink-0 gap-2 md:flex">
-          <button
-            type="button"
-            aria-label="Previous team member"
-            aria-controls="team-members-list"
-            disabled={!scrollState.hasPrevious}
-            onClick={() => browseMember(-1)}
-            className="flex size-11 items-center justify-center rounded-full border border-[#C9A84C]/30 text-[#F7F4EE] transition-colors hover:border-[#C9A84C] hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FFD700] disabled:cursor-default disabled:opacity-30"
-          >
-            <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="m14 6-6 6 6 6" />
-            </svg>
-          </button>
-          <button
-            type="button"
-            aria-label="Next team member"
-            aria-controls="team-members-list"
-            disabled={!scrollState.hasNext}
-            onClick={() => browseMember(1)}
-            className="flex size-11 items-center justify-center rounded-full border border-[#C9A84C]/30 text-[#F7F4EE] transition-colors hover:border-[#C9A84C] hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FFD700] disabled:cursor-default disabled:opacity-30"
-          >
-            <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="m10 6 6 6-6 6" />
-            </svg>
-          </button>
-        </div>
-      </div>
+    <div className="min-w-0" role="region" aria-labelledby="team-members-heading">
+      <h3 id="team-members-heading" className="mb-4 font-serif text-2xl font-semibold text-[#F7F4EE]">Our Team</h3>
       <ul
-        ref={rowRef}
         id="team-members-list"
         aria-label="Firm members"
-        data-lenis-prevent-horizontal
-        className="flex flex-col gap-3 py-1 md:grid md:auto-cols-[calc((100%-0.75rem)/2)] md:grid-flow-col md:grid-rows-[repeat(4,auto)] md:gap-y-0 md:snap-x md:snap-mandatory md:overflow-x-auto md:overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="grid grid-cols-1 gap-x-4 py-1 md:grid-cols-3"
       >
         {teamMembers.map((member) => (
-          <li key={member.id} className="w-full shrink-0 md:row-span-4 md:grid md:grid-rows-subgrid md:snap-start">
+          <li key={member.id} className="mb-4 grid min-w-0 row-span-4 grid-rows-subgrid">
             <button
               type="button"
               aria-label={`View profile of ${member.name}`}
               aria-haspopup="dialog"
               onClick={() => setSelectedMember(member)}
-              className="group grid h-full min-h-32 w-full grid-cols-[4rem_minmax(0,1fr)] grid-rows-[repeat(4,auto)] gap-x-3 rounded-xl border border-[#C9A84C]/25 bg-white/[0.04] p-3 text-left transition-colors hover:border-[#C9A84C]/70 hover:bg-white/[0.07] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FFD700] md:row-span-4 md:grid-rows-subgrid"
+              className="group row-span-4 grid h-full min-h-32 w-full grid-cols-[4rem_minmax(0,1fr)] grid-rows-subgrid gap-x-3 rounded-xl border border-[#C9A84C]/25 bg-white/[0.04] p-3 text-left transition-colors hover:border-[#C9A84C]/70 hover:bg-white/[0.07] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FFD700] lg:grid-cols-[5rem_minmax(0,1fr)] lg:gap-x-4 lg:p-4"
             >
-              <div className="relative col-start-1 row-span-3 row-start-1 aspect-[4/5] w-16 self-start overflow-hidden rounded-lg border border-[#C9A84C]/25 bg-[#e8e8e8]">
+              <div className="relative col-start-1 row-span-3 row-start-1 aspect-[4/5] w-16 self-start overflow-hidden rounded-lg border border-[#C9A84C]/25 bg-[#e8e8e8] lg:w-20">
                 <Image
                   src={member.portrait}
                   alt={`Portrait of ${member.name}`}
                   fill
-                  sizes="64px"
+                  sizes="(min-width: 1024px) 80px, 64px"
                   placeholder="blur"
                   className="object-cover object-top"
                 />
               </div>
               <h4 className="col-start-2 row-start-1 min-w-0 self-start font-serif text-lg font-semibold leading-tight text-[#F7F4EE]">{member.name}</h4>
-              <p className="col-start-2 row-start-2 mt-1 min-w-0 self-start line-clamp-2 text-[11px] leading-relaxed text-[#F7F4EE]/70" title={member.role}>{member.role}</p>
-              <span className="col-start-2 row-start-3 mt-2 inline-flex items-center gap-1.5 self-start text-[11px] font-medium text-[#FFD700]">
+              <p className="col-start-2 row-start-2 mt-1 min-w-0 self-start line-clamp-2 text-xs leading-relaxed text-[#F7F4EE]/70" title={member.role}>{member.role}</p>
+              <span className="col-start-2 row-start-3 mt-2 inline-flex items-center gap-1.5 self-start text-xs font-medium text-[#FFD700]">
                 View profile
                 <svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M4 12h16m-6-6 6 6-6 6" />
                 </svg>
               </span>
               {member.caption && (
-                <p className="col-span-2 row-start-4 mt-3 w-full self-start line-clamp-2 text-[11px] leading-relaxed text-[#F7F4EE]/75">{member.caption}</p>
+                <p className="col-span-2 row-start-4 mt-3 w-full self-start line-clamp-2 text-xs leading-relaxed text-[#F7F4EE]/75">{member.caption}</p>
               )}
             </button>
           </li>
