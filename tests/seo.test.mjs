@@ -142,3 +142,21 @@ test("sharing image is a real image response", async () => {
   assert.equal(response.headers.get("content-type"), "image/png");
   assert.ok((await response.arrayBuffer()).byteLength > 1000);
 });
+
+test("admin notification manifest and service worker are available without exposing them as public-page prompts", async () => {
+  const admin = await (await fetch(`${origin}/admin-lawyersite`)).text();
+  const home = await (await fetch(`${origin}/`)).text();
+  assert.ok(tags(admin, "link").some((link) => link.rel === "manifest" && link.href === "/admin-manifest.webmanifest"));
+  assert.ok(!tags(home, "link").some((link) => link.rel === "manifest" && link.href === "/admin-manifest.webmanifest"));
+  const manifestResponse = await fetch(`${origin}/admin-manifest.webmanifest`);
+  assert.equal(manifestResponse.status, 200);
+  const manifest = await manifestResponse.json();
+  assert.equal(manifest.start_url, "/admin-lawyersite");
+  assert.equal(manifest.scope, "/admin-lawyersite");
+  for (const icon of manifest.icons) assert.equal((await fetch(`${origin}${icon.src}`)).status, 200);
+  const worker = await fetch(`${origin}/admin-firebase-messaging-sw.js?firebase=example`);
+  assert.equal(worker.status, 200);
+  assert.match(worker.headers.get("content-type"), /javascript/);
+  assert.match(worker.headers.get("cache-control"), /no-store/);
+  assert.ok((await worker.text()).length > 1000);
+});

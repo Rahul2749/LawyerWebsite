@@ -3,6 +3,9 @@ node_modules
 .git
 .env*
 docker.env
+docker.env.backup-*
+*firebase-adminsdk*.json
+*service-account*.json
 backend/node_modules
 backend/dist
 backend/.env

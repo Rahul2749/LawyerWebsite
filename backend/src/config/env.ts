@@ -42,6 +42,14 @@ export const env = {
   LAWYER_EMAIL: optionalEnv("LAWYER_EMAIL", "rahulnagrikar123@gmail.com"),
   LAWYER_WHATSAPP_NUMBER: optionalEnv("LAWYER_WHATSAPP_NUMBER", "918605399330"),
 
+  // Firebase admin notifications. All values are runtime backend configuration.
+  FIREBASE_SERVICE_ACCOUNT_BASE64: optionalEnv("FIREBASE_SERVICE_ACCOUNT_BASE64", ""),
+  FIREBASE_PROJECT_ID: optionalEnv("FIREBASE_PROJECT_ID", ""),
+  FIREBASE_WEB_API_KEY: optionalEnv("FIREBASE_WEB_API_KEY", ""),
+  FIREBASE_WEB_APP_ID: optionalEnv("FIREBASE_WEB_APP_ID", ""),
+  FIREBASE_MESSAGING_SENDER_ID: optionalEnv("FIREBASE_MESSAGING_SENDER_ID", ""),
+  FIREBASE_WEB_VAPID_KEY: optionalEnv("FIREBASE_WEB_VAPID_KEY", ""),
+
   // Razorpay
   RAZORPAY_KEY_ID: optionalEnv("RAZORPAY_KEY_ID", ""),
   RAZORPAY_KEY_SECRET: optionalEnv("RAZORPAY_KEY_SECRET", ""),

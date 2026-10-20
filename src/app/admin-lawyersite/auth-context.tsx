@@ -1,32 +1,42 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from "react";
+import { createContext, useContext, useSyncExternalStore, useCallback, ReactNode } from "react";
 import { siteSettings } from "@/data/siteSettings";
+import { disableAdminPush } from "@/lib/adminPush";
 
 interface AuthContextType {
   token: string | null;
   adminName: string;
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
-  logout: () => void;
+  logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
+const AUTH_CHANGED_EVENT = "admin-auth-changed";
+
+function subscribeAuth(onChange: () => void) {
+  const onStorage = (event: StorageEvent) => {
+    if (event.key === "admin_token" || event.key === "admin_name" || event.key === null) onChange();
+  };
+  window.addEventListener("storage", onStorage);
+  window.addEventListener(AUTH_CHANGED_EVENT, onChange);
+  return () => {
+    window.removeEventListener("storage", onStorage);
+    window.removeEventListener(AUTH_CHANGED_EVENT, onChange);
+  };
+}
+
+function authSnapshot(): string {
+  return JSON.stringify([localStorage.getItem("admin_token"), localStorage.getItem("admin_name") ?? "Administrator"]);
+}
+
+function serverSnapshot(): null { return null; }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [token, setToken] = useState<string | null>(null);
-  const [adminName, setAdminName] = useState("Raja Agrawal");
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const saved = localStorage.getItem("admin_token");
-    const savedName = localStorage.getItem("admin_name");
-    if (saved) {
-      setToken(saved);
-      if (savedName) setAdminName(savedName);
-    }
-    setIsLoading(false);
-  }, []);
+  const snapshot = useSyncExternalStore(subscribeAuth, authSnapshot, serverSnapshot);
+  const [token, adminName]: [string | null, string] = snapshot ? JSON.parse(snapshot) : [null, "Administrator"];
+  const isLoading = snapshot === null;
 
   const login = useCallback(async (email: string, password: string) => {
     const res = await fetch(`${siteSettings.BACKEND_URL}/api/auth/login`, {
@@ -40,15 +50,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.setItem("admin_token", newToken);
     if (user?.name) {
       localStorage.setItem("admin_name", user.name);
-      setAdminName(user.name);
     }
-    setToken(newToken);
+    window.dispatchEvent(new Event(AUTH_CHANGED_EVENT));
   }, []);
 
-  const logout = useCallback(() => {
+  const logout = useCallback(async () => {
+    const previousToken = localStorage.getItem("admin_token");
     localStorage.removeItem("admin_token");
     localStorage.removeItem("admin_name");
-    setToken(null);
+    window.dispatchEvent(new Event(AUTH_CHANGED_EVENT));
+    await disableAdminPush(previousToken).catch(() => {
+      console.error("Unable to finish notification cleanup. Check this browser's site permissions.");
+    });
   }, []);
 
   return (

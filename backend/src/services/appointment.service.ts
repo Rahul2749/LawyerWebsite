@@ -6,6 +6,7 @@ import { prisma } from "../config/database";
 import { generateReference } from "../utils/generateReference";
 import { sendBookingConfirmationEmail, sendLawyerAlertEmail } from "./email.service";
 import { buildLawyerWhatsAppData } from "./whatsapp.service";
+import { sendAdminBookingNotification } from "./notification.service";
 
 export interface CreateAppointmentInput {
   clientName: string;
@@ -61,17 +62,41 @@ export async function createAppointment(input: CreateAppointmentInput) {
     });
   }
 
+  // Notify the lawyer as soon as the request is created, even if payment is not completed.
+  void sendLawyerAlertEmail({
+    clientName: appointment.clientName,
+    clientEmail: appointment.clientEmail,
+    clientPhone: appointment.clientPhone,
+    referenceNumber: appointment.referenceNumber,
+    serviceName: appointment.service.name,
+    message: appointment.clientMessage ?? undefined,
+    amount: appointment.service.price,
+    appointmentStatus: "PENDING_PAYMENT",
+  }).catch((error) => console.error("Failed to send pending appointment alert:", error));
+
+  void sendAdminBookingNotification(appointment.id, "PENDING_PAYMENT");
+
   return appointment;
 }
 
 // Confirm appointment after payment success
 // Called after Razorpay/PhonePe verifies the payment
 export async function confirmAppointmentAfterPayment(appointmentId: string) {
-  const appointment = await prisma.appointment.update({
-    where: { id: appointmentId },
+  // Only one concurrent payment callback may transition and notify for this booking.
+  const transition = await prisma.appointment.updateMany({
+    where: { id: appointmentId, status: "PENDING_PAYMENT" },
     data: { status: "CONFIRMED" },
+  });
+  const appointment = await prisma.appointment.findUniqueOrThrow({
+    where: { id: appointmentId },
     include: { service: true, payment: true },
   });
+  if (transition.count === 0) {
+    // Preserve later admin changes (completed/cancelled/refunded) on a retried callback.
+    return appointment;
+  }
+
+  void sendAdminBookingNotification(appointment.id, "CONFIRMED");
 
   // Send emails (non-blocking — don't fail the payment confirmation if email fails)
   const emailParams = {
@@ -91,6 +116,7 @@ export async function confirmAppointmentAfterPayment(appointmentId: string) {
       ...emailParams,
       clientPhone: appointment.clientPhone,
       message: appointment.clientMessage ?? undefined,
+      appointmentStatus: "CONFIRMED",
     }).catch((e) => console.error("Failed to send lawyer alert email:", e)),
   ]);
 

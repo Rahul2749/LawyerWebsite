@@ -3,6 +3,7 @@ import { inter, cormorant } from "./fonts";
 
 import "./globals.css";
 import { DEFAULT_DESCRIPTION, SITE_URL } from "@/lib/seo";
+import AdminPushForeground from "@/components/admin/AdminPushForeground";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -45,6 +46,7 @@ export default function RootLayout({
     >
       <body className="min-h-screen flex flex-col bg-bg-primary text-text-primary">
         {children}
+        <AdminPushForeground />
       </body>
     </html>
   );

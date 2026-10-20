@@ -1,4 +1,6 @@
 node_modules
 dist
-.env
+.env*
+*firebase-adminsdk*.json
+*service-account*.json
 *.log

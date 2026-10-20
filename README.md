@@ -35,3 +35,5 @@ behavior without sending emails or accessing a real database.
 SEO implementation notes, deployment checks, and the step-by-step Google Search Console setup are in [the SEO and Search Console guide](docs/SEO_AND_GOOGLE_SEARCH_CONSOLE.md). Run `npm run build` followed by `npm run test:seo` to crawl and validate the production output locally.
 
 Production runs on an Ubuntu VPS with Docker Compose, PostgreSQL, Nginx, and Certbot. The deployment instructions, environment-variable reference, GitHub Actions setup, backup commands, and troubleshooting notes are in [the Ubuntu Docker deployment guide](docs/DOCKER_UBUNTU_DEPLOYMENT_GUIDE.md).
+
+Admin browser notifications for pending-payment and confirmed appointments use Firebase Cloud Messaging. Follow [the Firebase admin notification setup](docs/FIREBASE_ADMIN_NOTIFICATIONS.md) to configure the project, server environment, and each admin device. Run `npm run test:notifications` for the access-control and notification lifecycle checks.

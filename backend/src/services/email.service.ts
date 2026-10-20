@@ -9,6 +9,11 @@ const resend = env.RESEND_API_KEY ? new Resend(env.RESEND_API_KEY) : null;
 
 type EmailOptions = Parameters<Resend["emails"]["send"]>[0];
 
+function escapeHtml(value: string): string {
+  const replacements: Record<string, string> = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
+  return value.replace(/[&<>"']/g, (character) => replacements[character]);
+}
+
 async function sendEmail(options: EmailOptions, requireDelivery = false): Promise<void> {
   if (!resend) {
     if (requireDelivery) throw new Error("Email delivery is not configured.");
@@ -118,27 +123,32 @@ export async function sendLawyerAlertEmail(params: {
   serviceName: string;
   message?: string;
   amount: number;
+  appointmentStatus: "PENDING_PAYMENT" | "CONFIRMED";
 }): Promise<void> {
-  const { clientName, clientEmail, clientPhone, referenceNumber, serviceName, message, amount } = params;
+  const { clientName, clientEmail, clientPhone, referenceNumber, serviceName, message, amount, appointmentStatus } = params;
+  const isConfirmed = appointmentStatus === "CONFIRMED";
 
   try {
     await sendEmail({
       from: `"Booking System" <${env.EMAIL_FROM_ADDRESS}>`,
       to: env.LAWYER_EMAIL,
-      subject: `🔔 New Appointment — ${referenceNumber} (${serviceName})`,
+      subject: isConfirmed
+        ? `✅ Payment Received — Appointment Confirmed (${referenceNumber})`
+        : `🔔 New Appointment Request — Payment Pending (${referenceNumber})`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #172B54;">New Appointment Booked</h2>
+          <h2 style="color: #172B54;">${isConfirmed ? "Appointment Confirmed" : "New Appointment Request"}</h2>
           <table style="width: 100%; border-collapse: collapse; margin: 16px 0;">
-            <tr><td style="padding: 8px; background: #f7f4ee; font-weight: bold;">Reference</td><td style="padding: 8px;">${referenceNumber}</td></tr>
-            <tr><td style="padding: 8px; background: #f7f4ee; font-weight: bold;">Client Name</td><td style="padding: 8px;">${clientName}</td></tr>
-            <tr><td style="padding: 8px; background: #f7f4ee; font-weight: bold;">Email</td><td style="padding: 8px;">${clientEmail}</td></tr>
-            <tr><td style="padding: 8px; background: #f7f4ee; font-weight: bold;">Phone</td><td style="padding: 8px;">${clientPhone}</td></tr>
-            <tr><td style="padding: 8px; background: #f7f4ee; font-weight: bold;">Service</td><td style="padding: 8px;">${serviceName}</td></tr>
-            <tr><td style="padding: 8px; background: #f7f4ee; font-weight: bold;">Amount</td><td style="padding: 8px;">₹${amount}</td></tr>
-            ${message ? `<tr><td style="padding: 8px; background: #f7f4ee; font-weight: bold; vertical-align: top;">Message</td><td style="padding: 8px;">${message}</td></tr>` : ""}
+            <tr><td style="padding: 8px; background: #f7f4ee; font-weight: bold;">Reference</td><td style="padding: 8px;">${escapeHtml(referenceNumber)}</td></tr>
+            <tr><td style="padding: 8px; background: #f7f4ee; font-weight: bold;">Client Name</td><td style="padding: 8px;">${escapeHtml(clientName)}</td></tr>
+            <tr><td style="padding: 8px; background: #f7f4ee; font-weight: bold;">Email</td><td style="padding: 8px;">${escapeHtml(clientEmail)}</td></tr>
+            <tr><td style="padding: 8px; background: #f7f4ee; font-weight: bold;">Phone</td><td style="padding: 8px;">${escapeHtml(clientPhone)}</td></tr>
+            <tr><td style="padding: 8px; background: #f7f4ee; font-weight: bold;">Service</td><td style="padding: 8px;">${escapeHtml(serviceName)}</td></tr>
+            <tr><td style="padding: 8px; background: #f7f4ee; font-weight: bold;">Appointment Status</td><td style="padding: 8px;">${isConfirmed ? "Confirmed" : "Pending payment"}</td></tr>
+            <tr><td style="padding: 8px; background: #f7f4ee; font-weight: bold;">${isConfirmed ? "Amount Paid" : "Consultation Fee"}</td><td style="padding: 8px;">₹${amount}</td></tr>
+            ${message ? `<tr><td style="padding: 8px; background: #f7f4ee; font-weight: bold; vertical-align: top;">Message</td><td style="padding: 8px;">${escapeHtml(message)}</td></tr>` : ""}
           </table>
-          <p style="color: #666; font-size: 13px;">Login to the admin panel to view full details and manage the appointment.</p>
+          <p style="color: #666; font-size: 13px;">${isConfirmed ? "Payment is confirmed. " : "The client has not completed payment yet. "}Login to the admin panel to view full details and manage the appointment.</p>
         </div>
       `,
     });
