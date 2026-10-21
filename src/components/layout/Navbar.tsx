@@ -72,7 +72,7 @@ export default function Navbar() {
               aria-label={`${siteSettings.firmName} - Home`}
             >
               <Image
-                src="/nyaysaathi_logo.png"
+                src="/brand-logo.png"
                 alt="Nyaysaathi Logo"
                 width={48}
                 height={48}

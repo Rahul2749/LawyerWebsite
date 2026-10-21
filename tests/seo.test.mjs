@@ -49,7 +49,8 @@ test("sitemap contains only healthy, canonical, indexable pages with unique titl
   assert.match(response.headers.get("content-type"), /xml/);
   const urls = [...(await response.text()).matchAll(/<loc>(.*?)<\/loc>/g)].map(([, url]) => url);
   assert.equal(new Set(urls).size, urls.length);
-  assert.equal(urls.length, 35);
+  assert.equal(urls.length, 38);
+  assert.ok(urls.includes(`${site}/advocates/raja-agrawal`));
   const titles = new Set();
   const localLinks = new Set();
   for (const url of urls) {
@@ -120,6 +121,7 @@ test("booking variants canonicalize and missing services return real 404s", asyn
   assert.equal(tags(html, "link").find((tag) => tag.rel === "canonical")?.href, `${site}/consultation`);
   assert.equal((await fetch(`${origin}/legal-services/does-not-exist`)).status, 404);
   assert.equal((await fetch(`${origin}/practice-areas/does-not-exist`)).status, 404);
+  assert.equal((await fetch(`${origin}/advocates/does-not-exist`)).status, 404);
   const oldCoverage = await fetch(`${origin}/legal-help-maharashtra`, { redirect: "manual" });
   assert.equal(oldCoverage.status, 308);
   assert.equal(oldCoverage.headers.get("location"), "/legal-help");
@@ -141,6 +143,57 @@ test("sharing image is a real image response", async () => {
   assert.equal(response.status, 200);
   assert.equal(response.headers.get("content-type"), "image/png");
   assert.ok((await response.arrayBuffer()).byteLength > 1000);
+});
+
+test("favicon links expose a large transparent PNG and a genuine multi-size ICO", async () => {
+  const html = await (await fetch(`${origin}/`)).text();
+  const icons = tags(html, "link").filter((tag) => tag.rel === "icon");
+  const pngIcon = icons.find((tag) => new URL(tag.href, origin).pathname === "/icon.png");
+  assert.ok(pngIcon, "Home page must advertise the PNG favicon");
+  assert.equal(pngIcon.sizes, "192x192");
+  assert.equal(pngIcon.type, "image/png");
+  const pngResponse = await fetch(new URL(pngIcon.href, origin));
+  assert.equal(pngResponse.status, 200);
+  assert.equal(pngResponse.headers.get("content-type"), "image/png");
+  const png = Buffer.from(await pngResponse.arrayBuffer());
+  assert.equal(png.subarray(0, 8).toString("hex"), "89504e470d0a1a0a");
+  assert.equal(png.readUInt32BE(16), 192);
+  assert.equal(png.readUInt32BE(20), 192);
+  assert.equal(png[25], 6, "PNG must include an alpha channel for the circular mark");
+
+  const icoResponse = await fetch(`${origin}/favicon.ico`);
+  assert.equal(icoResponse.status, 200);
+  const ico = Buffer.from(await icoResponse.arrayBuffer());
+  assert.equal(ico.subarray(0, 4).toString("hex"), "00000100", "A .ico file must not contain a bare PNG");
+  assert.equal(ico.readUInt16LE(4), 5);
+  for (let index = 0; index < 5; index++) {
+    const entry = 6 + index * 16;
+    const size = ico.readUInt32LE(entry + 8);
+    const offset = ico.readUInt32LE(entry + 12);
+    assert.ok(size > 0 && offset + size <= ico.length);
+    assert.equal(ico.subarray(offset, offset + 8).toString("hex"), "89504e470d0a1a0a");
+  }
+});
+
+test("brand variants and advocate profiles are described in crawlable HTML and structured data", async () => {
+  const home = await (await fetch(`${origin}/`)).text();
+  assert.match(home, /<title>Nyaysaathi \| Legal Services/);
+  assert.match(tags(home, "meta").find((tag) => tag.name === "description").content, /Nyaysathi/);
+  assert.ok(tags(home, "a").some((tag) => tag.href === "/advocates/raja-agrawal"));
+  const schema = [...home.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/gs)]
+    .flatMap(([, json]) => JSON.parse(json));
+  const organization = schema.find((item) => item["@type"] === "Organization");
+  assert.equal(organization.logo.url, `${site}/brand-logo.png`);
+  assert.equal(organization.hasOfferCatalog.itemListElement.length, 18);
+  assert.ok(organization.employee.some((member) => member.url === `${site}/advocates/raja-agrawal`));
+  assert.equal(schema.find((item) => item["@type"] === "WebSite").alternateName, "Nyaysathi");
+
+  const profile = await (await fetch(`${origin}/advocates/raja-agrawal`)).text();
+  assert.match(profile, /<h1[^>]*>Adv\. Raja Agrawal<\/h1>/);
+  assert.match(profile, /With 5\+ years of dedicated practice/);
+  assert.match(profile, /"@type":"ProfilePage"/);
+  assert.match(profile, /"@type":"Person"/);
+  assert.equal((await fetch(`${origin}/brand-logo.png`)).status, 200);
 });
 
 test("admin notification manifest and service worker are available without exposing them as public-page prompts", async () => {

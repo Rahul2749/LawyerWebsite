@@ -11,11 +11,19 @@ import TestimonialsSection from "@/components/home/TestimonialsSection";
 import ConsultationCTA from "@/components/home/ConsultationCTA";
 import { pageMetadata } from "@/lib/seo";
 
-export const metadata = pageMetadata(
-  "Online Lawyer Consultation in India & Legal Help",
-  "Nyaysaathi offers online legal consultation across India for individuals, families and businesses. Explore legal services, lawyer fees and appointment booking.",
+const homeTitle = "Nyaysaathi | Legal Services & Online Lawyer Consultation";
+const homeMetadata = pageMetadata(
+  "Legal Services & Online Lawyer Consultation",
+  "Nyaysaathi (Nyaysathi) offers legal consultancy across India. Consult Adv. Raja Agrawal and the team for property, criminal, family and business matters.",
   "/",
 );
+
+export const metadata = {
+  ...homeMetadata,
+  title: { absolute: homeTitle },
+  openGraph: { ...homeMetadata.openGraph, title: homeTitle },
+  twitter: { ...homeMetadata.twitter, title: homeTitle },
+};
 
 export default function HomePage() {
   return (

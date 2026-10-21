@@ -9,10 +9,10 @@ Read-only production checks on 20 October 2026 found a healthy homepage response
 ## What is implemented
 
 - Unique titles, descriptions, canonical URLs, Open Graph and Twitter metadata on public pages.
-- A production sitemap at `/sitemap.xml` containing 35 indexable pages, and `/robots.txt` advertising it. Booking query variants canonicalize to `/consultation`.
+- A production sitemap at `/sitemap.xml` containing 38 indexable pages, and `/robots.txt` advertising it. Booking query variants canonicalize to `/consultation`.
 - Organization and WebSite structured data, absolute breadcrumb URLs, service structured data, and safe JSON-LD serialization. The website name includes the spelling variant “Nyaysathi” in structured data; visible copy uses the official name.
 - 18 service guides at `/legal-services/[slug]`, linked from home service cards and both desktop and mobile service menus. Each has its own preparation checklist and questions, with a direct booking link.
-- A `/lawyer-fees` guide using the existing service price and duration data. The currently configured amounts are ₹1,000 for 60 minutes; the booking/payment amount remains the amount to review before paying.
+- A `/lawyer-fees` guide using the existing service price data. The table displays services and fees, without a duration column. The booking/payment amount remains the amount to review before paying.
 - A nationwide `/legal-help` guide explaining consultation preparation. Marketing copy and metadata do not name specific cities or states, as requested. Yatharth's supplied biography retains “Hon’ble Bombay High Court, Nagpur Bench”. The previous regional URL redirects to this guide.
 - Homepage headings and supporting content explaining the real service and coverage.
 - The consultation page heading renders in initial HTML; only the query-dependent form waits for client rendering.
@@ -68,6 +68,7 @@ Use the search/inspection bar at the top of Search Console, one URL at a time:
 - `https://nyaysaathi.in/legal-services/property-real-estate`
 - `https://nyaysaathi.in/legal-services/family-law`
 - `https://nyaysaathi.in/consultation`
+- `https://nyaysaathi.in/advocates/raja-agrawal`
 
 For each priority page:
 
@@ -75,14 +76,14 @@ For each priority page:
 2. Click **Test live URL**.
 3. Check that the page fetch succeeds, crawling is allowed and indexing is allowed.
 4. Open **View tested page**, where available, and review the rendered screenshot and HTML. Confirm the main content appears.
-5. If the test passes, click **Request indexing**. Requests are subject to quotas; you do not need to submit all 35 pages manually because the sitemap and internal links expose them.
+5. If the test passes, click **Request indexing**. Requests are subject to quotas; you do not need to submit all 38 pages manually because the sitemap and internal links expose them.
 6. After Google indexes it, compare the user-declared and Google-selected canonical. Root-domain URLs with and without a final `/` are equivalent; a different host or unrelated page warrants investigation.
 
 The live test checks the current page; indexed information can reflect Google's previous crawl. Repeated requests do not guarantee faster indexing. [URL Inspection documentation](https://support.google.com/webmasters/answer/9012289?hl=en).
 
 ### 4. Check indexing, security and performance
 
-1. Open **Indexing → Pages**. Inspect unexpected server errors, missing URLs, crawl blocks or exclusions affecting the 35 public sitemap pages. Google can choose not to index an otherwise eligible page; strengthen its usefulness before repeatedly resubmitting it.
+1. Open **Indexing → Pages**. Inspect unexpected server errors, missing URLs, crawl blocks or exclusions affecting the 38 public sitemap pages. Google can choose not to index an otherwise eligible page; strengthen its usefulness before repeatedly resubmitting it.
 2. Exclusions marked **noindex** for admin, appointment tracking, hidden sample articles and placeholder videos are intentional. Do not request indexing for them. [How noindex works](https://developers.google.com/search/docs/crawling-indexing/block-indexing).
 3. Check **Security & Manual Actions → Security issues** and **Manual actions**. If a problem is reported, follow its specific instructions.
 4. Review **Experience → Core Web Vitals** and HTTPS reporting where available. New or low-traffic sites may lack sufficient field data. Use [PageSpeed Insights](https://pagespeed.web.dev/) on the homepage, a service guide and consultation page for diagnostic checks.
@@ -121,3 +122,16 @@ Search Console and Google Business Profile are separate products. You confirmed 
 - Keep the business name, email, service details and fees consistent on genuine professional profiles. Seek relevant editorial mentions and authentic recommendations; avoid purchased backlinks or fabricated reviews.
 
 Search indexing and ranking changes are gradual and uncertain. Technical readiness is the starting point; useful reviewed content, demonstrated expertise, service quality and legitimate reputation determine sustained progress.
+
+
+## Brand, favicon and advocate search update — 21 October 2026
+
+- Live checks found that the previous `favicon.ico` response was a bare 32px PNG served with an ICO content type. It was crawlable, but the file format was inconsistent. The generic globe in a search result can also reflect Google's cached processing; the technical fix does not establish the only cause.
+- Replaced it with a real multi-size ICO and a 192px PNG, with transparent corners around a circular rendering of the existing brand artwork. Original source artwork is preserved. Header/footer logos and organization-logo markup use the circular brand asset as well.
+- Next.js file-based metadata owns the icon links, avoiding conflicting manual entries. Regenerate the assets with `node scripts/build-brand-assets.mjs` after an approved source-logo update.
+- The homepage title begins with Nyaysaathi. Its description naturally includes Nyaysathi, legal consultancy and Adv. Raja Agrawal. Organization/WebSite markup identifies the brand, alternate spelling, team and actual service catalog. No bulk meta-keyword tag or hidden location block was added.
+- Added crawlable advocate profiles at `/advocates/raja-agrawal`, `/advocates/yatharth-badwaik` and `/advocates/prashant-shankar-dahiwale`. These reuse the supplied biographies and portraits, retain Yatharth's court designation, link from the homepage team cards and are included in the 38-page sitemap.
+- After deployment, inspect the homepage and Raja's profile in Search Console, test each live URL and request indexing once. Google may take several days to several weeks to refresh favicon/site-name information and does not guarantee display or ranking position.
+- The logo in Organization structured data and the favicon beside an ordinary search result serve different purposes. Correcting both improves the information available to Google; it does not reserve first position or give control over similarly named domains.
+
+Sources: [Google favicon guidance](https://developers.google.com/search/docs/appearance/favicon-in-search), [site-name guidance](https://developers.google.com/search/docs/appearance/site-names), [organization markup](https://developers.google.com/search/docs/appearance/structured-data/organization), [meta keywords and keyword stuffing](https://developers.google.com/search/docs/fundamentals/seo-starter-guide#things-we-believe-you-shouldnt-focus-on).

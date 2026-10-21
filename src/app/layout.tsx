@@ -16,18 +16,12 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_IN",
-    siteName: "Nyaysaathi — Advocates & Legal Consultants",
+    siteName: "Nyaysaathi",
     title: "Nyaysaathi — Advocates & Legal Consultants",
     description: DEFAULT_DESCRIPTION,
   },
-  icons: {
-    icon: [
-      { url: "/icon.png", type: "image/png" },
-      { url: "/favicon.ico" },
-    ],
-    apple: "/apple-icon.png",
-    shortcut: "/icon.png",
-  },
+  // Next.js emits correctly sized icon links from app/icon.png, favicon.ico,
+  // and apple-icon.png. Avoid competing metadata pointing at older icon files.
   robots: {
     index: true,
     follow: true,

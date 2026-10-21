@@ -94,6 +94,9 @@ function MemberProfile({ member, onClose }: { member: TeamMember; onClose: () =>
             <Link href="/consultation" onClick={onClose} className="btn btn-primary mt-5 w-full text-xs sm:w-auto">
               Book a Consultation
             </Link>
+            <Link href={`/advocates/${member.id}`} onClick={onClose} className="mt-4 block text-sm text-accent-wine underline">
+              Read full advocate profile
+            </Link>
           </div>
         </div>
       </div>
@@ -114,7 +117,7 @@ export default function TeamMembers() {
         className="grid grid-cols-1 gap-x-4 py-1 md:grid-cols-3"
       >
         {teamMembers.map((member) => (
-          <li key={member.id} className="mb-4 grid min-w-0 row-span-4 grid-rows-subgrid">
+          <li key={member.id} className="mb-4 grid min-w-0 row-span-5 grid-rows-subgrid">
             <button
               type="button"
               aria-label={`View profile of ${member.name}`}
@@ -144,6 +147,9 @@ export default function TeamMembers() {
                 <p className="col-span-2 row-start-4 mt-3 w-full self-start line-clamp-2 text-xs leading-relaxed text-[#F7F4EE]/75">{member.caption}</p>
               )}
             </button>
+            <Link href={`/advocates/${member.id}`} className="row-start-5 mt-3 text-xs font-medium text-[#FFD700] underline underline-offset-4">
+              Read full advocate profile
+            </Link>
           </li>
         ))}
       </ul>
