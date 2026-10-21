@@ -19,7 +19,7 @@ function load(file, mocks = {}, globals = {}) {
     const cjsModule = { exports: {} };
     cache.set(filename, cjsModule);
     const output = ts.transpileModule(readFileSync(filename, 'utf8'), {
-      compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020, esModuleInterop: true },
+      compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020, esModuleInterop: true, jsx: ts.JsxEmit.ReactJSX },
     }).outputText;
     vm.runInNewContext(output, {
       module: cjsModule, exports: cjsModule.exports,
@@ -42,11 +42,11 @@ const publicConfig = {
   vapidKey: 'public-vapid-key',
 };
 
-test('notification endpoints enforce authentication, database admin role, device ownership and session expiry', async (t) => {
+test('notification endpoints enforce authentication, database admin role and device ownership', async (t) => {
   const express = backendRequire('express');
   const jwt = backendRequire('jsonwebtoken');
   const secret = 'test-only-notification-secret';
-  const state = { role: 'ADMIN', exists: true, count: 0, existing: null, writes: [], deletes: [], configured: true };
+  const state = { role: 'ADMIN', exists: true, count: 0, existing: null, writes: [], deletes: [], counts: [], configured: true };
   const router = load('backend/src/routes/notification.routes.ts', {
     '../config/env': { env: { JWT_SECRET: secret } },
     '../config/firebase': { getAdminPushConfiguration: () => state.configured ? publicConfig : { configured: false } },
@@ -54,7 +54,7 @@ test('notification endpoints enforce authentication, database admin role, device
       user: { findUnique: async () => state.exists ? { role: state.role } : null },
       adminPushDevice: {
         findUnique: async () => state.existing,
-        count: async () => state.count,
+        count: async (value) => { state.counts.push(plain(value)); return state.count; },
         upsert: async (value) => { state.writes.push(plain(value)); },
         deleteMany: async (value) => { state.deletes.push(plain(value)); },
       },
@@ -91,12 +91,13 @@ test('notification endpoints enforce authentication, database admin role, device
     assert.equal((await request('GET', '/config')).status, 403);
     state.exists = true;
   });
-  await t.test('a valid admin gets public configuration and enrollment expires with their session', async () => {
+  await t.test('a valid admin gets public configuration and enrollment has no session expiry', async () => {
     assert.deepEqual((await (await request('GET', '/config')).json()).data, publicConfig);
     const response = await request('POST', '/devices', token, { token: deviceToken });
     assert.equal(response.status, 200);
-    const { expiresAt } = (await response.json()).data;
-    assert.equal(Date.parse(expiresAt), jwt.decode(token).exp * 1000);
+    assert.deepEqual((await response.json()).data, { enabled: true });
+    assert.equal('expiresAt' in state.writes[0].create, false);
+    assert.equal('expiresAt' in state.writes[0].update, false);
     assert.equal(state.writes[0].create.userId, 'admin-1');
     assert.equal(state.writes[0].update.userId, 'admin-1');
   });
@@ -117,6 +118,19 @@ test('notification endpoints enforce authentication, database admin role, device
     assert.equal((await request('POST', '/devices', token, { token: deviceToken })).status, 503);
     assert.equal((await request('DELETE', '/devices', token, { token: deviceToken })).status, 200);
     assert.deepEqual(state.deletes[0], { where: { token: deviceToken, userId: 'admin-1' } });
+  });
+  await t.test('token rotation replaces only the current admins old token and accounts for the device limit', async () => {
+    state.configured = true;
+    state.existing = null;
+    state.count = 19;
+    const previousToken = 'previous-browser-token-with-20-characters';
+    assert.equal((await request('POST', '/devices', token, { token: deviceToken, previousToken })).status, 200);
+    assert.deepEqual(state.counts.at(-1), { where: { userId: 'admin-1', token: { not: previousToken } } });
+    assert.deepEqual(state.deletes.at(-1), { where: { token: previousToken, userId: 'admin-1' } });
+    const deleteCount = state.deletes.length;
+    state.count = 20;
+    assert.equal((await request('POST', '/devices', token, { token: deviceToken, previousToken })).status, 409);
+    assert.equal(state.deletes.length, deleteCount);
   });
 });
 
@@ -155,9 +169,9 @@ test('delivery targets current admin devices, batches messages, and removes inva
   await notifications.sendAdminBookingNotification('appointment-1', 'PENDING_PAYMENT');
   assert.deepEqual(sent.map((message) => message.tokens.length), [500, 1]);
   assert.deepEqual(query.where.user.role.in, ['ADMIN', 'SUPER_ADMIN']);
-  assert.ok(query.where.expiresAt.gt);
-  assert.ok(deleted[0].where.expiresAt.lte);
-  assert.deepEqual(deleted[1].where.token.in, ['admin-token-1']);
+  assert.deepEqual(query.where, { user: { role: { in: ['ADMIN', 'SUPER_ADMIN'] } } });
+  assert.equal(deleted.length, 1);
+  assert.deepEqual(deleted[0].where.token.in, ['admin-token-1']);
   assert.equal(sent[0].notification, undefined);
   assert.equal(sent[0].data.status, 'PENDING_PAYMENT');
   assert.equal(sent[0].data.url, '/admin-lawyersite/appointments');
@@ -381,6 +395,7 @@ function browserHarness({ offline = false, logoutOnRegister = false, disableOnRe
   const storage = new Map([['admin_token', 'admin-jwt']]);
   const marker = new Map();
   const actions = [];
+  const requests = [];
   let callback;
   const firebase = {
     getApps: () => [], initializeApp: (config) => config, getMessaging: () => ({}),
@@ -405,16 +420,22 @@ function browserHarness({ offline = false, logoutOnRegister = false, disableOnRe
     caches: { open: async () => cache }, location: { origin: 'https://example.invalid' }, document: { visibilityState: 'visible' },
     fetch: async (_url, init) => {
       actions.push(init.method);
+      requests.push(JSON.parse(init.body));
       if (offline) throw new Error('offline');
       if (logoutOnRegister && init.method === 'POST') storage.delete('admin_token');
       if (disableOnRegister && init.method === 'POST') storage.set('admin_push_revision', 'turned-off-in-another-tab');
-      return { ok: true, json: async () => ({ success: true, data: { expiresAt: new Date(Date.now() + 3600000).toISOString() } }) };
+      return { ok: true, json: async () => ({ success: true, data: { enabled: true } }) };
     },
   };
   const api = load('src/lib/adminPush.ts', {
     '@/data/siteSettings': { siteSettings: { BACKEND_URL: '' } }, 'firebase/app': firebase, 'firebase/messaging': firebase,
   }, globals);
-  return { api, storage, marker, actions, emit: (payload) => callback?.(payload) };
+  const { AuthProvider } = load('src/app/admin-lawyersite/auth-context.tsx', {
+    '@/data/siteSettings': { siteSettings: { BACKEND_URL: '' } },
+    react: { createContext: () => ({ Provider: 'provider' }), useSyncExternalStore: (_subscribe, snapshot) => snapshot(), useCallback: (fn) => fn },
+    'react/jsx-runtime': { jsx: (_type, props) => props },
+  }, globals);
+  return { api, storage, marker, actions, requests, logout: () => AuthProvider({ children: null }).value.logout(), emit: (payload) => callback?.(payload) };
 }
 
 test('browser enrollment requires the current admin and marks active only after backend registration', async () => {
@@ -426,13 +447,13 @@ test('browser enrollment requires the current admin and marks active only after 
   assert.equal(marker.size, 1);
 });
 
-test('logout during registration rolls back server registration and browser permission state', async () => {
+test('logout after authenticated registration does not undo notification consent', async () => {
   const { api, marker, storage, actions } = browserHarness({ logoutOnRegister: true });
-  await assert.rejects(api.enableAdminPush('admin-jwt', publicConfig), /sign in again/);
-  assert.equal(marker.size, 0);
-  assert.equal(storage.has('admin_push_enabled'), false);
-  assert.ok(actions.includes('DELETE'));
-  assert.ok(actions.includes('unsubscribed'));
+  await api.enableAdminPush('admin-jwt', publicConfig);
+  assert.equal(marker.size, 1);
+  assert.equal(storage.get('admin_push_enabled'), 'true');
+  assert.equal(actions.includes('DELETE'), false);
+  assert.equal(actions.includes('unsubscribed'), false);
 });
 
 test('turning notifications off removes local display and subscriptions even when the server is offline', async () => {
@@ -449,6 +470,32 @@ test('turning notifications off removes local display and subscriptions even whe
   assert.ok(actions.includes('closed'));
 });
 
+test('refresh failure leaves an existing persistent subscription enabled', async () => {
+  const { api, marker, storage, actions } = browserHarness({ offline: true });
+  const enrollment = JSON.stringify({ token: 'old-token-with-at-least-20-characters', firebase: publicConfig.firebase, enabled: true });
+  marker.set('/admin-lawyersite/__push_enabled', { enabled: true });
+  storage.set('admin_push_enabled', 'true');
+  storage.set('admin_push_enrollment', enrollment);
+  await assert.rejects(api.enableAdminPush('admin-jwt', publicConfig), /offline/);
+  assert.equal(marker.size, 1);
+  assert.equal(storage.get('admin_push_enrollment'), enrollment);
+  assert.equal(storage.get('admin_push_enabled'), 'true');
+  assert.equal(actions.includes('unsubscribed'), false);
+});
+
+test('login refresh syncs the current FCM token and upgrades old session-bound enrollment', async () => {
+  const { api, marker, storage, requests } = browserHarness();
+  const previousToken = 'old-token-with-at-least-20-characters';
+  storage.set('admin_push_enabled', 'true');
+  storage.set('admin_push_enrollment', JSON.stringify({ token: previousToken, firebase: publicConfig.firebase, expiresAt: '2000-01-01' }));
+  await api.enableAdminPush('admin-jwt', publicConfig);
+  assert.deepEqual(requests[0], { token: 'browser-token-with-at-least-20-characters', previousToken });
+  assert.deepEqual(await marker.get('/admin-lawyersite/__push_enabled').json(), { enabled: true });
+  const enrollment = JSON.parse(storage.get('admin_push_enrollment'));
+  assert.equal(enrollment.enabled, true);
+  assert.equal('expiresAt' in enrollment, false);
+});
+
 test('turning notifications off in another tab cancels an in-flight enrollment', async () => {
   const { api, marker, storage, actions } = browserHarness({ disableOnRegister: true });
   await assert.rejects(api.enableAdminPush('admin-jwt', publicConfig), /turned off in another tab/);
@@ -458,20 +505,30 @@ test('turning notifications off in another tab cancels an in-flight enrollment',
   assert.ok(actions.includes('DELETE'));
 });
 
-test('foreground alerts require a nonexpired enrolled admin and stop immediately on logout', async () => {
-  const { api, storage, emit } = browserHarness();
+test('foreground alerts survive actual logout and expired login, but stop on explicit opt-out', async () => {
+  const { api, storage, marker, emit, logout, actions } = browserHarness();
   const notices = [];
   await api.enableAdminPush('admin-jwt', publicConfig);
   await api.listenForAdminPush((notice) => notices.push(notice));
   const payload = { data: { status: 'PENDING_PAYMENT', title: 'Pending', body: 'New appointment', tag: 'booking-1' } };
   emit(payload);
   assert.equal(notices.length, 1);
-  storage.delete('admin_token');
+  await logout();
+  assert.equal(storage.has('admin_token'), false);
+  assert.equal(marker.size, 1);
+  assert.equal(actions.includes('DELETE'), false);
+  await api.listenForAdminPush((notice) => notices.push(notice));
   emit(payload);
-  assert.equal(notices.length, 1);
+  assert.equal(notices.length, 2);
+  storage.set('admin_token', 'expired-login-token');
+  emit(payload);
+  assert.equal(notices.length, 3);
+  await api.disableAdminPush(null);
+  emit(payload);
+  assert.equal(notices.length, 3);
 });
 
-test('background worker suppresses missing, expired and disabled enrollment and opens only the admin page', async () => {
+test('background worker delivers persistent enrollment, suppresses disabled enrollment and opens only the admin page', async () => {
   let background;
   let marker = null;
   const displayed = [], opened = [];
@@ -495,7 +552,10 @@ test('background worker suppresses missing, expired and disabled enrollment and 
   marker = { expiresAt: 'invalid-date' };
   await background(payload);
   assert.equal(displayed.length, 0);
-  marker = { expiresAt: '2099-01-01' };
+  marker = { enabled: true, expiresAt: '2000-01-01' }; // Login expiry never gates persistent consent.
+  await background(payload);
+  assert.equal(displayed.length, 1);
+  marker = { enabled: false };
   await background(payload);
   assert.equal(displayed.length, 1);
   let finished;

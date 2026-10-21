@@ -7,10 +7,8 @@ export async function sendAdminBookingNotification(appointmentId: string, status
   try {
     const messaging = getAdminMessaging();
     if (!messaging) return;
-    const now = new Date();
-    await prisma.adminPushDevice.deleteMany({ where: { expiresAt: { lte: now } } });
     const devices = await prisma.adminPushDevice.findMany({
-      where: { expiresAt: { gt: now }, user: { role: { in: ["ADMIN", "SUPER_ADMIN"] } } },
+      where: { user: { role: { in: ["ADMIN", "SUPER_ADMIN"] } } },
       select: { token: true },
     });
     // Use direct device sends; public Firebase topics must not grant access to admin alerts.

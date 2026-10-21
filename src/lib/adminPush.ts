@@ -7,7 +7,7 @@ export interface PushWebConfig {
   messagingSenderId: string;
 }
 export type AdminPushConfig = { configured: false } | { configured: true; firebase: PushWebConfig; vapidKey: string };
-interface Enrollment { token: string; firebase: PushWebConfig; expiresAt: string }
+interface Enrollment { token: string; firebase: PushWebConfig; enabled?: boolean }
 export interface BookingNotice { title: string; body: string; tag: string }
 
 const ENROLLMENT_KEY = "admin_push_enrollment";
@@ -27,7 +27,7 @@ function serial<T>(action: () => Promise<T>): Promise<T> {
 function readEnrollment(): Enrollment | null {
   try {
     const value = JSON.parse(localStorage.getItem(ENROLLMENT_KEY) ?? "null");
-    return value && typeof value.token === "string" && value.firebase && typeof value.expiresAt === "string" ? value : null;
+    return value && typeof value.token === "string" && value.firebase ? value : null;
   } catch { return null; }
 }
 export function hasAdminPushOptIn(): boolean {
@@ -84,7 +84,7 @@ async function activeWorker(registration: ServiceWorkerRegistration): Promise<vo
 }
 async function removeEnrollment(authToken: string | null): Promise<void> {
   const enrollment = readEnrollment();
-  // Disable background display before network cleanup, including when logging out offline.
+  // Explicit opt-out disables background display before network cleanup, including offline.
   if ("caches" in window) {
     try { await (await caches.open(CACHE_NAME)).delete(MARKER_URL); } catch { /* Still unsubscribe if cache access fails. */ }
   }
@@ -120,13 +120,15 @@ export async function disableAdminPush(authToken: string | null): Promise<void> 
 }
 export function enableAdminPush(authToken: string, config: Extract<AdminPushConfig, { configured: true }>): Promise<void> {
   const revision = localStorage.getItem(REVISION_KEY);
-  const assertAllowed = () => {
-    assertCurrentAdmin(authToken);
+  const assertNotDisabled = () => {
     if (localStorage.getItem(REVISION_KEY) !== revision) throw new Error("Notification setup was cancelled because notifications were turned off in another tab.");
   };
   return serial(async () => {
-    assertAllowed();
+    assertCurrentAdmin(authToken);
+    assertNotDisabled();
     if (Notification.permission !== "granted") throw new Error("Please allow notifications in your browser settings.");
+    const previous = readEnrollment();
+    let registered = false;
     try {
       const messaging = await messagingFor(config.firebase);
       const registration = await navigator.serviceWorker.register(
@@ -134,22 +136,30 @@ export function enableAdminPush(authToken: string, config: Extract<AdminPushConf
         { scope: WORKER_SCOPE, updateViaCache: "none" },
       );
       await activeWorker(registration);
-      assertAllowed();
+      assertCurrentAdmin(authToken);
+      assertNotDisabled();
       const { getToken } = await import("firebase/messaging");
       const token = await getToken(messaging, { vapidKey: config.vapidKey, serviceWorkerRegistration: registration });
       if (!token) throw new Error("No notification token was returned. Please try again.");
-      // Save before registering so failures can revoke partially completed enrollment.
-      localStorage.setItem(ENROLLMENT_KEY, JSON.stringify({ token, firebase: config.firebase, expiresAt: new Date(0).toISOString() }));
-      assertAllowed();
-      const { expiresAt } = await adminPushRequest<{ expiresAt: string }>(authToken, "/devices", { method: "POST", body: JSON.stringify({ token }) });
-      assertAllowed();
-      await (await caches.open(CACHE_NAME)).put(MARKER_URL, new Response(JSON.stringify({ expiresAt })));
-      assertAllowed();
-      localStorage.setItem(ENROLLMENT_KEY, JSON.stringify({ token, firebase: config.firebase, expiresAt }));
+      // Preserve an existing subscription if refreshing it fails (for example, an expired login).
+      if (!previous) localStorage.setItem(ENROLLMENT_KEY, JSON.stringify({ token, firebase: config.firebase }));
+      assertCurrentAdmin(authToken);
+      assertNotDisabled();
+      await adminPushRequest(authToken, "/devices", {
+        method: "POST", body: JSON.stringify({ token, ...(previous ? { previousToken: previous.token } : {}) }),
+      });
+      registered = true;
+      localStorage.setItem(ENROLLMENT_KEY, JSON.stringify({ token, firebase: config.firebase, enabled: true }));
+      // The server authenticated enrollment. Logging out now does not revoke notification consent.
+      assertNotDisabled();
+      await (await caches.open(CACHE_NAME)).put(MARKER_URL, new Response(JSON.stringify({ enabled: true })));
+      assertNotDisabled();
       localStorage.setItem(PREFERENCE_KEY, "true");
       changed();
     } catch (error) {
-      await removeEnrollment(authToken).catch(() => undefined);
+      if (!previous || registered || localStorage.getItem(REVISION_KEY) !== revision) {
+        await removeEnrollment(authToken).catch(() => undefined);
+      }
       throw error;
     }
   });
@@ -157,11 +167,11 @@ export function enableAdminPush(authToken: string, config: Extract<AdminPushConf
 // Also listen on public pages: Firebase delivers foreground messages to visible windows on this origin.
 export async function listenForAdminPush(onNotice: (notice: BookingNotice) => void): Promise<() => void> {
   const enrollment = readEnrollment();
-  if (!enrollment || !hasAdminPushOptIn() || !localStorage.getItem("admin_token") || !Number.isFinite(Date.parse(enrollment.expiresAt)) || Date.parse(enrollment.expiresAt) <= Date.now()) return () => undefined;
+  if (!enrollment?.enabled || !hasAdminPushOptIn() || Notification.permission !== "granted") return () => undefined;
   const { onMessage } = await import("firebase/messaging");
   return onMessage(await messagingFor(enrollment.firebase), (payload) => {
     const current = readEnrollment();
-    if (document.visibilityState !== "visible" || !hasAdminPushOptIn() || !localStorage.getItem("admin_token") || !current || !Number.isFinite(Date.parse(current.expiresAt)) || Date.parse(current.expiresAt) <= Date.now()) return;
+    if (document.visibilityState !== "visible" || !hasAdminPushOptIn() || !current?.enabled || Notification.permission !== "granted") return;
     if (payload.data?.status !== "PENDING_PAYMENT" && payload.data?.status !== "CONFIRMED") return;
     onNotice({ title: payload.data.title, body: payload.data.body, tag: payload.data.tag });
   });

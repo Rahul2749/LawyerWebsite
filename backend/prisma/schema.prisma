@@ -24,18 +24,16 @@ model User {
   pushDevices  AdminPushDevice[]
 }
 
-// Each browser belongs to an authenticated admin; registrations expire with its session.
+// Each browser remains enrolled until explicitly disabled or its Firebase token is invalid.
 model AdminPushDevice {
   id        String   @id @default(uuid())
   token     String   @unique
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  expiresAt DateTime
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([userId])
-  @@index([expiresAt])
 }
 
 enum Role {

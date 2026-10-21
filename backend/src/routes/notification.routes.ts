@@ -8,6 +8,7 @@ import { prisma } from "../config/database";
 
 const router = Router();
 const deviceSchema = z.object({ token: z.string().min(20).max(4096) }).strict();
+const enrollmentSchema = deviceSchema.extend({ previousToken: z.string().min(20).max(4096).optional() });
 
 router.use(authMiddleware);
 router.use(asyncHandler(async (req, res, next) => {
@@ -30,7 +31,7 @@ router.get("/config", (_req, res) => {
 });
 
 router.post("/devices", asyncHandler(async (req, res) => {
-  const parsed = deviceSchema.safeParse(req.body);
+  const parsed = enrollmentSchema.safeParse(req.body);
   if (!parsed.success) {
     sendError(res, "VALIDATION_ERROR", "A valid notification token is required", 400);
     return;
@@ -44,19 +45,24 @@ router.post("/devices", asyncHandler(async (req, res) => {
     sendError(res, "INVALID_TOKEN", "Please sign in again to enable notifications", 401);
     return;
   }
-  const expiresAt = new Date(expiry * 1000);
   const userId = req.user!.userId;
   const existing = await prisma.adminPushDevice.findUnique({ where: { token: parsed.data.token } });
-  if (existing?.userId !== userId && await prisma.adminPushDevice.count({ where: { userId, expiresAt: { gt: new Date() } } }) >= 20) {
+  // A rotated token replaces this browser's previous registration, even at the device limit.
+  // Ownership in both queries prevents removal of another admin's devices.
+  const previousToken = parsed.data.previousToken;
+  if (existing?.userId !== userId && await prisma.adminPushDevice.count({ where: { userId, ...(previousToken ? { token: { not: previousToken } } : {}) } }) >= 20) {
     sendError(res, "DEVICE_LIMIT", "The limit of 20 notification devices has been reached", 409);
     return;
   }
   await prisma.adminPushDevice.upsert({
     where: { token: parsed.data.token },
-    create: { token: parsed.data.token, userId, expiresAt },
-    update: { userId, expiresAt },
+    create: { token: parsed.data.token, userId },
+    update: { userId },
   });
-  sendSuccess(res, { expiresAt: expiresAt.toISOString() }, "Notifications enabled for this browser");
+  if (previousToken && previousToken !== parsed.data.token) {
+    await prisma.adminPushDevice.deleteMany({ where: { token: previousToken, userId } });
+  }
+  sendSuccess(res, { enabled: true }, "Notifications enabled for this browser");
 }));
 
 router.delete("/devices", asyncHandler(async (req, res) => {

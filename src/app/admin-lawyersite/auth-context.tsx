@@ -2,7 +2,6 @@
 
 import { createContext, useContext, useSyncExternalStore, useCallback, ReactNode } from "react";
 import { siteSettings } from "@/data/siteSettings";
-import { disableAdminPush } from "@/lib/adminPush";
 
 interface AuthContextType {
   token: string | null;
@@ -55,13 +54,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const logout = useCallback(async () => {
-    const previousToken = localStorage.getItem("admin_token");
     localStorage.removeItem("admin_token");
     localStorage.removeItem("admin_name");
     window.dispatchEvent(new Event(AUTH_CHANGED_EVENT));
-    await disableAdminPush(previousToken).catch(() => {
-      console.error("Unable to finish notification cleanup. Check this browser's site permissions.");
-    });
   }, []);
 
   return (

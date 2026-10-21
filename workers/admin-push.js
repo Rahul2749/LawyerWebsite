@@ -20,12 +20,12 @@ const config = JSON.parse(new URL(self.location.href).searchParams.get("firebase
 if (config?.apiKey && config?.appId && config?.projectId && config?.messagingSenderId) {
   const messaging = getMessaging(initializeApp(config));
   onBackgroundMessage(messaging, async (payload) => {
-    // Data-only messages allow us to suppress display after logout and session expiry.
+    // Notification consent persists independently of the admin's login session.
     if (payload.data?.status !== "PENDING_PAYMENT" && payload.data?.status !== "CONFIRMED") return;
     const marker = await (await caches.open("nyaysaathi-admin-push-v1")).match("/admin-lawyersite/__push_enabled");
     if (!marker) return;
-    const { expiresAt } = await marker.json();
-    if (!Number.isFinite(Date.parse(expiresAt)) || Date.parse(expiresAt) <= Date.now()) return;
+    const { enabled } = await marker.json();
+    if (enabled !== true) return;
     await self.registration.showNotification(payload.data.title, {
       body: payload.data.body, icon: "/nyaysaathi_logo.png", tag: payload.data.tag,
       data: { url: "/admin-lawyersite/appointments" },

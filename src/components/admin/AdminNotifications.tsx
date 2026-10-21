@@ -27,7 +27,7 @@ export default function AdminNotifications() {
         if (settings.configured && hasAdminPushOptIn() && Notification.permission === "granted") {
           await enableAdminPush(token, settings);
           if (!cancelled) setEnabled(true);
-        } else if (hasAdminPushOptIn()) {
+        } else if (hasAdminPushOptIn() && Notification.permission !== "granted") {
           await disableAdminPush(token);
         }
       } catch (error) {
@@ -72,7 +72,7 @@ export default function AdminNotifications() {
               : enabled ? "Notifications are enabled on this device for pending and confirmed appointments."
               : "Get alerts when checkout closes without payment or an appointment is confirmed."}
           </p>
-          <p className="mt-1 text-xs text-gray-500">Only signed-in admins can enable alerts. Logging out turns them off on this device.</p>
+          <p className="mt-1 text-xs text-gray-500">Alerts stay enabled after logout or session expiry. Use “Turn off notifications” or your browser’s site settings to stop them on this device.</p>
         </div>
         {supported && <button type="button" onClick={toggle} disabled={busy || !config?.configured}
           className="min-h-11 shrink-0 rounded-lg border border-[#5A1824] px-4 py-2 text-sm font-medium text-[#5A1824] transition hover:bg-[#F0EBE1] disabled:cursor-not-allowed disabled:opacity-50">

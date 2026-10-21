@@ -59,7 +59,7 @@ docker compose --env-file docker.env logs --tail=80 backend
 curl --fail http://127.0.0.1:5000/api/health
 ```
 
-The backend startup applies committed Prisma migrations, adding `AdminPushDevice` and the appointment's `pendingPaymentAlertedAt` marker. It does not reset the database. The frontend build bundles the Firebase service worker locally; no CDN worker scripts are required. The generated worker is ignored by Git and recreated by `npm run build` or `npm run dev`.
+The backend startup applies committed Prisma migrations, adding `AdminPushDevice` and the appointment's `pendingPaymentAlertedAt` marker. The persistent-notification migration removes the device's session-expiry column while preserving device registrations and appointments. It does not reset the database. The frontend build bundles the Firebase service worker locally; no CDN worker scripts are required. The generated worker is ignored by Git and recreated by `npm run build` or `npm run dev`.
 
 If only Firebase environment values change after the feature has been deployed, recreate the backend:
 
@@ -78,14 +78,19 @@ Firebase is optional. Missing or invalid configuration leaves the site, bookings
 
 While a site window is visible, alerts appear as a message on the page with a link to appointments. When the site is in the background, the service worker displays a system notification. A later payment alert replaces the pending alert for that same appointment in the notification tray.
 
-Registrations expire with the admin login token (currently seven days). Opening the admin panel refreshes registration against the current session. After session expiry, sign in again. Logging out removes enrollment and the push subscription for this browser and closes its displayed notifications. **Turn off notifications** does the same without logging out. Logging out does not disable other admin devices.
+Notification subscriptions have no application-imposed time limit. Logging out or reaching the seven-day login expiry does not disable alerts. The login session still expires normally, so opening appointment details may require signing in again. Delivery checks that the enrolled account still exists and has an admin role.
+
+Opening the admin panel after signing in syncs the current Firebase token. Firebase may return the same token; if it changed, the previous token belonging to that admin is removed. A temporary refresh failure leaves the existing subscription enabled. **Turn off notifications** removes this browser's enrollment, unsubscribes it, and closes its displayed alerts. You can also block notifications in browser settings while logged out. Firebase tokens can become invalid, and cleared browser data or revoked permissions require enabling notifications again; permanent delivery cannot be guaranteed.
+
+After upgrading from the earlier session-bound implementation, refresh the deployed admin panel and sign in once on each enrolled browser. Existing opt-in is upgraded automatically; if the old version already removed it during logout, select **Enable notifications** again. This installs the updated worker and persistent consent marker. No Firebase environment changes are needed.
 
 ## 5. Check the full flow
 
 1. From a different browser or a private window, submit the consultation form. Check that the admin panel lists `Pending Payment` but no pending-payment alert is sent while you are on the payment step or inside an open checkout.
 2. Open Razorpay Checkout and close it without paying. Verify the pending alert arrives and opens the authenticated appointments page. A failed attempt followed by a retry in the same popup must not alert the admin until checkout closes.
 3. Complete a payment using your intended test/live payment environment and check for the confirmation alert. Live Razorpay payments charge real money.
-4. Turn notifications off (or log out), submit another booking, open and close its checkout without paying, and confirm that browser does not display the pending alert.
+4. Log out, then trigger another unpaid checkout or confirmed booking and confirm that the enrolled browser still receives the alert. Opening appointments must require login.
+5. Sign in and turn notifications off, then trigger another alert and confirm that this browser no longer displays it. Other enrolled admin browsers should continue receiving alerts.
 
 Push delivery depends on browser permission, OS settings, connectivity, and Firebase. A provider failure does not roll back the booking or payment. The admin appointment list remains the source of truth. Simply closing the browser tab without the Razorpay dismissal callback does not send an unpaid alert; no automatic abandonment timer is scheduled. The server suppresses pending alerts when Razorpay reports payment success or an attempt that is still processing, and never marks a payment failed solely from a browser callback.
 
@@ -95,7 +100,7 @@ Push delivery depends on browser permission, OS settings, connectivity, and Fire
 - **Permission was blocked:** change the notification permission in the browser's site settings, then enable again from the admin panel.
 - **Registration fails:** check that the web app values and VAPID key belong to the same project, Firebase Cloud Messaging API is enabled, and Firebase Installations / FCM Registration requests are not blocked by API key restrictions, extensions, or the network.
 - **Works in the page but not in the background:** verify notification/Focus settings on the device and allow background browser operation. Some operating systems will not deliver after the browser is force-quit.
-- **No alerts after seven days:** sign in again and reopen the admin panel to refresh the registration.
+- **No alerts after an upgrade:** refresh the admin panel and sign in once to install the persistent subscription. There is no seven-day notification expiry. Check browser permission and Firebase token validity if delivery still fails.
 - **Backend delivery errors:** inspect `docker compose --env-file docker.env logs --tail=100 backend`; logs report provider error codes without printing device tokens or private keys.
 
 ## Local checks
